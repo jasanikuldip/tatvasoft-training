@@ -6,12 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Bootstrap 5 CSS cdn  -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css" />
 
     <title>Helperland</title>
@@ -23,12 +18,8 @@
       <!-- navbar -->
       <nav class="navbar navbar-expand-xl navbar-dark bg-transparent">
         <div class="container-fluid">
-          <a class="navbar-brand" id="navbar-brand" href="#">
-            <img
-              src="img/logo-large.png"
-              class="img-fluid logo-large"
-              alt="Logo"
-            />
+          <a class="navbar-brand" id="navbar-brand" href="index.html">
+            <img src="img/logo-large.png" class="img-fluid" alt="Logo" />
           </a>
           <button
             class="navbar-toggler"
@@ -47,7 +38,7 @@
                 <a class="nav-link text-light" href="#">Book a Cleaner</a>
               </li>
               <li class="text-center nav-item ms-xl-3 mt-xl-0 mt-2">
-                <a class="nav-link text-light" href="#">Prices</a>
+                <a class="nav-link text-light" href="prices.html">Prices</a>
               </li>
               <li class="text-center nav-item ms-xl-3 mt-xl-0 mt-2">
                 <a class="nav-link text-light" href="#">Our Gaurantee</a>
@@ -64,15 +55,46 @@
               <li class="text-center nav-item active ms-xl-3 mt-xl-0 mt-2">
                 <a class="nav-link text-light" href="#">Become a Helper</a>
               </li>
-              <li class="text-center nav-item ms-xl-3 mt-xl-0 mt-2">
-                <a class="nav-link text-light" href="#">
-                  <img class="ic-flag" src="img/ic-flag.png" alt="flag" />
-                  <img
-                    class="sp-arrow-down"
-                    src="img/sp-arrow-down.png"
-                    alt=""
-                  />
+              <li
+                class="
+                  text-center
+                  d-flex
+                  flex-column
+                  justify-content-center
+                  nav-item
+                  dropdown
+                  ms-xl-3
+                  mt-xl-0 mt-2
+                "
+              >
+                <a
+                  class="nav-link p-0"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img class="img-fluid" src="img/ic-flag.png" alt="flag" />
+                  <img class="img-fluid" src="img/sp-arrow-down.png" alt="" />
                 </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                    <a
+                      class="text-center dropdown-item bg-transparent"
+                      href="#"
+                    >
+                      <img class="img-fluid" src="img/ic-flag.png" alt="flag" />
+                      US
+                    </a>
+                  </li>
+                  <li>
+                    <a class="text-center dropdown-item" href="#">
+                      <img class="img-fluid" src="img/ic-flag.png" alt="flag" />
+                      AUS
+                    </a>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>
@@ -82,27 +104,19 @@
       <!-- section-1 part-1 -->
       <div class="container-fluid ps-lg-5">
         <div class="container-fluid s-1-p-1-d-1 d-flex flex-column">
-          <h1
-            class="
-              section-header
-              text-light
-              mt-auto
-              text-lg-start text-center
-              fw-bold
-            "
-          >
+          <h1 class="t-50 text-light mt-auto text-lg-start text-center fw-bold">
             Lorem ipsum text
           </h1>
           <p class="text-light text-lg-start text-center">
-            <img class="me-1" src="img/ic-check.png" alt="" class="ic-check" />
+            <img class="me-1" src="img/ic-check.png" alt="" class="img-fluid" />
             Lorem ipsum dolor sit amet consectetur adipisicing
           </p>
           <p class="text-light text-lg-start text-center">
-            <img class="me-1" src="img/ic-check.png" alt="" class="ic-check" />
+            <img class="me-1" src="img/ic-check.png" alt="" class="img-fluid" />
             Lorem ipsum dolor sit amet consectetur adipisicing
           </p>
           <p class="text-light text-lg-start text-center">
-            <img class="me-1" src="img/ic-check.png" alt="" class="ic-check" />
+            <img class="me-1" src="img/ic-check.png" alt="" class="img-fluid" />
             Lorem ipsum dolor sit amet consectetur adipisicing
           </p>
         </div>
@@ -121,52 +135,69 @@
           s-1-p-3
           container
           d-flex
-          flex-wrap flex-xl-nowrap flex-row
+          flex-wrap flex-xl-nowrap
           gap-xl-4 gap-3
           justify-content-center
         "
       >
         <div class="d-flex flex-column align-items-center">
-          <img class="wh-max-1 mb-4" src="img/step-1.png" alt="" />
+          <img
+            class="img-fluid wh-process mb-4"
+            src="img/ic-enter-postcode.svg"
+            alt=""
+          />
           <p class="text-light t-18">Enter your postcode</p>
         </div>
         <img
-          class="wh-max mt-2 d-xl-inline d-none"
+          class="img-fluid wh-max mt-3 d-xl-inline d-none"
           src="img/step-arrow-1.png"
           alt=""
         />
         <div class="d-flex flex-column align-items-center">
-          <img class="wh-max-2 mb-4" src="img/step-2.png" alt="" />
+          <img
+            class="img-fluid wh-process mb-4"
+            src="img/ic-select-plan.svg"
+            alt=""
+          />
           <p class="text-light t-18">Select your plan</p>
         </div>
         <img
-          class="wh-max mt-3 d-xl-inline d-none"
+          class="img-fluid wh-max mt-4 d-xl-inline d-none"
           src="img/step-arrow-1-copy.png"
           alt=""
         />
         <div class="d-flex flex-column align-items-center">
-          <img class="wh-max-3 mb-4" src="img/step-3.png" alt="" />
+          <img
+            class="img-fluid wh-process mb-4"
+            src="img/ic-pay-online.svg"
+            alt=""
+          />
           <p class="text-light t-18">Pay securely online</p>
         </div>
         <img
-          class="wh-max mt-2 d-xl-inline d-none"
+          class="img-fluid wh-max mt-3 d-xl-inline d-none"
           src="img/step-arrow-1.png"
           alt=""
         />
         <div class="d-flex flex-column align-items-center">
-          <img class="wh-max-4 mb-3" src="img/step-4.png" alt="" />
+          <img
+            class="img-fluid wh-process mb-4"
+            src="img/ic-enjoy-service.svg"
+            alt=""
+          />
           <p class="text-light t-18">Enjoy amazing service</p>
         </div>
       </div>
 
       <!-- section-1 part-4 -->
       <div class="s-1-p-4 container d-flex justify-content-center">
-        <img src="img/group-18_5.png" alt="" />
+        <a href="#section2"><img src="img/group-18_5.png" alt="" /></a>
       </div>
     </section>
 
     <!-- ----------section 2 -------------- -->
     <section>
+      <div id="section2"></div>
       <!-- section-2 part 1 -->
       <div class="s-2-p-1 my-5 container d-flex justify-content-center">
         <h1 class="my-5 fw-bold">Why Helperland</h1>
@@ -464,14 +495,14 @@
         <img class="mb-lg-0 mb-3" src="img/footer-logo.png" alt="" />
         <ul class="d-flex gap-lg-3 gap-0 mb-0 flex-lg-row flex-column">
           <li class="mb-lg-0 mb-3">
-            <a class="text-light" href="index.html">HOME</a>
+            <a class="text-light" href="#">HOME</a>
           </li>
           <li class="mb-lg-0 mb-3"><a class="text-light" href="#">ABOUT</a></li>
           <li class="mb-lg-0 mb-3">
             <a class="text-light" href="#">TESTIMONIALS</a>
           </li>
           <li class="mb-lg-0 mb-3">
-            <a class="text-light" href="Faq.html">FAQS</a>
+            <a class="text-light" href="faq.html">FAQS</a>
           </li>
           <li class="mb-lg-0 mb-3">
             <a class="text-light" href="#">INSURANCE POLICY</a>
@@ -480,34 +511,34 @@
             <a class="text-light" href="#">IMPRESSUM</a>
           </li>
         </ul>
-        <div>
+        <div class="social">
           <img class="me-2" src="img/ic-facebook.png" alt="" />
           <img src="img/ic-instagram.png" alt="" />
         </div>
       </div>
 
       <!-- footer part 3 -->
-      <div
-        id="privacy-policy"
-        class="bg-color d-flex p-3 justify-content-center align-items-center"
-      >
-        <p class="mb-0 mx-auto">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut feugiat
-          nunc libero, ac malesuada ligula aliquam ac.
-          <a href="">Privacy Policy</a>
-        </p>
-        <div tabindex="0" id="privacy-policy-ok" class="ok-btn pe-auto">
-          OK!
-        </div>
-      </div>
     </footer>
-
+    <div
+      id="privacy-policy"
+      class="
+        bg-color
+        d-flex
+        p-3
+        justify-content-center
+        align-items-center
+        fixed-bottom
+      "
+    >
+      <p class="mb-0 mx-auto">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut feugiat nunc
+        libero, ac malesuada ligula aliquam ac.
+        <a href="">Privacy Policy</a>
+      </p>
+      <div tabindex="0" id="privacy-policy-ok" class="ok-btn pe-auto">OK!</div>
+    </div>
     <!-- bootstrap 5 JS cdn -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"
-    ></script>
+    <script src="js/bootstrap.min.js"></script>
 
     <script src="js/index.js"></script>
   </body>
