@@ -302,13 +302,6 @@ small {
   padding: 0;
 }
 
-/* --------price page------- */
-.price-active {
-  color: white;
-  background-color: #1d7a8c;
-  line-height: 59px;
-}
-
 .line {
   background-color: #9ba0a3;
   height: 0.1px;
@@ -323,63 +316,13 @@ small {
   background-color: #525252;
 }
 
-.bottom-prices {
-  border: 1px solid #1d7a8c;
-  justify-content: center;
-  max-width: 553px;
-  width: 100%;
-  color: #646464;
-}
-
-.price-top-border {
-  border-top: 1px solid #9ba0a3;
-}
-.extra-service > * {
-  flex: 1 1 100%;
-}
-
-.es-circle {
-  width: 108px;
-  aspect-ratio: 1;
-  border: 1px solid #b0c9ce;
-  border-radius: 100%;
-}
-
-.sec-2-back {
-  background-color: #f6f6f6;
-}
-
-.div-sec-2-price {
-  max-width: 360px;
-  color: #4f4f4f;
-}
-
-.best-container > * {
-  color: #646464;
-  flex: 1 1 100%;
-}
-
-.best-img {
-  max-width: 375px;
-  max-height: 241px;
-}
-
 /* media-queries */
-@media (max-width: 326px) {
-  .best-img {
-    max-width: 100%;
-    max-height: none;
-  }
-}
 
 @media (max-width: 576px) {
   .cs-nav-items {
     flex-basis: 100%;
   }
   .s-1-p-3 > * {
-    flex: 1 1 100%;
-  }
-  .extra-service > * {
     flex: 1 1 100%;
   }
 }
@@ -393,9 +336,6 @@ small {
 @media (max-width: 1200px) {
   .bg-s-3 {
     background: white;
-  }
-  .extra-service > * {
-    flex: 1 1 50%;
   }
 }
 
