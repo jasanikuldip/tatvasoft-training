@@ -409,6 +409,10 @@ small {
   max-width: 650px;
 }
 
+.h-46 {
+  height: 46px;
+}
+
 .btn-mobile,
 .btn-mobile:hover {
   color: var(--clr-4f-grey);
@@ -425,11 +429,42 @@ small {
   max-width: 992px;
 }
 
+/* become a helper page */
+
+.bg-become-helper {
+  background-image: url(../img/become-a-pro-banner.png);
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.become-helper-form {
+  max-width: 430px;
+  padding: 20px 23px;
+  background-color: var(--clr-white);
+  border-radius: 5px;
+  color: var(--clr-4f-grey);
+}
+
+.how-it-works {
+  max-width: 750px;
+  color: var(--clr-4f-grey);
+}
+
 /* media-queries */
 @media (max-width: 326px) {
   .best-img {
     max-width: 100%;
     max-height: none;
+  }
+}
+
+@media (max-width: 460px) {
+  .become-helper-form {
+    padding-inline: 8px;
+    margin-inline: 16px;
   }
 }
 
