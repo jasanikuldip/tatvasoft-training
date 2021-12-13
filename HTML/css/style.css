@@ -256,6 +256,9 @@ small {
   background-color: var(--clr-blue-white);
 }
 
+#privacy-policy {
+  transition: ease-out 0.5s;
+}
 /* ------------faq-page----------- */
 .separator-line {
   background-color: var(--clr-secondary);
@@ -441,6 +444,7 @@ small {
 }
 
 .become-helper-form {
+  margin-top: 28px;
   max-width: 430px;
   padding: 20px 23px;
   background-color: var(--clr-white);
@@ -448,9 +452,36 @@ small {
   color: var(--clr-4f-grey);
 }
 
-.how-it-works {
+.how-it-works-bg {
+  background-image: url(../img/forma-1.svg), url(../img/forma-2.svg),
+    url(../img/forma-3.svg), url(../img/forma-4.svg), url(../img/forma-5.svg),
+    url(../img/forma-6.svg);
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat,
+    no-repeat;
+  background-position: top 16px left, center left, bottom left, top 16px right,
+    center right, right bottom;
+  background-size: 10%, 10%, 10%, 10%, 10%, 10%;
+}
+
+.div-how-it-works-container {
   max-width: 750px;
+}
+
+.div-how-it-works {
   color: var(--clr-4f-grey);
+  margin-bottom: 20px;
+}
+
+.div-how-it-works-steps {
+  display: flex;
+}
+
+.div-how-it-works-steps > * {
+  flex-basis: 100%;
+}
+
+section div h2.heading {
+  margin: 68px 0px 73px 0px;
 }
 
 /* media-queries */
@@ -475,11 +506,18 @@ small {
   .mt-problem {
     margin-top: 0px;
   }
+  .div-how-it-works {
+    padding-inline: 32px;
+    margin-bottom: 32px;
+  }
 }
 
 @media (max-width: 992px) {
   .social {
     margin-left: 0px;
+  }
+  .how-it-works-bg {
+    background: var(--clr-white);
   }
 }
 
