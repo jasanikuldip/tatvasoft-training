@@ -1,17 +1,17 @@
-(function($) {
-  var Breakpoints = function(el, options) {
+(function ($) {
+  var Breakpoints = function (el, options) {
     var _ = this;
 
     _.n = "breakpoints";
     _.settings = {};
     _.currentBp = null;
 
-    _.getBreakpoint = function() {
+    _.getBreakpoint = function () {
       var winW = _windowWidth();
       var bps = _.settings.breakpoints;
       var bpName;
 
-      bps.forEach(function(bp) {
+      bps.forEach(function (bp) {
         if (winW >= bp.width) {
           bpName = bp.name;
         }
@@ -25,11 +25,11 @@
       return bpName;
     };
 
-    _.getBreakpointWidth = function(bpName) {
+    _.getBreakpointWidth = function (bpName) {
       var bps = _.settings.breakpoints;
       var bpWidth;
 
-      bps.forEach(function(bp) {
+      bps.forEach(function (bp) {
         if (bpName == bp.name) {
           bpWidth = bp.width;
         }
@@ -38,7 +38,7 @@
       return bpWidth;
     };
 
-    _.compareCheck = function(check, checkBpName, callback) {
+    _.compareCheck = function (check, checkBpName, callback) {
       var winW = _windowWidth();
       var bps = _.settings.breakpoints;
       var bpWidth = _.getBreakpointWidth(checkBpName);
@@ -58,7 +58,7 @@
           isBp = winW > bpWidth;
           break;
         case "inside":
-          var bpIndex = bps.findIndex(function(bp) {
+          var bpIndex = bps.findIndex(function (bp) {
             return bp.name === checkBpName;
           });
 
@@ -76,16 +76,16 @@
       }
     };
 
-    _.destroy = function() {
+    _.destroy = function () {
       $(window).unbind(_.n);
     };
 
-    var _compareTrigger = function() {
+    var _compareTrigger = function () {
       var winW = _windowWidth();
       var bps = _.settings.breakpoints;
       var currentBp = _.currentBp;
 
-      bps.forEach(function(bp) {
+      bps.forEach(function (bp) {
         if (currentBp === bp.name) {
           if (!bp.inside) {
             $(window).trigger('inside-' + bp.name);
@@ -122,7 +122,7 @@
       });
     };
 
-    var _windowWidth = function() {
+    var _windowWidth = function () {
       var win = $(window);
 
       if (_.outerWidth) {
@@ -132,14 +132,14 @@
       return window.innerWidth ? window.innerWidth : win.width();
     }
 
-    var _resizeCallback = function() {
+    var _resizeCallback = function () {
       var newBp = _.getBreakpoint();
 
       if (newBp !== _.currentBp) {
         $(window).trigger({
-          "type" : "breakpoint-change",
-          "from" : _.currentBp,
-          "to" : newBp
+          "type": "breakpoint-change",
+          "from": _.currentBp,
+          "to": newBp
         });
 
         _.currentBp = newBp;
@@ -161,12 +161,12 @@
     var resizeThresholdTimerId = null;
 
     if ($.isFunction($(window).on)) {
-      $(window).on("resize." + _.n, function(e) {
+      $(window).on("resize." + _.n, function (e) {
         if (resizeThresholdTimerId) {
           clearTimeout(resizeThresholdTimerId);
         }
 
-        resizeThresholdTimerId = setTimeout(function(e) {
+        resizeThresholdTimerId = setTimeout(function (e) {
           _resizeCallback();
           _compareTrigger();
         }, _.settings.buffer);
@@ -174,7 +174,7 @@
     }
 
     if (_.settings.triggerOnInit) {
-      setTimeout(function() {
+      setTimeout(function () {
         $(window).trigger({
           "type": "breakpoint-change",
           "from": _.currentBp,
@@ -184,12 +184,12 @@
       }, _.settings.buffer);
     }
 
-    setTimeout(function() {
+    setTimeout(function () {
       _compareTrigger();
     }, 0);
   };
 
-  $.fn.breakpoints = function(method, arg1, arg2) {
+  $.fn.breakpoints = function (method, arg1, arg2) {
     if (this.data("breakpoints")) {
       var thisBp = this.data("breakpoints");
       var compareMethods = [
@@ -217,13 +217,30 @@
   };
 
   $.fn.breakpoints.defaults = {
-    breakpoints: [
-      {"name": "xs", "width": 0},
-      {"name": "sm", "width": 576},
-      {"name" : "md", "width": 768},
-      {"name" : "lg", "width": 992},
-      {"name" : "xl", "width": 1200},
-      {"name" : "xxl", "width": 1400}
+    breakpoints: [{
+        "name": "xs",
+        "width": 0
+      },
+      {
+        "name": "sm",
+        "width": 576
+      },
+      {
+        "name": "md",
+        "width": 768
+      },
+      {
+        "name": "lg",
+        "width": 992
+      },
+      {
+        "name": "xl",
+        "width": 1200
+      },
+      {
+        "name": "xxl",
+        "width": 1400
+      }
     ],
     buffer: 0,
     triggerOnInit: false,

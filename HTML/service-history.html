@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- bootsrap 5 css -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  <!-- our css -->
+  <link rel="stylesheet" href="css/style.css" />
+  <title>Service History</title>
+</head>
+
+<body>
+  <header>
+    <nav class="upcoming-ser-nav navbar navbar-expand-xl navbar-dark bg-navbar">
+      <div class="container-fluid">
+        <a class="navbar-brand" id="navbar-brand" href="index.html">
+          <img class="img-fluid" src="img/logo-small.png" class="img-fluid logo-large" alt="Logo" />
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center">
+            <li class="text-center nav-item active active-main ms-xl-3 mt-xl-0 mt-2">
+              <a class="nav-link text-light t-17" href="#">Book now</a>
+            </li>
+            <li class="text-center nav-item ms-xl-3 mt-xl-0 mt-2">
+              <a class="nav-link text-light t-17" href="prices.html">Prices & services</a>
+            </li>
+            <li class="text-center nav-item ms-xl-3 mt-xl-0 mt-2">
+              <a class="nav-link text-light t-17" href="#">Warranty</a>
+            </li>
+            <li class="text-center nav-item ms-xl-3 mt-xl-0 mt-2">
+              <a class="nav-link text-light t-17" href="#">Blog</a>
+            </li>
+            <li class="text-center nav-item ms-xl-3 mt-xl-0 mt-2">
+              <a class="nav-link text-light t-17" href="contact.html"> Contact </a>
+            </li>
+            <li class="text-center nav-item ms-xl-3 mt-xl-0 mt-2 notification-border">
+              <a class="nav-link text-light t-17" href="#">
+                <img class="img-fluid" src="img/icon-notification.png" alt="" />
+              </a>
+            </li>
+            <li class="text-center nav-item ms-xl-3 mt-xl-0 mt-2 dropdown">
+              <a class="nav-link d-flex align-items-center justify-content-center gap-2" href="#"
+                id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img class="img-fluid" src="img/admin-user.png" alt="" />
+                <img class="img-fluid" src="img/sp-arrow-down.png" alt="" />
+              </a>
+              <ul class="dropdown-menu shadow" aria-labelledby="navbarDarkDropdownMenuLink">
+                <li>
+                  <div class="ps-3 t-14">Welcome,</div>
+                  <div class="ps-3 t-14 fw-bold">Gaurang Patel</div>
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li><a class="dropdown-item" href="#">My Dashboard</a></li>
+                <li>
+                  <a class="dropdown-item" href="#">My Settings</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Logout</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- SECTION -->
+  <main>
+    <section>
+      <div class="container-fluid welcome-user-back">
+        <div class="d-flex justify-content-center align-items-center">
+          <div class="t-30">
+            <span class="fw-regular">Welcome, </span>
+            <span class="fw-bold"> Gaurang!</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="container sec-part">
+      <div class="row mb-5">
+        <div class="col-lg-3 col-12 tab-panel-back p-0">
+          <nav class="navbar navbar-expand-lg navbar-light pos-sticky pt-0">
+            <button id="navbar-toggler" class="navbar-toggler m-3" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse bg-dark" id="navbarNav">
+              <ul class="custom-tab nav w-100 nav-pills flex-column" id="pills-tab" role="tablist">
+                <li class="tab-div"></li>
+                <li class="nav-close d-lg-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-x"
+                    role="tab" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
+                    aria-expanded="false" aria-label="Toggle navigation" viewBox="0 0 16 16">
+                    <path
+                      d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                  </svg>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link t-18" id="t-tab-dashboard" role="tab" data-bs-toggle="pill"
+                    data-bs-target="#tabs-dashboard" aria-controls="tabs-dashboard" aria-selected="false">
+                    Dashboard
+                  </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link t-18 active" id="t-tab-service-history" data-bs-toggle="pill" role="tab"
+                    data-bs-target="#tabs-service-history" aria-controls="tabs-service-history" aria-selected="false">
+                    Service History
+                  </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link t-18" id="t-tab-service-schedule" data-bs-toggle="pill" role="tab"
+                    data-bs-target="#tabs-service-schedule" aria-controls="tabs-service-schedule" aria-selected="false">
+                    Service Schedule
+                  </a>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link t-18" id="t-tab-favourite-pros" data-bs-toggle="pill" role="tab"
+                    data-bs-target="#tabs-favourite-pros" aria-controls="tabs-favourite-pros" aria-selected="false">
+                    Favourite Pros
+                  </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link t-18" id="t-tab-invoice" data-bs-toggle="pill" role="tab"
+                    data-bs-target="#tabs-invoice" aria-controls="tabs-invoice" aria-selected="false">
+                    Invoice
+                  </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link t-18" id="t-tab-notification" data-bs-toggle="pill" role="tab"
+                    data-bs-target="#tabs-notification" aria-controls="tabs-notification" aria-selected="false">
+                    Notification
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+        <div class="col-lg-9 clo-12 pt-3 mt-3">
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade" id="tabs-dashboard" aria-labelledby="t-tab-dashboard">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam temporibus, illum consectetur
+              deserunt impedit totam necessitatibus ratione quos obcaecati facilis suscipit, molestiae at aperiam
+              debitis sed similique doloribus tempora numquam ut quibusdam officiis quis dolore quam. Porro et enim
+              vero?
+            </div>
+            <div class="tab-pane fade show active" id="tabs-service-history" aria-labelledby="t-tab-service-history">
+              <table class="w-100 table-for-service-providers table-for-service-history mb-3">
+                <thead class="table-for-service-providers-head">
+                  <tr>
+                    <th scope="col">
+                      Service Details
+                      <img class="img-fluid" src="img/sort.png" alt="" />
+                    </th>
+                    <th scope="col">
+                      Service Provider
+                      <img class="img-fluid" src="img/sort.png" alt="" />
+                    </th>
+                    <th scope="col">
+                      Payment
+                      <img class="img-fluid" src="img/sort.png" alt="" />
+                    </th>
+                    <th scope="col">
+                      Status
+                      <img class="img-fluid" src="img/sort.png" alt="" />
+                    </th>
+                    <th scope="col">Rate SP</th>
+                  </tr>
+                </thead>
+                <tbody class="table-for-service-providers-body">
+                  <tr>
+                    <td>
+                      <div>
+                        <img class="img-fluid" src="img/calendar.png" alt="" />
+                        <span class="fw-bold">09/04/2018</span>
+                      </div>
+                      <div>12:00 - 18:00</div>
+                    </td>
+                    <td class="d-flex align-items-center">
+                      <div class="me-2 cap-ring">
+                        <img src="img/cap.png" alt="">
+                      </div>
+                      <div>
+                        <div>
+                          <div>Lyum watson</div>
+                        </div>
+                        <div>
+                          <img src="img/star.png" alt=""><img src="img/star.png" alt=""><img src="img/star.png"
+                            alt=""><img src="img/star.png" alt=""><img src="img/star2.png" alt="">
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div><span class="euro-63 t-17 fw-bold">&euro;</span><span class="euro-63 t-20 fw-bold">63</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="t-13 ind-completed">Completed</span>
+                    </td>
+                    <td>
+                      <button class="btn-rate-sp t-14 rounded-pill">Rate SP</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>
+                        <img class="img-fluid" src="img/calendar.png" alt="" />
+                        <span class="fw-bold">09/04/2018</span>
+                      </div>
+                      <div>12:00 - 18:00</div>
+                    </td>
+                    <td class="d-flex align-items-center">
+                      <div class="me-2 cap-ring">
+                        <img src="img/cap.png" alt="">
+                      </div>
+                      <div>
+                        <div>
+                          <div>Lyum watson</div>
+                        </div>
+                        <div>
+                          <img src="img/star.png" alt=""><img src="img/star.png" alt=""><img src="img/star.png"
+                            alt=""><img src="img/star.png" alt=""><img src="img/star2.png" alt="">
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div><span class="euro-63 t-17 fw-bold">&euro;</span><span class="euro-63 t-20 fw-bold">63</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="t-13 ind-completed">Completed</span>
+                    </td>
+                    <td>
+                      <button class="btn-rate-sp t-14 rounded-pill">Rate SP</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>
+                        <img class="img-fluid" src="img/calendar.png" alt="" />
+                        <span class="fw-bold">09/04/2018</span>
+                      </div>
+                      <div>12:00 - 18:00</div>
+                    </td>
+                    <td class="d-flex align-items-center">
+                      <div class="me-2 cap-ring">
+                        <img src="img/cap.png" alt="">
+                      </div>
+                      <div>
+                        <div>
+                          <div>Lyum watson</div>
+                        </div>
+                        <div>
+                          <img src="img/star.png" alt=""><img src="img/star.png" alt=""><img src="img/star.png"
+                            alt=""><img src="img/star.png" alt=""><img src="img/star2.png" alt="">
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div><span class="euro-63 t-17 fw-bold">&euro;</span><span class="euro-63 t-20 fw-bold">63</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="t-13 ind-completed">Completed</span>
+                    </td>
+                    <td>
+                      <button class="btn-rate-sp t-14 rounded-pill">Rate SP</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>
+                        <img class="img-fluid" src="img/calendar.png" alt="" />
+                        <span class="fw-bold">09/04/2018</span>
+                      </div>
+                      <div>12:00 - 18:00</div>
+                    </td>
+                    <td class="d-flex align-items-center">
+                      <div class="me-2 cap-ring">
+                        <img src="img/cap.png" alt="">
+                      </div>
+                      <div>
+                        <div>
+                          <div>Lyum watson</div>
+                        </div>
+                        <div>
+                          <img src="img/star.png" alt=""><img src="img/star.png" alt=""><img src="img/star.png"
+                            alt=""><img src="img/star.png" alt=""><img src="img/star2.png" alt="">
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div><span class="euro-63 t-17 fw-bold">&euro;</span><span class="euro-63 t-20 fw-bold">63</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="t-13 ind-completed ind-cancelled">Cancelled</span>
+                    </td>
+                    <td>
+                      <button class="btn-rate-sp t-14 rounded-pill">Rate SP</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>
+                        <img class="img-fluid" src="img/calendar.png" alt="" />
+                        <span class="fw-bold">09/04/2018</span>
+                      </div>
+                      <div>12:00 - 18:00</div>
+                    </td>
+                    <td class="d-flex align-items-center">
+                      <div class="me-2 cap-ring">
+                        <img src="img/cap.png" alt="">
+                      </div>
+                      <div>
+                        <div>
+                          <div>Lyum watson</div>
+                        </div>
+                        <div>
+                          <img src="img/star.png" alt=""><img src="img/star.png" alt=""><img src="img/star.png"
+                            alt=""><img src="img/star.png" alt=""><img src="img/star2.png" alt="">
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div><span class="euro-63 t-17 fw-bold">&euro;</span><span class="euro-63 t-20 fw-bold">63</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="t-13 ind-completed">Completed</span>
+                    </td>
+                    <td>
+                      <button class="btn-rate-sp t-14 rounded-pill">Rate SP</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>
+                        <img class="img-fluid" src="img/calendar.png" alt="" />
+                        <span class="fw-bold">09/04/2018</span>
+                      </div>
+                      <div>12:00 - 18:00</div>
+                    </td>
+                    <td class="d-flex align-items-center">
+                      <div class="me-2 cap-ring">
+                        <img src="img/cap.png" alt="">
+                      </div>
+                      <div>
+                        <div>
+                          <div>Lyum watson</div>
+                        </div>
+                        <div>
+                          <img src="img/star.png" alt=""><img src="img/star.png" alt=""><img src="img/star.png"
+                            alt=""><img src="img/star.png" alt=""><img src="img/star2.png" alt="">
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div><span class="euro-63 t-17 fw-bold">&euro;</span><span class="euro-63 t-20 fw-bold">63</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="t-13 ind-completed ind-cancelled">Cancelled</span>
+                    </td>
+                    <td>
+                      <button class="btn-rate-sp t-14 rounded-pill">Rate SP</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>
+                        <img class="img-fluid" src="img/calendar.png" alt="" />
+                        <span class="fw-bold">09/04/2018</span>
+                      </div>
+                      <div>12:00 - 18:00</div>
+                    </td>
+                    <td class="d-flex align-items-center">
+                      <div class="me-2 cap-ring">
+                        <img src="img/cap.png" alt="">
+                      </div>
+                      <div>
+                        <div>
+                          <div>Lyum watson</div>
+                        </div>
+                        <div>
+                          <img src="img/star.png" alt=""><img src="img/star.png" alt=""><img src="img/star.png"
+                            alt=""><img src="img/star.png" alt=""><img src="img/star2.png" alt="">
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div><span class="euro-63 t-17 fw-bold">&euro;</span><span class="euro-63 t-20 fw-bold">63</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="t-13 ind-completed">Completed</span>
+                    </td>
+                    <td>
+                      <button class="btn-rate-sp t-14 rounded-pill">Rate SP</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>
+                        <img class="img-fluid" src="img/calendar.png" alt="" />
+                        <span class="fw-bold">09/04/2018</span>
+                      </div>
+                      <div>12:00 - 18:00</div>
+                    </td>
+                    <td class="d-flex align-items-center">
+                      <div class="me-2 cap-ring">
+                        <img src="img/cap.png" alt="">
+                      </div>
+                      <div>
+                        <div>
+                          <div>Lyum watson</div>
+                        </div>
+                        <div>
+                          <img src="img/star.png" alt=""><img src="img/star.png" alt=""><img src="img/star.png"
+                            alt=""><img src="img/star.png" alt=""><img src="img/star2.png" alt="">
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div><span class="euro-63 t-17 fw-bold">&euro;</span><span class="euro-63 t-20 fw-bold">63</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="t-13 ind-completed">Completed</span>
+                    </td>
+                    <td>
+                      <button class="btn-rate-sp t-14 rounded-pill">Rate SP</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>
+                        <img class="img-fluid" src="img/calendar.png" alt="" />
+                        <span class="fw-bold">09/04/2018</span>
+                      </div>
+                      <div>12:00 - 18:00</div>
+                    </td>
+                    <td class="d-flex align-items-center">
+                      <div class="me-2 cap-ring">
+                        <img src="img/cap.png" alt="">
+                      </div>
+                      <div>
+                        <div>
+                          <div>Lyum watson</div>
+                        </div>
+                        <div>
+                          <img src="img/star.png" alt=""><img src="img/star.png" alt=""><img src="img/star.png"
+                            alt=""><img src="img/star.png" alt=""><img src="img/star2.png" alt="">
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div><span class="euro-63 t-17 fw-bold">&euro;</span><span class="euro-63 t-20 fw-bold">63</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="t-13 ind-completed ind-cancelled">Cancelled</span>
+                    </td>
+                    <td>
+                      <button class="btn-rate-sp t-14 rounded-pill">Rate SP</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>
+                        <img class="img-fluid" src="img/calendar.png" alt="" />
+                        <span class="fw-bold">09/04/2018</span>
+                      </div>
+                      <div>12:00 - 18:00</div>
+                    </td>
+                    <td class="d-flex align-items-center">
+                      <div class="me-2 cap-ring">
+                        <img src="img/cap.png" alt="">
+                      </div>
+                      <div>
+                        <div>
+                          <div>Lyum watson</div>
+                        </div>
+                        <div>
+                          <img src="img/star.png" alt=""><img src="img/star.png" alt=""><img src="img/star.png"
+                            alt=""><img src="img/star.png" alt=""><img src="img/star2.png" alt="">
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div><span class="euro-63 t-17 fw-bold">&euro;</span><span class="euro-63 t-20 fw-bold">63</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="t-13 ind-completed ind-cancelled">Cancelled</span>
+                    </td>
+                    <td>
+                      <button class="btn-rate-sp t-14 rounded-pill">Rate SP</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="show-entries">
+                  <div>
+                    <span>Show&nbsp;&nbsp;</span>
+                    <select class="table-dropdown" name="table-rows" id="table-rows">
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                    <span>&nbsp;&nbsp;entries&nbsp;</span>
+                    <span>Total Record: 55</span>
+                  </div>
+                </div>
+                <div class="d-flex gap-1">
+                  <div class="page-round">
+                    <img src="img/group-100.png" alt="">
+                  </div>
+                  <div class="page-round">
+                    <img src="img/keyboard-right-arrow-button-copy.png" alt="">
+                  </div>
+                  <div class="page-round-select">1</div>
+                  <div class="page-round">2</div>
+                  <div class="page-round">3</div>
+                  <div class="page-round">4</div>
+                  <div class="page-round page-round-reverse">
+                    <img src="img/keyboard-right-arrow-button-copy.png" alt="">
+                  </div>
+                  <div class="page-round page-round-reverse">
+                    <img src="img/group-100.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="tabs-service-schedule" aria-labelledby="t-tab-service-schedule">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum consequuntur similique ullam officiis
+              accusamus itaque praesentium aliquam nemo earum repudiandae.
+            </div>
+            <div class="tab-pane fade" id="tabs-service-schedule" aria-labelledby="t-tab-service-schedule">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum consequuntur similique ullam officiis
+              accusamus itaque praesentium aliquam nemo earum repudiandae.
+            </div>
+            <div class="tab-pane fade" id="tabs-favourite-pros" aria-labelledby="t-tab-favourite-pros">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum consequuntur similique ullam officiis
+              accusamus itaque praesentium aliquam nemo earum repudiandae.
+            </div>
+            <div class="tab-pane fade" id="tabs-invoice" aria-labelledby="t-tab-invoice">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum consequuntur similique ullam officiis
+              accusamus itaque praesentium aliquam nemo earum repudiandae.
+            </div>
+            <div class="tab-pane fade" id="tabs-notification" aria-labelledby="t-tab-notification">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum consequuntur similique ullam officiis
+              accusamus itaque praesentium aliquam nemo earum repudiandae.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <!-- footer part 2 -->
+    <div class="d-flex flex-column">
+      <div class="px-5 py-4 d-flex bg-black justify-content-between align-items-center flex-lg-row flex-column">
+        <img class="img-fluid" class="mb-lg-0 mb-3" src="img/footer-logo.png" alt="" />
+        <ul class="d-flex gap-lg-4 gap-0 mb-0 flex-lg-row flex-column">
+          <li class="mb-lg-0 mb-3">
+            <a class="color-f1 t-14" href="index.html">HOME</a>
+          </li>
+          <li class="mb-lg-0 mb-3">
+            <a class="color-f1 t-14" href="about.html">ABOUT</a>
+          </li>
+          <li class="mb-lg-0 mb-3">
+            <a class="color-f1 t-14" href="#">TESTIMONIALS</a>
+          </li>
+          <li class="mb-lg-0 mb-3">
+            <a class="color-f1 t-14" href="faq.html">FAQS</a>
+          </li>
+          <li class="mb-lg-0 mb-3">
+            <a class="color-f1 t-14" href="#">INSURANCE POLICY</a>
+          </li>
+          <li class="mb-lg-0 mb-3">
+            <a class="color-f1 t-14" href="#">IMPRESSUM</a>
+          </li>
+        </ul>
+        <div class="social">
+          <img class="img-fluid" class="me-2" src="img/ic-facebook.png" alt="" />
+          <img class="img-fluid" src="img/ic-instagram.png" alt="" />
+        </div>
+      </div>
+      <div class="line"></div>
+    </div>
+
+    <!-- footer part 3 -->
+    <div class="bg-black d-flex p-3 justify-content-center align-items-center">
+      <p class="text-center copy-color mb-0 mx-auto t-14">
+        &copy;2018 Helperland all rights reserved. Terms and condition | Privacy Policy
+      </p>
+    </div>
+  </footer>
+  <!-- bootstrap 5 js -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="js/jquery.breakpoints.js"></script>
+  <script src="js/index.js"></script>
+</body>
+
+</html>
