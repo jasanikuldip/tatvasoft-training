@@ -27,3 +27,10 @@ $(document).ready(function () {
     $("tr").removeClass("card custom-card shadow");
   });
 });
+
+$(".menu").click(function () {
+  $(".sidebar").addClass("menu-show");
+});
+$(".closebtn").click(function () {
+  $(".sidebar").removeClass("menu-show");
+});
