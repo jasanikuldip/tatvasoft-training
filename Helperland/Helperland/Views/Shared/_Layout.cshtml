@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Helperland</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Helperland.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <!-- header -->
+    <header>
+        <!-- navigation -->
+        <nav>
+            <div class="navigation-bar navigation-bar-scroll">
+                <a asp-action="index" asp-controller="home">
+                    <img class="navigation-logo navigation-logo-scroll img-fluid" src="~/images/sharedLayout/logo-large.png" alt="Logo" />
+                </a>
+                <div class="nav-toggler">
+                    <img src="~/images/sharedLayout/list.svg" alt="" />
+                </div>
+                <div class="close-windows">&nbsp;</div>
+                <div class="navigation-menu">
+                    <a class="active active-scroll" href="#">Book now</a>
+                    <a asp-action="price" asp-controller="home" class="@(ViewData["Title"].ToString() == "Prices and Services" ? "select" : "")">Prices & services</a>
+                    <a href="#">Warranty</a>
+                    <a href="#">Blog</a>
+                    <a asp-action="contact" asp-controller="home" class="@(ViewData["Title"].ToString() == "Contact Us" ? "select" : "")">Contact</a>
+                    <a class="active active-scroll" href="#">Login</a>
+                    <a class="active active-scroll" href="#">Become a Helper!</a>
+                    <!-- <hr /> -->
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <!-- footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bar">
+                <img src="~/images/sharedLayout/logo-footer.png" alt="footerlogo" />
+                <ul class="footer-menu">
+                    <li><a asp-action="index" asp-controller="home">HOME</a></li>
+                    <li><a asp-action="about" asp-controller="home">ABOUT</a></li>
+                    <li><a href="#">TESTIMONIALS</a></li>
+                    <li><a asp-action="faqs" asp-controller="home">FAQS</a></li>
+                    <li><a href="#">INSURANCE POLICY</a></li>
+                    <li><a href="#">IMPRESSUM</a></li>
+                </ul>
+                <div class="footer-social">
+                    <a href=""><img src="~/images/sharedLayout/ic-facebook.png" alt="FB" /></a>
+                    <a href=""><img src="~/images/sharedLayout/ic-instagram.png" alt="IG" /></a>
+                </div>
+            </div>
+            <div class="footer-terms-privacy">
+                <span>©2018 Helperland. All rights reserved. </span><a href="">Terms and Conditions</a> |
+                <a href="">Privacy Policy</a>
+            </div>
+        </div>
+        <div class="bk-top">
+            <img src="~/images/forma-1.png" />
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(".nav-toggler").click(function () {
+            $(".navigation-menu").css({ right: "0" });
+            $(".close-windows").css({ display: "block" });
+        });
+        $(".close-windows").click(function () {
+            $(".navigation-menu").css({ right: "-250px" });
+            $(".close-windows").css({ display: "none" });
+        });
+
+        $(window).on("scroll", function () {
+            if ($(window).scrollTop()) {
+                $(".navigation-menu").css({ right: "-250px" });
+                $(".close-windows").css({ display: "none" });
+                $(".bk-top").addClass("bk-top-scroll");
+            } else {
+                $(".bk-top").removeClass("bk-top-scroll");
+            }
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

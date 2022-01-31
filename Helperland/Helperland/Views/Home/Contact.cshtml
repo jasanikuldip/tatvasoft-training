@@ -1,0 +1,137 @@
+﻿@model ContactUsCreateViewModel
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<section class="navbar-margin">
+    <div class="d-flex flex-column justify-content-center mb-5">
+        <img class="img-fluid" src="~/images/group-16_2.png" alt="" />
+    </div>
+    <div class="container d-flex flex-column align-items-center mb-3">
+        <div class="s-2-p-1 container d-flex flex-column align-items-center mt-5">
+            <h1 class="fw-medium t-36">Contact Us</h1>
+            <div class="mb-4 d-flex align-items-center">
+                <div class="separator-line me-2"></div>
+                <img src="~/images/separator.png" alt="" />
+                <div class="separator-line ms-2"></div>
+            </div>
+        </div>
+        <div class="contact-services container d-flex flex-wrap flex-row justify-content-around mb-3">
+            <div class="d-flex flex-column align-items-center mb-5">
+                <div class="mb-2 contact-box d-flex justify-content-center align-items-center">
+                    <img class="img-fluid" src="~/images/forma-1_2.png" alt="" />
+                </div>
+                <p class="text-center mb-1">1111 Lorem ipsum text 100,</p>
+                <p class="text-center mb-3">Lorem ipsum AB</p>
+            </div>
+            <div class="d-flex flex-column align-items-center mb-5">
+                <div class="mb-2 contact-box d-flex justify-content-center align-items-center">
+                    <img class="img-fluid" src="~/images/phone-call.png" alt="" />
+                </div>
+                <p class="text-center mb-1">+49 (40) 123 56 7890</p>
+                <p class="text-center mb-3">+49 (40) 987 56 0000</p>
+            </div>
+            <div class="d-flex flex-column align-items-center mb-5">
+                <div class="mb-2 contact-box d-flex justify-content-center align-items-center">
+                    <img class="img-fluid" src="~/images/vector-smart-object.png" alt="" />
+                </div>
+                <p class="text-center mb-1">info@helperland.com</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="s-2-p-1 price-top-border container d-flex flex-column justify-content-center pt-5">
+        <h2 class="mt-4 mb-3 text-center fw-bold t-28">Get in touch with us</h2>
+        <div class="d-flex justify-content-center">
+            <form asp-action="Contact" asp-controller="Home" class="row justify-content-center contact-form">
+                <div class="col-sm-6 col-12 mb-3">
+                    <input asp-for="FirstName"
+                           class="form-control h-46" />
+                    <span class="text-danger" asp-validation-for="FirstName"></span>
+                </div>
+                <div class="col-sm-6 col-12 mb-3">
+                    <input asp-for="LastName"
+                           class="form-control h-46" />
+                    <span class="text-danger" asp-validation-for="LastName"></span>
+                </div>
+                <div class="col-sm-6 col-12 mb-3">
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary h-46 btn-mobile"
+                                type="button">
+                            +49
+                        </button>
+                        <input type="text"
+                               asp-for="PhoneNumber"
+                               class="form-control h-46" />
+                        <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+
+                    </div>
+                </div>
+                <div class="col-sm-6 col-12 mb-3">
+                    <input asp-for="Email"
+                           class="form-control h-46" />
+                    <span class="text-danger" asp-validation-for="Email"></span>
+                </div>
+                <div class="col-12 mb-3">
+                    <select asp-for="Subject" class="form-select h-46">
+                        <option value="General">General</option>
+                        <option value="Inquiry">Inquiry</option>
+                        <option value="Renewal">Renewal</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <textarea asp-for="Message" class="form-control textarea-height"></textarea>
+                    <label for="floatingTextarea"></label>
+                </div>
+
+                @{ 
+                    if (ViewData["IsFormSubmitted"] != null)
+                    {
+                        <div class="alert alert-success col-12 mb-3 mx-3">
+                            Your query has been submitted successfully.
+                        </div>
+                    }
+                }
+
+                <div class="col-12 fw-bold color-64-grey mb-1">Attachment</div>
+                <div class="file-input mb-3 col-12 d-flex align-items-center flex-sm-row flex-column">
+                    <input id="custom-file-input" asp-for="UploadFile" accept="image/png,.pdf" />
+                    <button id="file-input-button" class="me-3">Upload</button>
+                    <span class="text-center" id="file-input-name"></span>
+                </div>
+
+                <button class="rounded-pill col-1 submit-button fw-bold t-20"
+                        type="submit">
+                    Submit
+                </button>
+
+            </form>
+        </div>
+    </div>
+    <div class="mt-5 d-flex flex-column justify-content-center">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.698050238411!2d72.49824711480102!3d23.034856384946792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e8352e403437b%3A0xdc9d4dae36889fb9!2sTatvaSoft!5e0!3m2!1sen!2sin!4v1643528488075!5m2!1sen!2sin"
+                height="400"
+                style="border: 0"
+                allowfullscreen=""
+                loading="lazy">
+        </iframe>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        $(document).on("click", "#file-input-button", function (event) {
+            event.preventDefault();
+            $("#custom-file-input").click();
+        });
+        $("#custom-file-input").change(function () {
+            $filename = $(this).val();
+            var filename = String($filename);
+            filename = filename.substr(12);
+            $("#file-input-name").text(filename);
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}
