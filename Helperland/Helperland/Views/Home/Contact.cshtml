@@ -3,6 +3,14 @@
     ViewData["Title"] = "Contact Us";
 }
 
+@*<h1>
+    @ViewBag.enc
+    @ViewBag.dec
+    <br />
+    @ViewBag.url
+</h1>*@
+
+
 <section class="navbar-margin">
     <div class="d-flex flex-column justify-content-center mb-5">
         <img class="img-fluid" src="~/images/group-16_2.png" alt="" />
@@ -44,7 +52,12 @@
     <div class="s-2-p-1 price-top-border container d-flex flex-column justify-content-center pt-5">
         <h2 class="mt-4 mb-3 text-center fw-bold t-28">Get in touch with us</h2>
         <div class="d-flex justify-content-center">
-            <form asp-action="Contact" asp-controller="Home" class="row justify-content-center contact-form">
+            <form enctype="multipart/form-data" method="post" data-ajax-success="contacUsFormSuccess" data-ajax-complete="contacUsFormComplete" data-ajax="true" asp-action="Contact" asp-controller="Home" class="row justify-content-center contact-form">
+                <div class="col-12 mb-3">
+                    <div class="contactusFormSuccess alert alert-success">
+                        Your query has been submitted successfully.
+                    </div>
+                </div>
                 <div class="col-sm-6 col-12 mb-3">
                     <input asp-for="FirstName"
                            class="form-control h-46" />
@@ -57,9 +70,9 @@
                 </div>
                 <div class="col-sm-6 col-12 mb-3">
                     <div class="input-group">
-                        <button class="btn btn-outline-secondary h-46 btn-mobile"
+                        <button tabindex="-1" class="btn btn-outline-secondary h-46 btn-mobile"
                                 type="button">
-                            +49
+                            +91
                         </button>
                         <input type="text"
                                asp-for="PhoneNumber"
@@ -82,21 +95,11 @@
                 </div>
                 <div class="col-12">
                     <textarea asp-for="Message" class="form-control textarea-height"></textarea>
-                    <label for="floatingTextarea"></label>
+                    <span class="text-danger" asp-validation-for="Message"></span>
                 </div>
-
-                @{ 
-                    if (ViewData["IsFormSubmitted"] != null)
-                    {
-                        <div class="alert alert-success col-12 mb-3 mx-3">
-                            Your query has been submitted successfully.
-                        </div>
-                    }
-                }
-
                 <div class="col-12 fw-bold color-64-grey mb-1">Attachment</div>
                 <div class="file-input mb-3 col-12 d-flex align-items-center flex-sm-row flex-column">
-                    <input id="custom-file-input" asp-for="UploadFile" accept="image/png,.pdf" />
+                    <input class="custom-file-input" asp-for="UploadFile" accept="image/png,.pdf" />
                     <button id="file-input-button" class="me-3">Upload</button>
                     <span class="text-center" id="file-input-name"></span>
                 </div>
@@ -105,7 +108,6 @@
                         type="submit">
                     Submit
                 </button>
-
             </form>
         </div>
     </div>
@@ -122,16 +124,25 @@
 @section Scripts
 {
     <script>
+        $(".contactusFormSuccess").css({ "display": "none" });
         $(document).on("click", "#file-input-button", function (event) {
             event.preventDefault();
-            $("#custom-file-input").click();
+            $(".custom-file-input").click();
         });
-        $("#custom-file-input").change(function () {
+        $(".custom-file-input").change(function () {
             $filename = $(this).val();
             var filename = String($filename);
             filename = filename.substr(12);
             $("#file-input-name").text(filename);
         });
+        function contacUsFormSuccess(response) {
+            if (response.issuccess) {
+                $(".contactusFormSuccess").css({ "display": "block" });
+            }
+        }
+        function contacUsFormComplete() {
+            $(".contact-form")[0].reset();
+            $("#file-input-name").text("");
+        }
     </script>
-    <partial name="_ValidationScriptsPartial" />
 }

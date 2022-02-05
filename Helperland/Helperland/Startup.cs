@@ -4,12 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Helperland.Data;
 using Helperland.Models;
+using Helperland.IServices;
+using Helperland.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Helperland
 {
@@ -25,9 +24,18 @@ namespace Helperland
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options =>
+                    {
+                        options.LoginPath = "/";
+                        options.Cookie.Name = "Helperland_token";
+                    });
             services.AddControllersWithViews();
             services.AddDbContextPool<HelperlandContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DefualtConnection")));
-            services.AddScoped<IContactUs,ServiceContactUs>();
+            services.AddScoped<IContactUsService,ContactUsService>();
+            services.AddScoped<IUserService,UserService>();
+            services.AddScoped<IEmailService,EmailService>();
+            services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +53,9 @@ namespace Helperland
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseCookiePolicy();
 
             app.UseEndpoints(endpoints =>
             {

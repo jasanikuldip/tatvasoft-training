@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model LoginViewModel
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,6 +8,16 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Helperland.styles.css" asp-append-version="true" />
+    <script type="text/javascript" language="javascript">
+        function DisableBackButton() {
+            window.history.forward()
+        }
+        DisableBackButton();
+        window.onload = DisableBackButton;
+        window.onpageshow = function (evt) { if (evt.persisted) DisableBackButton() }
+        window.onunload = function () { void (0) }
+    </script>
+    <partial name="_Favicons" />
 </head>
 <body>
     <!-- header -->
@@ -27,8 +38,8 @@
                     <a href="#">Warranty</a>
                     <a href="#">Blog</a>
                     <a asp-action="contact" asp-controller="home" class="@(ViewData["Title"].ToString() == "Contact Us" ? "select" : "")">Contact</a>
-                    <a class="active active-scroll" href="#">Login</a>
-                    <a class="active active-scroll" href="#">Become a Helper!</a>
+                    <a id="login-home" class="active active-scroll">Login</a>
+                    <a class="active active-scroll" asp-action="BecomePro" asp-controller="Home">Become a Helper!</a>
                     <!-- <hr /> -->
                 </div>
             </div>
@@ -65,11 +76,94 @@
         <div class="bk-top">
             <img src="~/images/forma-1.png" />
         </div>
+
+        <div id="login-modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
+                <div class="modal-content modal-content-custom">
+                    <div type="button"
+                         id="login-close"
+                         class="btn-close btn-close-modal-custom"
+                         data-bs-target="#login-modal"
+                         data-bs-dismiss="modal"></div>
+                    <h1 class="t-24 64 color-64-grey mb-3 pb-3 fw-bold">
+                        Login to your account
+                    </h1>
+                    <form class="login-form" method="post" data-ajax-success="loginSuccessFun" data-ajax="true" asp-action="Login" asp-controller="Home">
+                        <div id="Unsuccess" class="alert alert-danger alert-unsuccess">Username or password is invalid</div>
+                        <div class="mb-3">
+                            <input asp-for="Email" class="login-input-email login-input-icon form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+
+                        </div>
+                        <div class="mb-3">
+                            <input asp-for="Password" class="login-input-password login-input-icon form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-check mb-3">
+                            <input asp-for="RememberMe" class="form-check-input custom-check"
+                                   type="checkbox"
+                                   id="flexCheckDefault" />
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Remember me
+                            </label>
+                        </div>
+
+                        <button class="login-btn mb-4">Login</button>
+                    </form>
+                    <div type="button"
+                         id="forgot-psw-link"
+                         data-bs-toggle="modal"
+                         data-bs-target="#forgot-psw-modal"
+                         class="text-center color-secondary">
+                        Forgot password?
+                    </div>
+                    <div class="color-64-grey">
+                        Don't have an account?
+                        <a class="color-secondary" asp-action="CreateAccount" asp-controller="Home">Create an account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="forgot-psw-modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
+                <div class="modal-content modal-content-custom">
+                    <div type="button"
+                         id="forgot-psw-close"
+                         class="btn-close btn-close-modal-custom"
+                         data-bs-dismiss="modal"></div>
+                    <h1 class="t-24 64 color-64-grey mb-3 pb-3 fw-bold">Forgot Password</h1>
+                    @*<form method="post" data-ajax-success="loginSuccessFun" data-ajax="true" asp-action="ForgotPassword" asp-controller="Home" class="forgot-psw-form">
+                        <div id="Success-Forgot-Password" class="alert alert-success alert-success-forgot-password">An email has been sent to your account. Click on the link in received email to reset the password.</div>
+                        <input asp-for="EmailForgot" class="h-46 form-control mb-3" />
+                        <span asp-validation-for="EmailForgot" class="text-danger"></span>
+                        <button class="forgot-psw-btn mb-4">Send</button>
+                    </form>*@
+                    <div type="button"
+                         id="login-link"
+                         class="text-center color-secondary fw-bold"
+                         data-bs-toggle="modal"
+                         data-bs-target="#login-modal">
+                        Login now
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div type="button"
+             id="login-btn"
+             class="btn btn-primary d-none"
+             data-bs-toggle="modal"
+             data-bs-target="#login-modal">
+            Hello
+        </div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script>
         $(".nav-toggler").click(function () {
             $(".navigation-menu").css({ right: "0" });
@@ -89,6 +183,44 @@
                 $(".bk-top").removeClass("bk-top-scroll");
             }
         });
+
+        $("#login-link").click(function () {
+            $("#forgot-psw-close").click();
+        });
+        $("#forgot-psw-link").click(function () {
+            $("#login-close").click();
+        });
+        $("#login-home").click(function () {
+            $("#login-btn").click();
+            $(".navigation-menu").css({ right: "-250px" });
+            $(".close-windows").css({ display: "none" });
+        });
+
+        function loginSuccessFun (response) {
+            if (response.isSuccess) {
+                console.log(response);
+                console.log("login-scucess");
+                window.location.href = "@Url.Action("Registred", "home")";
+            } else {
+                console.log(response);
+                console.log("login-fail");
+                $("#Unsuccess").removeClass("alert-unsuccess");
+                setTimeout(function () { $("#Unsuccess").addClass("alert-unsuccess"); }, 5000);
+            }
+        }
+
+        @*function ForgotPassSuccessFun (response) {
+            if (response.isSuccess) {
+                console.log(response);
+                console.log("forgot-password-success");
+                window.location.href = "@Url.Action("Registred", "home")";
+            } else {
+                console.log(response);
+                console.log("forgot-password-fail");
+                $("#Success-Forgot-Password").removeClass("alert-success-forgot-password");
+                setTimeout(function () { $("#Success-Forgot-Password").addClass("alert-success-forgot-password"); }, 10000);
+            }
+        }*@
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

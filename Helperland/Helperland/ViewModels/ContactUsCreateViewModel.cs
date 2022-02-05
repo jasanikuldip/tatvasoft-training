@@ -25,7 +25,7 @@ namespace Helperland.ViewModels
         [Required,RegularExpression("[0-9]{10}",ErrorMessage ="Mobile nuber should be of 10 Digit."),Display(Name ="Mobile Number",Prompt = "Mobile Number")]
         public string PhoneNumber { get; set; }
 
-        [Display(Name = "Message", Prompt = "Message")]
+        [Required,Display(Name = "Message", Prompt = "Message")]
         public string Message { get; set; }
         public IFormFile UploadFile { get; set; }
     }

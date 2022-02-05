@@ -6,18 +6,18 @@ using Helperland.Models;
 
 namespace Helperland.Data
 {
-    public class ServiceContactUs : IContactUs
+    public class ContactUsService : IContactUsService
     {
         private readonly HelperlandContext context;
 
-        public ServiceContactUs(HelperlandContext context)
+        public ContactUsService(HelperlandContext context)
         {
             this.context = context;
         }
-        public ContactU Create(ContactU contact)
+        public async Task<ContactU> CreateAsync(ContactU contact)
         {
-            context.ContactUs.Add(contact);
-            context.SaveChanges();
+            await context.ContactUs.AddAsync(contact);
+            await context.SaveChangesAsync();
             return contact;
         }
     }

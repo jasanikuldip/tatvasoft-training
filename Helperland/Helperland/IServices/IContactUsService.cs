@@ -6,8 +6,8 @@ using Helperland.Models;
 
 namespace Helperland.Data
 {
-    public interface IContactUs
+    public interface IContactUsService
     {
-        public ContactU Create(ContactU contact);
+        Task<ContactU> CreateAsync(ContactU contact);
     }
 }

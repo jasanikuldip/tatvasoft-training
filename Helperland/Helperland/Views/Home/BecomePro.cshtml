@@ -1,0 +1,143 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<section class="bg-become-helper">
+    <div class="become-pro-mt d-flex flex-column align-items-center pb-5">
+        <div class="container d-flex flex-column align-items-center">
+            <div class="become-helper-rights">
+                <h1 class="t-40 text-light mt-auto fw-normal">Do not feel like housework?</h1>
+                <p class="mb-1 text-light">
+                    <img class="me-1 img-fluid" src="~/images/ic-check.png" alt="" />
+                    open time-management
+                </p>
+                <p class="mb-1 text-light">
+                    <img class="me-1 img-fluid" src="~/images/ic-check.png" alt="" />
+                    only accept suitable requests
+                </p>
+                <p class="mb-1 text-light">
+                    <img class="me-1 img-fluid" src="~/images/ic-check.png" alt="" />
+                    fair and fixed hourly wage
+                </p>
+                <p class="mb-1 text-light">
+                    <img class="me-1 img-fluid" src="~/images/ic-check.png" alt="" />
+                    ideal part time job
+                </p>
+                <p class="mb-1 text-light">
+                    <img class="me-1 img-fluid" src="~/images/ic-check.png" alt="" />
+                    personal contact person
+                </p>
+            </div>
+        </div>
+        <div class="become-helper-form mb-5">
+            <div class="s-2-p-1 container d-flex flex-column justify-content-center">
+                <h1 class="text-center fw-bold t-24 mb-3">Register Now!</h1>
+                <div class="d-flex justify-content-center">
+                    <form asp-action="BecomePro" asp-controller="Home" class="row justify-content-center contact-form">
+                        <div class="col-12 mb-3">
+                            <input asp-for="FirstName" class="form-control h-46" />
+                            <span class="text-danger" asp-validation-for="FirstName"></span>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <input asp-for="LastName" class="form-control h-46" />
+                            <span class="text-danger" asp-validation-for="LastName"></span>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <input asp-for="Email" class="form-control h-46" />
+                            <span class="text-danger" asp-validation-for="Email"></span>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <div class="input-group">
+                                <button tabindex="-1" class="btn btn-outline-secondary btn-mobile h-46"
+                                        type="button">
+                                    +91
+                                </button>
+                                <input asp-for="Mobile" class="form-control h-46" />
+                            </div>
+                            <span class="text-danger" asp-validation-for="Mobile"></span>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <input asp-for="Password" class="form-control h-46" />
+                            <span class="text-danger" asp-validation-for="Password"></span>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <input asp-for="ConfirmPassword" class="form-control h-46" />
+                            <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <input required class="form-check-input"
+                                   type="checkbox"
+                                   id="becomeProPrivacyCheck" />
+                            <label class="form-check-label" for="becomeProPrivacyCheck">
+                                
+                                I accept <a class="color-secondary" href="">terms and conditions</a> &
+                                <a  class="color-secondary" href="">privacy policy</a>
+                            </label>
+                        </div>
+                        <button class="rounded-pill col-1 submit-button fw-bold t-16 mb-4"
+                                type="submit">
+                            Get Started
+                            <img src="~/images/arrow-white.png" alt="" />
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="how-it-works-bg">
+    <div class="d-flex justify-content-center pb-5">
+        <div class="div-how-it-works-container row justify-content-center">
+            <h2 class="heading col-12 text-center fw-bold t-40">How it Works</h2>
+            <div class="col-12 div-how-it-works">
+                <div class="div-how-it-works-steps flex-wrap flex-md-nowrap">
+                    <div class="order-1 order-md-0 d-flex flex-column justify-content-center text-center text-md-start">
+                        <h3 class="mb-3 fw-bold t-30">Sign up</h3>
+                        <p class="mb-3 mb-md-5 t-18">
+                            Answer us a few questions and identify yourself with us. You need a copy or photo of your passport, your certificate of good conduct and your business registration.
+                        </p>
+                    </div>
+                    <div class="d-flex justify-content-center justify-content-md-end">
+                        <img class="img-fluid mb-3 mb-md-0"
+                             src="~/images/group-50.png"
+                             alt="" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 div-how-it-works">
+                <div class="div-how-it-works-steps flex-wrap flex-md-nowrap">
+                    <div class="d-flex justify-content-center justify-content-md-start">
+                        <img class="img-fluid mb-3 mb-md-0"
+                             src="~/images/group-51.png"
+                             alt="" />
+                    </div>
+                    <div class="d-flex flex-column justify-content-center text-center text-md-start">
+                        <h3 class="mb-3 fw-bold t-30">Receive customer requests</h3>
+                        <p class="mb-3 mb-md-5 t-18">
+                            You decide which customer questions you would like to accept, and according to your settings, we suggest suitable orders from your region.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 div-how-it-works">
+                <div class="div-how-it-works-steps flex-wrap flex-md-nowrap">
+                    <div class="order-1 order-md-0 d-flex flex-column justify-content-center text-center text-md-start">
+                        <h3 class="mb-3 fw-bold t-30">Complete service</h3>
+                        <p class="mb-3 mb-md-5 t-18">
+                            Accept service requests from your customers and complete
+                            your work.
+                        </p>
+                    </div>
+                    <div class="d-flex justify-content-center justify-content-md-end">
+                        <img class="img-fluid mb-3 mb-md-0"
+                             src="~/images/group-52.png"
+                             alt="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
