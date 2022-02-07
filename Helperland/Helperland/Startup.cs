@@ -9,6 +9,7 @@ using Helperland.Models;
 using Helperland.IServices;
 using Helperland.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 
 namespace Helperland
 {
@@ -35,6 +36,7 @@ namespace Helperland
             services.AddScoped<IContactUsService,ContactUsService>();
             services.AddScoped<IUserService,UserService>();
             services.AddScoped<IEmailService,EmailService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));
         }
 

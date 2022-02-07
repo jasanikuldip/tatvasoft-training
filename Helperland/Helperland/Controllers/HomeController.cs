@@ -14,6 +14,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Helperland.Security;
+using Microsoft.AspNetCore.Http;
 
 namespace Helperland.Controllers
 {
@@ -36,6 +37,7 @@ namespace Helperland.Controllers
             this.userService = userService;
             this.webHostEnvironment = webHostEnvironment;
             this.emailService = emailService;
+
         }
 
         public IActionResult Index()
@@ -113,12 +115,19 @@ namespace Helperland.Controllers
                                 ExpiresUtc = DateTime.UtcNow.AddHours(4)
                             });
 
-                        return Json(new { isSuccess = true });
+                        if(loginModel.RememberMe)
+                        {
+                            CookieOptions ckOptions = new CookieOptions();
+                            ckOptions.Expires = DateTime.UtcNow.AddDays(1);
+                            Response.Cookies.Append("user_email", user.Email,ckOptions);
+                            Response.Cookies.Append("user_password", loginModel.Password,ckOptions);
+                        }
+
+                        return Json(new { isSuccess = true, _email = loginModel.Email, _password = loginModel.Password, _rememberme = loginModel.RememberMe });
                     }
                 }
-
             }
-            return Json(new { isSuccess = false });
+            return Json(new { isSuccess = false, _email = loginModel.Email, _password = loginModel.Password, _rememberme = loginModel.RememberMe });
         }
 
         public async Task<IActionResult> Logout()
@@ -237,34 +246,59 @@ namespace Helperland.Controllers
             return Json("Mobile number is already registered.");
         }
 
-        //public async Task<IActionResult> ForgotPassword(LoginViewModel loginViewModel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        User user = await userService.GetUserByEmailAsync(loginViewModel.EmailForgot);
-        //        string token = AesTokenHelper.EncryptString($"{user.UserId},{user.Email}");
-        //        string _url = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Home/ForgotPassword?token={token}";
-        //        UserEmailOptions userEmailOptions = new UserEmailOptions
-        //        {
-        //            ToEmails = new List<string> { user.Email },
-        //            Subject = "Password Reset | Helperland",
-        //            Body = "forgotTemplate",
-        //            Replaces = new List<KeyValuePair<string, string>>
-        //            {
-        //                new KeyValuePair<string,string>("[Username]",user.FirstName),
-        //                new KeyValuePair<string,string>("[Email]",user.Email),
-        //                new KeyValuePair<string,string>("[url]",_url)
-        //            }
-        //        };
-        //        await emailService.SendEmail(userEmailOptions);
-        //        return Json(new { isSuccess = true });
-        //    }
-        //    return Json(new { isSuccess = false });
-        //}
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgotPasswordViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                User _user = await userService.GetUserByEmailAsync(forgotPasswordViewModel.EmailForgot);
+                string token = AesTokenHelper.EncryptString($"{_user.UserId},{_user.Email}");
+                string _url = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Home/ForgotPasswordReset?token={token}";
+
+                UserEmailOptions userEmailOptions = new UserEmailOptions
+                {
+                    ToEmails = new List<string> { _user.Email.ToString() },
+                    Subject = "Password Reset | Helperland",
+                    Body = "forgotTemplate",
+                    Replaces = new List<KeyValuePair<string, string>>
+                    {
+                        new KeyValuePair<string, string>("[Username]",_user.FirstName),
+                        new KeyValuePair<string, string>("[Email]",_user.Email),
+                        new KeyValuePair<string, string>("[url]",_url)
+                    }
+                };
+                await emailService.SendEmail(userEmailOptions);
+                return Json(new { isSuccessFP = true, _email = forgotPasswordViewModel.EmailForgot, user = _user });
+            }
+            return Json(new { isSuccessFP = false, _email = forgotPasswordViewModel.EmailForgot });
+        }
 
         public IActionResult ForgotPasswordReset(string token)
         {
-            return View();
+            ForgotPasswordResetViewModel forgotPassword = new ForgotPasswordResetViewModel();
+            forgotPassword.token = token;
+            return View(forgotPassword);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPasswordReset(ForgotPasswordResetViewModel forgotPassword)
+        {
+            if(ModelState.IsValid)
+            {
+                string decPass = AesTokenHelper.DecryptString(forgotPassword.token);
+                string[] userIdPass = decPass.Split(',');
+                if(userIdPass[0] != null)
+                {
+                    User user = await userService.GetUserByIdAsync( int.Parse(userIdPass[0]));
+                    if(user.Email == userIdPass[1])
+                    {
+                        user.Password = PasswordHashHelper.HashPassword(forgotPassword.Password);
+                        User UpdatedUser = await userService.UpdateAsync(user);
+                        return Json(new { isSuccessRP = true });
+                    }
+                }
+            }
+            return Json(new { isSuccessRP = false });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

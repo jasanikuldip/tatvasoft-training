@@ -11,7 +11,7 @@ namespace Helperland.Services
 {
     public class EmailService : IEmailService
     {
-        private string templetePath = "@EmailTemplate/{0}.html";
+        private string templetePath = "EmailTemplate/{0}.html";
         private readonly SMTPConfigModel _smtpConfig;
 
         public EmailService(IOptions<SMTPConfigModel> smtpConfigModel)
@@ -54,7 +54,7 @@ namespace Helperland.Services
             string body = File.ReadAllText(string.Format(templetePath, templateName));
             foreach (KeyValuePair<string, string> rep in replaces)
             {
-                body.Replace(rep.Key, rep.Value);
+                body = body.Replace(rep.Key, rep.Value);
             }
             return body;
         }

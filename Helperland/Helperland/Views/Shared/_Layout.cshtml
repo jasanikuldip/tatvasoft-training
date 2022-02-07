@@ -1,4 +1,5 @@
 ﻿@model LoginViewModel
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,6 @@
     <title>@ViewData["Title"] - Helperland</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Helperland.styles.css" asp-append-version="true" />
     <script type="text/javascript" language="javascript">
         function DisableBackButton() {
             window.history.forward()
@@ -88,8 +88,9 @@
                     <h1 class="t-24 64 color-64-grey mb-3 pb-3 fw-bold">
                         Login to your account
                     </h1>
-                    <form class="login-form" method="post" data-ajax-success="loginSuccessFun" data-ajax="true" asp-action="Login" asp-controller="Home">
+                    <form class="login-form" method="post" data-ajax-success="loginSuccessFun" data-ajax="true" data-ajax-loading=".loader-page" asp-action="Login" asp-controller="Home">
                         <div id="Unsuccess" class="alert alert-danger alert-unsuccess">Username or password is invalid</div>
+                        <input hidden asp-for="EmailForgot" id="EmailForgot1" value="abc123@gm.com" />
                         <div class="mb-3">
                             <input asp-for="Email" class="login-input-email login-input-icon form-control" />
                             <span asp-validation-for="Email" class="text-danger"></span>
@@ -133,12 +134,12 @@
                          class="btn-close btn-close-modal-custom"
                          data-bs-dismiss="modal"></div>
                     <h1 class="t-24 64 color-64-grey mb-3 pb-3 fw-bold">Forgot Password</h1>
-                    @*<form method="post" data-ajax-success="loginSuccessFun" data-ajax="true" asp-action="ForgotPassword" asp-controller="Home" class="forgot-psw-form">
+                    <form method="post" data-ajax-success="ForgotPassSuccessFun" data-ajax="true" data-ajax-loading=".loader-page" asp-action="ForgotPassword" asp-controller="Home" class="forgot-psw-form">
                         <div id="Success-Forgot-Password" class="alert alert-success alert-success-forgot-password">An email has been sent to your account. Click on the link in received email to reset the password.</div>
                         <input asp-for="EmailForgot" class="h-46 form-control mb-3" />
                         <span asp-validation-for="EmailForgot" class="text-danger"></span>
                         <button class="forgot-psw-btn mb-4">Send</button>
-                    </form>*@
+                    </form>
                     <div type="button"
                          id="login-link"
                          class="text-center color-secondary fw-bold"
@@ -155,6 +156,13 @@
              data-bs-toggle="modal"
              data-bs-target="#login-modal">
             Hello
+        </div>
+        <div class="loader-page">
+            <div class="loader-content">
+                <div class="spinner-border custom-loader" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -209,18 +217,14 @@
             }
         }
 
-        @*function ForgotPassSuccessFun (response) {
-            if (response.isSuccess) {
-                console.log(response);
-                console.log("forgot-password-success");
-                window.location.href = "@Url.Action("Registred", "home")";
-            } else {
-                console.log(response);
-                console.log("forgot-password-fail");
+        function ForgotPassSuccessFun (response) {
+            if (response.isSuccessFP) {
                 $("#Success-Forgot-Password").removeClass("alert-success-forgot-password");
                 setTimeout(function () { $("#Success-Forgot-Password").addClass("alert-success-forgot-password"); }, 10000);
             }
-        }*@
+        }
+        $("#Email").val("@HttpContextAccessor.HttpContext.Request.Cookies["user_email"]");
+        $("#Password").val("@HttpContextAccessor.HttpContext.Request.Cookies["user_password"]");
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

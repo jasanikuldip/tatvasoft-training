@@ -226,6 +226,10 @@ footer {
     .bk-top {
         left: 20px;
     }
+
+    .navigation-bar .navigation-logo {
+        width: 73px;
+    }
 }
 
 @media (max-width: 992px) {
@@ -238,9 +242,7 @@ footer {
             display: block;
         }
 
-        .navigation-bar .navigation-logo {
-            width: 73px;
-        }
+
 
         .navigation-bar .navigation-menu {
             display: flex;
@@ -323,6 +325,35 @@ footer {
     --clr-white: #ffffff;
     --clr-tomato: #ff6b6b;
     --clr-green: #67b644;
+}
+
+/* ---------- Loader ---------- */
+.custom-loader {
+    width: 60px;
+    height: 60px;
+    border-width: 7px;
+    color: #1d7a8c;
+}
+
+.loader-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:100%;
+    width:100%;
+}
+
+.loader-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 100%;
+    width: 100%;
+    display:none;
+    z-index:1060;
 }
 
 .color-secondary {
@@ -623,7 +654,8 @@ h1, h2, h3, h4 {
     padding: 20px;
 }
 
-alert-success-forgot-password,
+.reset-password-success,
+.alert-success-forgot-password,
 .alert-unsuccess {
     display: none;
 }
@@ -957,6 +989,12 @@ section div h2.heading {
 }
 
 @media (max-width: 768px) {
+    .custom-loader {
+        width: 48px;
+        height: 48px;
+        border-width: 6px;
+    }
+
     .custom-bottom .nav-link.active {
         font-size: 20px;
     }
@@ -1015,9 +1053,6 @@ section div h2.heading {
         margin-right: 16px;
     }
 
-    .ForgotPasswordReset-form {
-        width: auto;
-    }
 }
 
 
