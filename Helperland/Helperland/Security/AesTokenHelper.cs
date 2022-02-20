@@ -7,7 +7,7 @@ namespace Helperland.Security
 {
     public class AesTokenHelper
     {
-        private static string key = "kD3/6pa1M2Bru+43sr4noAs=08eNDsdp";
+        private static readonly string key = "sRdYjIwoGeDdrRfpHgSsOdSyDmoxcOma";
         public static string EncryptString(string plainText)
         {
             byte[] iv = new byte[16];

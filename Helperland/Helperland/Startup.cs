@@ -28,14 +28,16 @@ namespace Helperland
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
                     {
-                        options.LoginPath = "/";
+                        options.LoginPath = "/Home/Index/1";
                         options.Cookie.Name = "Helperland_token";
+                        //options.ExpireTimeSpan = System.TimeSpan.FromMinutes(1);
                     });
             services.AddControllersWithViews();
             services.AddDbContextPool<HelperlandContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DefualtConnection")));
             services.AddScoped<IContactUsService,ContactUsService>();
             services.AddScoped<IUserService,UserService>();
             services.AddScoped<IEmailService,EmailService>();
+            services.AddScoped<IUserAddressService,UserAddressService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));
         }

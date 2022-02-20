@@ -1,0 +1,90 @@
+﻿@using Helperland.Models.Enum
+@model MyDetailsViewModel
+@{
+    ViewData["Title"] = "My Details";
+    Layout = null;
+}
+
+<form method="post" asp-action="MyDetails" asp-controller="User" data-ajax-success="myDetailsFormSuccess" data-ajax="true" data-ajax-loading=".loader-page">
+    <div id="myDetailsSuccess" class="myDetailsSuccess col-12 alert alert-success">
+        Changes have been successfully saved.
+    </div>
+    <div class="row color-64-grey g-3 mb-4">
+        <div class="col-12 col-md-4">
+            <label class="fw-bold mb-2" asp-for="FirstName"></label>
+            <input asp-for="FirstName" class="h-46 form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="col-12 col-md-4">
+            <label class="fw-bold mb-2" asp-for="LastName"></label>
+            <input asp-for="LastName" class="h-46 form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="col-12 col-md-4">
+            <label class="fw-bold mb-2" asp-for="Email"></label>
+            <input asp-for="Email" class="h-46 form-control" disabled />
+        </div>
+    </div>
+    <div class="row color-64-grey g-3 mb-4">
+        <div class="col-12 col-md-4">
+            <label class="fw-bold mb-2" asp-for="Mobile"></label>
+            <input asp-for="Mobile" class="h-46 form-control" />
+            <span asp-validation-for="Mobile" class="text-danger"></span>
+        </div>
+        <div class="col-12 col-md-4">
+            <label class="fw-bold mb-2">Date of Birth</label>
+            <div class="row g-2">
+                <div class="col-3">
+                    <select class="h-46 form-select" asp-for="Day">
+                        @for (int i = 1; i <= 31; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-5">
+                    <select class="h-46 form-select" asp-for="Months" asp-items="@Html.GetEnumSelectList<Months>()"></select>
+                </div>
+                <div class="col-4">
+                    <select class="h-46 form-select" asp-for="Year">
+                        @for (int i = 1921; i <= 2021; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <hr class="dropdown-divider mb-3" />
+            <label class="fw-bold mb-2">My Preferred Language</label>
+            <div class="row">
+                <div class="col-4 col-md-2">
+                    <select class="h-46 form-select">
+                        <option value="English">English</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <button class="ForgotPasswordReset-button fw-bold" type="submit">
+                Save
+            </button>
+        </div>
+    </div>
+</form>
+
+
+@* ----- added validation file ------ *@
+@* ----- because layout validation file not working here ------ *@
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script>
+    function myDetailsFormSuccess(response) {
+        if (response.isSuccess) {
+            $("#myDetailsSuccess").removeClass("myDetailsSuccess");
+            setTimeout(function () { $("#myDetailsSuccess").addClass("myDetailsSuccess"); }, 5000);
+        }
+    }
+</script>

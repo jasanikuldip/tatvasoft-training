@@ -40,8 +40,12 @@ namespace Helperland.Controllers
 
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int Id)
         {
+            if(Id == 1)
+            {
+                ViewBag.login = 1;
+            }
             return View();
         }
 
@@ -94,15 +98,15 @@ namespace Helperland.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await userService.GetUserByEmailAsync(loginModel.Email);
+                User user = await userService.GetUserByEmailAsync(loginModel.EmailLogin);
                 if (user != null)
                 {
-                    if (PasswordHashHelper.VerifyPassword(user.Password, loginModel.Password))
+                    if (PasswordHashHelper.VerifyPassword(user.Password, loginModel.PasswordLogin))
                     {
                         var claims = new List<Claim>()
                         {
                             new Claim(ClaimTypes.NameIdentifier,Convert.ToString(user.UserId)),
-                            new Claim(ClaimTypes.Name,user.FirstName),
+                            new Claim(ClaimTypes.Name,user.FirstName+" "+user.LastName),
                             new Claim(ClaimTypes.Role,Convert.ToString(user.UserTypeId))
                         };
 
@@ -112,22 +116,22 @@ namespace Helperland.Controllers
                             new AuthenticationProperties()
                             {
                                 IsPersistent = true,
-                                ExpiresUtc = DateTime.UtcNow.AddHours(4)
+                                ExpiresUtc = DateTime.UtcNow.AddHours(1)
                             });
 
-                        if(loginModel.RememberMe)
+                        if (loginModel.RememberMe)
                         {
                             CookieOptions ckOptions = new CookieOptions();
                             ckOptions.Expires = DateTime.UtcNow.AddDays(1);
-                            Response.Cookies.Append("user_email", user.Email,ckOptions);
-                            Response.Cookies.Append("user_password", loginModel.Password,ckOptions);
+                            Response.Cookies.Append("user_email", user.Email, ckOptions);
+                            Response.Cookies.Append("user_password", loginModel.PasswordLogin, ckOptions);
                         }
 
-                        return Json(new { isSuccess = true, _email = loginModel.Email, _password = loginModel.Password, _rememberme = loginModel.RememberMe });
+                        return Json(new { isSuccess = true, _email = loginModel.EmailLogin, _password = loginModel.PasswordLogin, _rememberme = loginModel.RememberMe });
                     }
                 }
             }
-            return Json(new { isSuccess = false, _email = loginModel.Email, _password = loginModel.Password, _rememberme = loginModel.RememberMe });
+            return Json(new { isSuccess = false, _email = loginModel.EmailLogin, _password = loginModel.PasswordLogin, _rememberme = loginModel.RememberMe });
         }
 
         public async Task<IActionResult> Logout()
@@ -210,8 +214,7 @@ namespace Helperland.Controllers
             return View();
         }
 
-        [HttpPost]
-        [HttpGet]
+        [AcceptVerbs("Get", "Post")]
         public async Task<IActionResult> IsEmailInUse(string email)
         {
             var user = await userService.GetUserByEmailAsync(email);
@@ -222,8 +225,7 @@ namespace Helperland.Controllers
             return Json("Email Address is already registered.");
         }
 
-        [HttpPost]
-        [HttpGet]
+        [AcceptVerbs("Get", "Post")]
         public async Task<IActionResult> IsRegistredEmail(string email)
         {
             var user = await userService.GetUserByEmailAsync(email);
@@ -234,8 +236,7 @@ namespace Helperland.Controllers
             return Json("Email Address is not registered.");
         }
 
-        [HttpPost]
-        [HttpGet]
+        [AcceptVerbs("Get","Post")]
         public async Task<IActionResult> IsMobileInUse(string mobile)
         {
             var user = await userService.GetUserByMobileAsync(mobile);
@@ -275,30 +276,34 @@ namespace Helperland.Controllers
 
         public IActionResult ForgotPasswordReset(string token)
         {
-            ForgotPasswordResetViewModel forgotPassword = new ForgotPasswordResetViewModel();
-            forgotPassword.token = token;
+            ForgotPasswordResetViewModel forgotPassword = new ForgotPasswordResetViewModel
+            {
+                token = token
+            };
             return View(forgotPassword);
         }
 
         [HttpPost]
         public async Task<IActionResult> ForgotPasswordReset(ForgotPasswordResetViewModel forgotPassword)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 string decPass = AesTokenHelper.DecryptString(forgotPassword.token);
                 string[] userIdPass = decPass.Split(',');
-                if(userIdPass[0] != null)
-                {
-                    User user = await userService.GetUserByIdAsync( int.Parse(userIdPass[0]));
-                    if(user.Email == userIdPass[1])
+
+                    if (userIdPass[0] != null)
                     {
-                        user.Password = PasswordHashHelper.HashPassword(forgotPassword.Password);
-                        User UpdatedUser = await userService.UpdateAsync(user);
-                        return Json(new { isSuccessRP = true });
+                        User user = await userService.GetUserByIdAsync(int.Parse(userIdPass[0]));
+                        if (user.Email == userIdPass[1])
+                        {
+                            user.Password = PasswordHashHelper.HashPassword(forgotPassword.Password);
+                            User UpdatedUser = await userService.UpdateAsync(user);
+                            return Json(new { isSuccessRP = true, isExpired = false });
+                        }
                     }
-                }
+                
             }
-            return Json(new { isSuccessRP = false });
+            return Json(new { isSuccessRP = false, isExpired = true });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

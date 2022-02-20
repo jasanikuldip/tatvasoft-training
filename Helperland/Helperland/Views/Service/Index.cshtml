@@ -1,0 +1,343 @@
+﻿@model ServiceRequestViewModel
+@{
+    ViewData["Title"] = "Book Service";
+}
+
+<section class="navbar-margin">
+    <div class="container service-container pt-4">
+        <div class="s-2-p-1 d-flex flex-column align-items-center mb-3">
+            <h1 class="fw-medium t-36 text-center">Set up your cleaning service</h1>
+            <div class="mb-4 d-flex align-items-center">
+                <div class="separator-line me-2"></div>
+                <img src="~/images/separator.png" alt="" />
+                <div class="separator-line ms-2"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col service-left-container p-0 pe-md-3">
+                <div class="service-left-container-top mb-4">
+                    <ul class="nav nav-pills nav-fill">
+                        <li class="nav-item">
+                            <a class="nav-link active d-flex gap-2 flex-column flex-xl-row align-items-center justify-content-start justify-content-xl-center" data-bs-toggle="pill" href="#SetupService">
+                                <div class="service-img-div">
+                                    <img src="~/images/search.png" alt="" />
+                                </div>
+                                <span class="d-none d-lg-inline">
+                                    Setup Service
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="disabled nav-link d-flex gap-2 flex-column flex-xl-row align-items-center justify-content-start justify-content-xl-center" data-bs-toggle="pill" href="#SchedulePlan">
+                                <div class="service-img-div">
+                                    <img src="~/images/calender-service.png" alt="" />
+                                </div>
+                                <span class="d-none d-lg-inline">
+                                    Schedule & Plan
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="disabled nav-link d-flex gap-2 flex-column flex-xl-row align-items-center justify-content-start justify-content-xl-center" data-bs-toggle="pill" href="#YourDetails">
+                                <div class="service-img-div">
+                                    <img src="~/images/home-service.png" alt="" />
+                                </div>
+                                <span class="d-none d-lg-inline">
+                                    Your Details
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="disabled nav-link d-flex gap-2 flex-column flex-xl-row align-items-center justify-content-start justify-content-xl-center" data-bs-toggle="pill" href="#MakePayment">
+                                <div class="service-img-div">
+                                    <img src="~/images/c-card.png" alt="" />
+                                </div>
+                                <span class="d-none d-lg-inline">
+                                    Make Payment
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="setting-bottom">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="SetupService">
+                            <form method="post" asp-action="Avaiblity" asp-controller="Service" data-ajax-success="zipcodeFormSuccess" data-ajax="true" data-ajax-loading=".loader-page">
+                                <div class="row">
+                                    <div class="col-12 mb-2">
+                                        <label class="color-4f-grey fw-bold">Enter your Postal Code</label>
+                                    </div>
+                                    <div class="col-12 col-lg-6 mb-3">
+                                        <input asp-for="PincodeCheck" class="form-control h-46" />
+                                        <span asp-validation-for="PincodeCheck" class="text-danger" id="isAvailableSpan"></span>
+                                    </div>
+                                    <div class="col">
+                                        <button class="ForgotPasswordReset-button fw-normal" type="submit">
+                                            Check Availablity
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="tab-pane " id="SchedulePlan">
+                            <form>
+                                <div class="row">
+                                    <div class="col-lg-6 col-12">
+                                        <label class="d-block color-4f-grey fw-bold mb-2">
+                                            When do you need the cleaner?
+                                        </label>
+                                        <input asp-for="StartDate"
+                                               class="d-inline date form-control me-3"
+                                               autocomplete="off" />
+                                        <select asp-for="StartTime" class="d-inline form-select h-46 w-auto">
+                                            <option value="08:00:00">08:00</option>
+                                            <option value="08:30:00">08:30</option>
+                                            <option value="09:00:00">09:00</option>
+                                            <option value="09:30:00">09:30</option>
+                                            <option value="10:00:00">10:00</option>
+                                            <option value="10:30:00">10:30</option>
+                                            <option value="11:00:00">11:00</option>
+                                            <option value="11:30:00">11:30</option>
+                                            <option value="12:00:00">12:00</option>
+                                            <option value="12:30:00">12:30</option>
+                                            <option value="13:00:00">13:00</option>
+                                            <option value="13:30:00">13:30</option>
+                                            <option value="14:00:00">14:00</option>
+                                            <option value="14:30:00">14:30</option>
+                                            <option value="15:00:00">15:00</option>
+                                            <option value="15:30:00">15:30</option>
+                                            <option value="16:00:00">16:00</option>
+                                            <option value="16:30:00">16:30</option>
+                                            <option value="17:00:00">17:00</option>
+                                            <option value="17:30:00">17:30</option>
+                                            <option value="18:00:00">18:00</option>
+                                            <option value="18:30:00">18:30</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <label class="color-4f-grey fw-bold mb-2 d-block">
+                                            How long do you need your cleaner to stay?
+                                        </label>
+                                        <select asp-for="ServiceHours" class="d-inline form-select h-46 w-auto" >
+                                            <option value="3">3.0 Hrs</option>
+                                            <option value="3.5">3.5 Hrs</option>
+                                            <option value="4">4.0 Hrs</option>
+                                            <option value="4.5">4.5 Hrs</option>
+                                            <option value="5">5.0 Hrs</option>
+                                            <option value="5.5">5.5 Hrs</option>
+                                            <option value="6">6.0 Hrs</option>
+                                            <option value="6.5">6.5 Hrs</option>
+                                            <option value="7">7.0 Hrs</option>
+                                            <option value="7.5">7.5 Hrs</option>
+                                            <option value="8">8.0 Hrs</option>
+                                            <option value="8.5">8.5 Hrs</option>
+                                            <option value="9">9.0 Hrs</option>
+                                            <option value="9.5">9.5 Hrs</option>
+                                            <option value="10">10.0 Hrs</option>
+                                            <option value="10.5">10.5 Hrs</option>
+                                            <option value="11">11.0 Hrs</option>
+                                            <option value="11.5">11.5 Hrs</option>
+                                            <option value="12">12.0 Hrs</option>
+                                            <option value="12.5">12.5 Hrs</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 text-danger d-none">
+                                        Could not completed the service request, because service booking request is must be completed within 21:00 time
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                            <div class="tab-pane " id="YourDetails">
+                                <button id="nextTab2"> Next2 </button>
+                            </div>
+                            <div class="tab-pane " id="MakePayment">
+                                <h2>Helllo4</h2>
+                            </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-5 col-lg-4 p-0 ps-md-3 d-none d-md-block service-right-container mb-5">
+                <div class="service-right-container-sticky">
+                    <div class="service-right-container-sticky-top color-64-grey mb-5">
+                        <div class="p-20">
+                            Payment Summary
+                        </div>
+                        <div class="p-20 t-18">
+                            <div>Duration</div>
+                            <div class="d-flex justify-content-sm-between">
+                                <div>Basic</div>
+                                <div>0 Hrs</div>
+                            </div>
+                            <hr class="dropdown-divider" />
+                            <div class="d-flex justify-content-sm-between fw-bold color-4f-grey">
+                                <div>Total Service Time</div>
+                                <div>3 Hrs</div>
+                            </div>
+                        </div>
+                        <hr class="dropdown-divider m-0 " />
+                        <div class="p-20 t-18">
+                            <div class="d-flex justify-content-sm-between">
+                                <div class="color-4f-grey">Per Cleaning</div>
+                                <div>0,00 &euro;</div>
+                            </div>
+                        </div>
+                        <hr class="dropdown-divider m-0 " />
+                        <div class="p-20">
+                            <div class="d-flex justify-content-sm-between color-secondary align-items-center">
+                                <div class="t-20">Total Payment</div>
+                                <div class="t-40 fw-bold">0,00 &euro;</div>
+                            </div>
+                            <div class="d-flex justify-content-sm-between fw-bold color-4f-grey">
+                                <div class="t-16">Effective Price</div>
+                                <div class="t-20 fw-bold">0,00 &euro;</div>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <img src="~/images/emoji-happy.png" alt="Alternate Text" />
+                            <span>See what is always included</span>
+                        </div>
+                    </div>
+                    <div class="color-4f-grey t-20 text-center ">Questions?</div>
+                    <div class="accordian">
+                        <div class="accordian-card">
+                            <div class="accordian-card-head active">
+                                <p class="m-0 d-flex align-items-center">
+                                    <img class="acc-img" src="~/images/forma-1_3.png" alt="" />
+                                    <span class="fw-normal t-14 ">What's included in a cleaning?</span>
+                                </p>
+                            </div>
+                            <div class="accordian-card-body active">
+                                Bedroom, Living Room & Common Areas, Bathrooms, Kitchen,
+                                Extras
+                            </div>
+                        </div>
+                        <div class="accordian-card">
+                            <div class="accordian-card-head">
+                                <p class="m-0 d-flex align-items-center">
+                                    <img class="acc-img" src="~/images/forma-1_3.png" alt="" />
+                                    <span class="fw-normal t-14 ">
+                                        Which Helperland professional will come to my
+                                        place?
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="accordian-card-body">
+                                Helperland has a vast network of experienced, top-rated
+                                cleaners. Based on the time and date of your request, we
+                                work to assign the best professional available. Like working
+                                with a specific pro? Add them to your Pro Team from the
+                                mobile app and they'll be requested first for all future
+                                bookings. You will receive an email with details about your
+                                professional prior to your appointment.
+                            </div>
+                        </div>
+                        <div class="accordian-card">
+                            <div class="accordian-card-head">
+                                <p class="m-0 d-flex align-items-center">
+                                    <img class="acc-img" src="~/images/forma-1_3.png" alt="" />
+                                    <span class="fw-normal t-14 ">Can I skip or reschedule bookings?</span>
+                                </p>
+                            </div>
+                            <div class="accordian-card-body">
+                                You can reschedule any booking for free at least 24 hours in
+                                advance of the scheduled start time. If you need to skip a
+                                booking within the minimum commitment, we’ll credit the
+                                value of the booking to your account. You can use this
+                                credit on future cleanings and other Helperland services.
+                            </div>
+                        </div>
+                        <div class="accordian-card">
+                            <div class="accordian-card-head">
+                                <p class="m-0 d-flex align-items-center">
+                                    <img class="acc-img" src="~/images/forma-1_3.png" alt="" />
+                                    <span class="fw-normal t-14 ">Do I need to be home for the booking?</span>
+                                </p>
+                            </div>
+                            <div class="accordian-card-body">
+                                We strongly recommend that you are home for the first clean
+                                of your booking to show your cleaner around. Some customers
+                                choose to give a spare key to their cleaner, but this
+                                decision is based on individual preferences.
+                            </div>
+                        </div>
+                    </div>
+                    <a class="fw-bold color-secondary t-20 ms-2" asp-action="Faqs" asp-controller="Home">For more help</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form>
+    </form>
+</section>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".accordian-card-head").click(function () {
+                if ($(this).next(".accordian-card-body").hasClass("active")) {
+                    $(this).next(".accordian-card-body").removeClass("active").slideUp(300);
+                    $(this).removeClass("active");
+                } else {
+                    $(".accordian-card-body").removeClass("active").slideUp(300);
+                    $(".accordian-card-head").removeClass("active");
+                    $(".acc-img").addClass("acc-img-scroll");
+                    $(this).next(".accordian-card-body").addClass("active").slideDown(300);
+                    $(this).addClass("active");
+                }
+            });
+            $('a[data-bs-toggle="pill"][href="#SetupService"]').on("show.bs.tab", function (e) {
+                $(this).removeClass("disabled");
+                $('a[data-bs-toggle="pill"][href="#SchedulePlan"]').addClass("disabled").removeClass("used");
+                $('a[data-bs-toggle="pill"][href="#YourDetails"]').addClass("disabled").removeClass("used");
+                $('a[data-bs-toggle="pill"][href="#MakePayment"]').addClass("disabled").removeClass("used");
+            });
+            $('a[data-bs-toggle="pill"][href="#SchedulePlan"]').on("show.bs.tab", function (e) {
+                $('a[data-bs-toggle="pill"][href="#SetupService"]').addClass("used");
+                $(this).removeClass("disabled");
+                $('a[data-bs-toggle="pill"][href="#YourDetails"]').addClass("disabled").removeClass("used");
+                $('a[data-bs-toggle="pill"][href="#MakePayment"]').addClass("disabled").removeClass("used");
+            });
+            $('a[data-bs-toggle="pill"][href="#YourDetails"]').on("show.bs.tab", function (e) {
+                $('a[data-bs-toggle="pill"][href="#SetupService"]').addClass("used");
+                $('a[data-bs-toggle="pill"][href="#SchedulePlan"]').addClass("used");
+                $(this).removeClass("disabled");
+                $('a[data-bs-toggle="pill"][href="#MakePayment"]').addClass("disabled").removeClass("used");
+            });
+            $('a[data-bs-toggle="pill"][href="#MakePayment"]').on("show.bs.tab", function (e) {
+                $('a[data-bs-toggle="pill"][href="#SetupService"]').addClass("used");
+                $('a[data-bs-toggle="pill"][href="#SchedulePlan"]').addClass("used");
+                $('a[data-bs-toggle="pill"][href="#YourDetails"]').addClass("used");
+                $(this).removeClass("disabled");
+            });
+            $("#nextTab").click(function () {
+                $('a[data-bs-toggle="pill"][href="#SchedulePlan"]').tab("show");
+            });
+            $("#nextTab1").click(function () {
+                $('a[data-bs-toggle="pill"][href="#YourDetails"]').tab("show");
+            });
+            $("#nextTab2").click(function () {
+                $('a[data-bs-toggle="pill"][href="#MakePayment"]').tab("show");
+            });
+        });
+        function zipcodeFormSuccess(response) {
+            console.log(response);
+            if (response.isAvailable) {
+                $('a[data-bs-toggle="pill"][href="#SchedulePlan"]').tab("show");
+            } else {
+                $("#isAvailableSpan").text("Enter Valid Pincode.");
+            }
+        }
+        $(function () {
+            $("#StartDate").datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                orientation: "bottom auto",
+                startDate: new Date()
+            });
+        });
+        $()
+    </script>
+}

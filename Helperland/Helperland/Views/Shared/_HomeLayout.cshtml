@@ -29,11 +29,11 @@
                     <img class="navigation-logo img-fluid" src="~/images/sharedLayout/logo-large.png" alt="Logo" />
                 </a>
                 <div class="nav-toggler">
-                    <img src="~/images/sharedLayout/list.svg" alt="" />
+                    <img src="~/images/list.svg" alt="" />
                 </div>
                 <div class="close-windows">&nbsp;</div>
                 <div class="navigation-menu">
-                    <a class="active" href="#">Book now</a>
+                    <a class="active" asp-action="Index"  asp-controller="Service">Book now</a>
                     <a asp-action="price" asp-controller="home">Prices & services</a>
                     <a href="#">Warranty</a>
                     <a href="#">Blog</a>
@@ -92,17 +92,17 @@
                         <div id="Unsuccess" class="alert alert-danger alert-unsuccess">Username or password is invalid</div>
                         <input hidden asp-for="EmailForgot" id="EmailForgot1" value="abc123@gm.com" />
                         <div class="mb-3">
-                            <input asp-for="Email" class="login-input-email login-input-icon form-control" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <input asp-for="EmailLogin" class="login-input-email login-input-icon form-control" />
+                            <span asp-validation-for="EmailLogin" class="text-danger"></span>
 
                         </div>
                         <div class="mb-3">
-                            <input asp-for="Password" class="login-input-password login-input-icon form-control" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
+                            <input asp-for="PasswordLogin" class="login-input-password login-input-icon form-control" />
+                            <span asp-validation-for="PasswordLogin" class="text-danger"></span>
 
                         </div>
                         <div class="form-check mb-3">
-                            <input asp-for="RememberMe" class="form-check-input custom-check"
+                            <input asp-for="PasswordLogin" class="form-check-input custom-check"
                                    type="checkbox"
                                    id="flexCheckDefault" />
                             <label class="form-check-label" for="flexCheckDefault">
@@ -213,6 +213,10 @@
             $(".close-windows").css({ display: "none" });
         });
 
+        if ("@ViewBag.login" == "1") {
+            $("#login-home").click();
+        }
+
         function loginSuccessFun (response) {
             if (response.isSuccess) {
                 console.log(response);
@@ -232,9 +236,8 @@
                 setTimeout(function () { $("#Success-Forgot-Password").addClass("alert-success-forgot-password"); }, 10000);
             }
         }
-        $("#Email").val("@HttpContextAccessor.HttpContext.Request.Cookies["user_email"]");
-        $("#Password").val("@HttpContextAccessor.HttpContext.Request.Cookies["user_password"]");
+        $("#EmailLogin").val("@HttpContextAccessor.HttpContext.Request.Cookies["user_email"]");
+        $("#PasswordLogin").val("@HttpContextAccessor.HttpContext.Request.Cookies["user_password"]");
     </script>
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

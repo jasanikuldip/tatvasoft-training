@@ -1,0 +1,169 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Helperland</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script type="text/javascript" language="javascript">
+        function DisableBackButton() {
+            window.history.forward()
+        }
+        DisableBackButton();
+        window.onload = DisableBackButton;
+        window.onpageshow = function (evt) { if (evt.persisted) DisableBackButton() }
+        window.onunload = function () { void (0) }
+    </script>
+    <partial name="_Favicons" />
+</head>
+<body>
+    <!-- header -->
+    <header>
+        <!-- navigation -->
+        <nav>
+            <div class="navigation-bar">
+                <a asp-action="index" asp-controller="home">
+                    <img class="navigation-logo img-fluid" src="~/images/sharedLayout/logo-large.png" alt="Logo" />
+                </a>
+                <div class="d-flex gap-4">
+                    <div class="navigation-notification-icon d-lg-none justify-content-center align-items-center">
+                        <span class="notification-count">9+</span>
+                        <img src="~/images/icon-notification.png" alt="" />
+                    </div>
+                    <div class="nav-toggler">
+                        <img src="~/images/list.svg" alt="" />
+                    </div>
+                </div>
+                <div class="close-windows">&nbsp;</div>
+                <div class="navigation-menu">
+                    <div class="navigation-menu">
+                        <div class="navigation-menu-link">
+                            <div class="username-side-menu d-lg-none color-64-grey">
+                                <div class="t-14">Welcome,</div>
+                                <div class="t-14 fw-bold">@User.Identity.Name</div>
+                            </div>
+                            <hr class="dropdown-divider" />
+                            <a class="d-lg-none" asp-controller="user" asp-action="MyDashboard" asp-route-id="0">My Dashboard</a>
+                            <a class="d-lg-none" asp-controller="user" asp-action="MyDashboard" asp-route-id="1" >My Settings</a>
+                            <a class="d-lg-none" asp-controller="home" asp-action="logout">Logout</a>
+                            <hr class="dropdown-divider" />
+                            <a class="active" asp-action="Index"  asp-controller="Service">Book now</a>
+                            <a asp-action="price" asp-controller="home">Prices & services</a>
+                            <a href="#">Warranty</a>
+                            <a href="#">Blog</a>
+                            <a asp-action="Contact" asp-controller="home">Contact</a>
+                            <hr class="dropdown-divider" />
+                        </div>
+                        <!-- <hr /> -->
+                        <div class="navigation-menu-buttons">
+                            <div class="navigation-notification-icon">
+                                <span class="notification-count">9+</span>
+                                <img src="~/images/icon-notification.png" alt="" />
+                            </div>
+                            <div class="dropdown d-flex justify-content-center">
+                                <div class="d-flex align-items-center ms-3 me-4"
+                                     id="userDropDown"
+                                     role="button"
+                                     data-bs-toggle="dropdown"
+                                     aria-expanded="false">
+                                    <img class="me-2" src="~/images/user.png" alt="" />
+                                    <img src="~/images/sp-arrow-down.png" alt="" />
+                                </div>
+                                <ul class="dropdown-menu dropdown-menu-right user-drop-down shadow"
+                                    aria-labelledby="userDropDown">
+                                    <li class="mx-3 username">
+                                        <div class="t-14">Welcome,</div>
+                                        <div class="t-14 fw-bold">@User.Identity.Name</div>
+                                    </li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li><a asp-action="MyDashboard" asp-controller="User" asp-route-id="0" class="dropdown-item">My Dashboard</a></li>
+                                    <li><a asp-action="MyDashboard" asp-controller="User" asp-route-id="1" class="dropdown-item">My Settings</a></li>
+                                    <li><a asp-action="logout" asp-controller="home" class="dropdown-item">Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <!-- footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bar">
+                <img src="~/images/sharedLayout/logo-footer.png" alt="footerlogo" />
+                <ul class="footer-menu">
+                    <li><a asp-action="index" asp-controller="home">HOME</a></li>
+                    <li><a asp-action="about" asp-controller="home">ABOUT</a></li>
+                    <li><a href="#">TESTIMONIALS</a></li>
+                    <li><a asp-action="faqs" asp-controller="home">FAQS</a></li>
+                    <li><a href="#">INSURANCE POLICY</a></li>
+                    <li><a href="#">IMPRESSUM</a></li>
+                </ul>
+                <div class="footer-social">
+                    <a href=""><img src="~/images/sharedLayout/ic-facebook.png" alt="FB" /></a>
+                    <a href=""><img src="~/images/sharedLayout/ic-instagram.png" alt="IG" /></a>
+                </div>
+            </div>
+            <div class="footer-terms-privacy">
+                <span>©2018 Helperland. All rights reserved. </span><a href="">Terms and Conditions</a> |
+                <a href="">Privacy Policy</a>
+            </div>
+        </div>
+        <div class="bk-top">
+            <img src="~/images/forma-1.png" />
+        </div>
+        <div class="loader-page">
+            <div class="loader-content">
+                <div class="spinner-border custom-loader" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script>
+        $(".nav-toggler").click(function () {
+            $(".navigation-menu").css({ right: "0" });
+            $(".close-windows").css({ display: "block" });
+        });
+        $(".close-windows").click(function () {
+            $(".navigation-menu").css({ right: "-250px" });
+            $(".close-windows").css({ display: "none" });
+        });
+        $(window).on("scroll", function () {
+            if ($(window).scrollTop()) {
+                $(".navigation-menu a.active").addClass("active-scroll");
+                if ($(window).width() > 1200) {
+                    $(".navigation-logo").addClass("navigation-logo-scroll");
+                }
+                $(".navigation-menu").css({ right: "-250px" });
+                $(".close-windows").css({ display: "none" });
+                $(".navigation-bar").addClass("navigation-bar-scroll");
+                $(".bk-top").addClass("bk-top-scroll");
+            } else {
+                $(".navigation-menu a.active").removeClass("active-scroll");
+                if ($(window).width() > 1200) {
+                    $(".navigation-logo").removeClass("navigation-logo-scroll");
+                }
+                $(".navigation-bar").removeClass("navigation-bar-scroll");
+                $(".bk-top").removeClass("bk-top-scroll");
+            }
+        });      
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
