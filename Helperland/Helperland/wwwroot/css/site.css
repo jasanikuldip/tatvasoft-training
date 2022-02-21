@@ -944,6 +944,8 @@ h1, h2, h3, h4 {
 
 .textarea-height {
     height: 146px;
+    resize: none;
+    margin-bottom: 16px;
 }
 
 .custom-file-input {
@@ -1205,13 +1207,81 @@ section div h2.heading {
     height: 46px;
     padding-left: 40px;
     width: 146px;
-    color:var(--clr-64-grey);
+    color: var(--clr-64-grey);
+    cursor:pointer;
 }
 
 .datepicker-dropdown {
-    z-index: 7!important;
+    z-index: 7 !important;
 }
 
+    .datepicker-dropdown .active.day {
+        background-color: var(--clr-secondary) !important;
+    }
+
+.hr-divider-service {
+    background-color:rgb(100 100 100 / 0.20);
+    height:1px;
+    margin:32px 12px;
+    width:94%;
+}
+
+.textarea-height-service-book {
+    height: 86px;
+    resize: none;
+}
+
+.extraServiceBook {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    flex-wrap: wrap;
+}
+
+    .extraServiceBook > * {
+        flex: 0 1 20%;
+    }
+
+    .extraServiceBook label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: start;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .extraServiceBook .extraServiceBookCircle {
+        width: 108px;
+        aspect-ratio: 1;
+        border: 1px solid #c8c8c8;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .extraServiceBook .extraServiceBookCircle > div {
+            width: 56px;
+            aspect-ratio: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .extraServiceBook .extraServiceBookCircle > div > img {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+    .extraServiceBook input:checked + label .extraServiceBookCircle {
+        border-color: var(--clr-secondary);
+        border-width: 3px;
+    }
+
+        .extraServiceBook input:checked + label .extraServiceBookCircle > div > img {
+            left: -100%;
+        }
 
 .service-right-container {
     /*position: relative;*/
@@ -1224,7 +1294,7 @@ section div h2.heading {
 
     .service-right-container .service-right-container-sticky-top {
         background-color: var(--clr-white);
-        box-shadow: 0px 5px 10px #00000080;
+        box-shadow: 0px 5px 8px #00000080;
     }
 
         .service-right-container .service-right-container-sticky-top > *:first-child {
@@ -1279,6 +1349,10 @@ section div h2.heading {
         width: 100%;
         max-width: calc( 100% - 28px );
     }
+
+    .extraServiceBook > * {
+        flex: 0 1 33%;
+    }
 }
 
 @media (max-width: 768px) {
@@ -1294,6 +1368,10 @@ section div h2.heading {
 
     .custom-bottom .nav-link:not(.active) {
         font-size: 20px;
+    }
+
+    .extraServiceBook > * {
+        flex: 0 1 20%;
     }
 }
 
@@ -1330,6 +1408,10 @@ section div h2.heading {
     .contact-services > * {
         flex: 1 1 100%;
     }
+
+    .extraServiceBook > * {
+        flex: 0 1 33%;
+    }
 }
 
 @media (max-width: 400px) {
@@ -1344,6 +1426,10 @@ section div h2.heading {
     .custom-modal-dialog {
         margin-left: 16px;
         margin-right: 16px;
+    }
+
+    .extraServiceBook > * {
+        flex: 0 1 100%;
     }
 }
 

@@ -79,17 +79,17 @@
                                 </div>
                             </form>
                         </div>
-                        
+
                         <div class="tab-pane " id="SchedulePlan">
                             <form>
-                                <div class="row">
+                                <div class="row mb-3">
                                     <div class="col-lg-6 col-12">
                                         <label class="d-block color-4f-grey fw-bold mb-2">
                                             When do you need the cleaner?
                                         </label>
                                         <input asp-for="StartDate"
                                                class="d-inline date form-control me-3"
-                                               autocomplete="off" />
+                                               autocomplete="off" readonly />
                                         <select asp-for="StartTime" class="d-inline form-select h-46 w-auto">
                                             <option value="08:00:00">08:00</option>
                                             <option value="08:30:00">08:30</option>
@@ -119,7 +119,7 @@
                                         <label class="color-4f-grey fw-bold mb-2 d-block">
                                             How long do you need your cleaner to stay?
                                         </label>
-                                        <select asp-for="ServiceHours" class="d-inline form-select h-46 w-auto" >
+                                        <select asp-for="ServiceHours" class="d-inline form-select h-46 w-auto">
                                             <option value="3">3.0 Hrs</option>
                                             <option value="3.5">3.5 Hrs</option>
                                             <option value="4">4.0 Hrs</option>
@@ -139,22 +139,80 @@
                                             <option value="11">11.0 Hrs</option>
                                             <option value="11.5">11.5 Hrs</option>
                                             <option value="12">12.0 Hrs</option>
-                                            <option value="12.5">12.5 Hrs</option>
                                         </select>
                                     </div>
-                                    <div class="col-12 text-danger d-none">
+                                    <div id="couldNotCompleteError" class="col-12 text-danger d-none mt-2">
                                         Could not completed the service request, because service booking request is must be completed within 21:00 time
+                                    </div>
+                                    <div class="hr-divider-service"></div>
+                                    <label class="col-12 color-4f-grey fw-bold mb-4">
+                                        Extra Services
+                                    </label>
+                                    <div class="col-12">
+                                        <div class="extraServiceBook">
+                                            <input asp-for="Extra1" class="d-none" />
+                                            <label asp-for="Extra1">
+                                                <div class="extraServiceBookCircle">
+                                                    <div>
+                                                        <img src="~/images/cabinet.png" alt="" />
+                                                    </div>
+                                                </div>
+                                                <span class="color-64-grey">Inside Cabinet</span>
+                                            </label>
+                                            <input asp-for="Extra2" class="d-none" />
+                                            <label asp-for="Extra2">
+                                                <div class="extraServiceBookCircle">
+                                                    <div>
+                                                        <img src="~/images/fridge.png" alt="" />
+                                                    </div>
+                                                </div>
+                                                <span class="color-64-grey">Inside fridge</span>
+                                            </label>
+                                            <input asp-for="Extra3" class="d-none" />
+                                            <label asp-for="Extra3">
+                                                <div class="extraServiceBookCircle">
+                                                    <div>
+                                                        <img src="~/images/oven.png" alt="" />
+                                                    </div>
+                                                </div>
+                                                <span class="color-64-grey">Inside oven</span>
+                                            </label>
+                                            <input asp-for="Extra4" class="d-none" />
+                                            <label asp-for="Extra4">
+                                                <div class="extraServiceBookCircle">
+                                                    <div>
+                                                        <img src="~/images/laundry.png" alt="" />
+                                                    </div>
+                                                </div>
+                                                <span class="color-64-grey">Laundry wash & dry</span>
+                                            </label>
+                                            <input asp-for="Extra5" class="d-none" />
+                                            <label asp-for="Extra5">
+                                                <div class="extraServiceBookCircle">
+                                                    <div>
+                                                        <img src="~/images/window.png" alt="" />
+                                                    </div>
+                                                </div>
+                                                <span class="color-64-grey">Interior windows</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="hr-divider-service"></div>
+                                    <label class="col-12 color-4f-grey fw-bold mb-2">
+                                        Comments
+                                    </label>
+                                    <div class="col-12">
+                                        <textarea asp-for="Comments" placeholder="Comments" class="form-control textarea-height-service-book"></textarea>
                                     </div>
                                 </div>
                             </form>
                         </div>
-                            <div class="tab-pane " id="YourDetails">
-                                <button id="nextTab2"> Next2 </button>
-                            </div>
-                            <div class="tab-pane " id="MakePayment">
-                                <h2>Helllo4</h2>
-                            </div>
-                        
+                        <div class="tab-pane " id="YourDetails">
+                            <button id="nextTab2"> Next2 </button>
+                        </div>
+                        <div class="tab-pane " id="MakePayment">
+                            <h2>Helllo4</h2>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -165,33 +223,53 @@
                             Payment Summary
                         </div>
                         <div class="p-20 t-18">
+                            <div>
+                                <span id="startDateField"></span>
+                                <span id="startTimeField"></span>
+                            </div>
                             <div>Duration</div>
                             <div class="d-flex justify-content-sm-between">
                                 <div>Basic</div>
-                                <div>0 Hrs</div>
+                                <div><span id="basicHourField">0</span> Hrs</div>
+                            </div>
+                            <div id="insideCabinetPayment" class="d-flex d-none justify-content-sm-between">
+                                <div>Inside Cabinet</div>
+                                <div>30 Mins.</div>
+                            </div>
+                            <div id="insideFridgePayment" class="d-flex d-none justify-content-sm-between">
+                                <div>Inside fridge</div>
+                                <div>30 Mins.</div>
+                            </div>
+                            <div id="insideOvenPayment" class="d-flex d-none justify-content-sm-between">
+                                <div>Inside oven</div>
+                                <div>30 Mins.</div>
+                            </div>
+                            <div id="laundryPayment" class="d-flex d-none justify-content-sm-between">
+                                <div>Laundry wash & dry</div>
+                                <div>30 Mins.</div>
+                            </div>
+                            <div id="windowPayment" class="d-flex d-none justify-content-sm-between">
+                                <div>Interior windows</div>
+                                <div>30 Mins.</div>
                             </div>
                             <hr class="dropdown-divider" />
                             <div class="d-flex justify-content-sm-between fw-bold color-4f-grey">
                                 <div>Total Service Time</div>
-                                <div>3 Hrs</div>
+                                <div><span id="totalServiceTimeField">0</span> Hrs</div>
                             </div>
                         </div>
                         <hr class="dropdown-divider m-0 " />
                         <div class="p-20 t-18">
                             <div class="d-flex justify-content-sm-between">
                                 <div class="color-4f-grey">Per Cleaning</div>
-                                <div>0,00 &euro;</div>
+                                <div>0.00&euro;</div>
                             </div>
                         </div>
                         <hr class="dropdown-divider m-0 " />
                         <div class="p-20">
                             <div class="d-flex justify-content-sm-between color-secondary align-items-center">
                                 <div class="t-20">Total Payment</div>
-                                <div class="t-40 fw-bold">0,00 &euro;</div>
-                            </div>
-                            <div class="d-flex justify-content-sm-between fw-bold color-4f-grey">
-                                <div class="t-16">Effective Price</div>
-                                <div class="t-20 fw-bold">0,00 &euro;</div>
+                                <div class="t-36 fw-bold">0.00&euro;</div>
                             </div>
                         </div>
                         <div class="d-flex gap-3">
@@ -268,8 +346,20 @@
             </div>
         </div>
     </div>
-    <form>
-    </form>
+    <div id="ConfirmServiceTime" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
+            <div class="modal-content modal-content-custom">
+                <div type="button"
+                     class="btn-close btn-close-modal-custom"
+                     data-bs-dismiss="modal"></div>
+                <h1 class="t-24 64 color-64-grey mb-3 pb-3 fw-bold">Confirm Service Time</h1>
+                <div class="color-64-grey mb-3">Booking time is less than recommended, we may not be able to finish the job. Please confirm if you wish to proceed with your booking?</div>
+                <button class="ForgotPasswordReset-button fw-normal" data-bs-dismiss="modal" >
+                    Yes
+                </button>
+            </div>
+        </div>
+    </div>
 </section>
 
 @section Scripts
@@ -299,6 +389,11 @@
                 $(this).removeClass("disabled");
                 $('a[data-bs-toggle="pill"][href="#YourDetails"]').addClass("disabled").removeClass("used");
                 $('a[data-bs-toggle="pill"][href="#MakePayment"]').addClass("disabled").removeClass("used");
+                $('#basicHourField').html("3");
+                $('#totalServiceTimeField').text($("#ServiceHours").val());
+                $("#startDateField").text($("#StartDate").val());
+                $("#startTimeField").text($("#StartTime").val().substring(0, 5));
+
             });
             $('a[data-bs-toggle="pill"][href="#YourDetails"]').on("show.bs.tab", function (e) {
                 $('a[data-bs-toggle="pill"][href="#SetupService"]').addClass("used");
@@ -321,9 +416,9 @@
             $("#nextTab2").click(function () {
                 $('a[data-bs-toggle="pill"][href="#MakePayment"]').tab("show");
             });
+
         });
         function zipcodeFormSuccess(response) {
-            console.log(response);
             if (response.isAvailable) {
                 $('a[data-bs-toggle="pill"][href="#SchedulePlan"]').tab("show");
             } else {
@@ -337,7 +432,94 @@
                 orientation: "bottom auto",
                 startDate: new Date()
             });
+            $('#StartDate').datepicker('setDate', "+1d");
         });
-        $()
+        $("#StartTime").change(function () { couldComplete() });
+        $("#ServiceHours").change(function () { couldComplete() });
+        function couldComplete() {
+            var sT = parseFloat($("#StartTime").val().substring(0, 2));
+            var sTM = parseFloat($("#StartTime").val().substring(3, 5));
+            var sH = parseFloat($("#ServiceHours").val().substring(0, 3));
+            var v = sT + sH + (sTM == 0 ? 0 : 0.5);
+            if (v > 21) {
+                $("#couldNotCompleteError").removeClass("d-none");
+            } else {
+                $("#couldNotCompleteError").addClass("d-none");
+            }
+        }
+
+        $("#Extra1").change(function () {
+            if ($('#Extra1').is(":checked")) {
+                $("#insideCabinetPayment").removeClass("d-none");
+                $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) + 0.5);
+            } else {
+                $("#insideCabinetPayment").addClass("d-none");
+                $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) - 0.5);
+            }
+        });
+        $("#Extra2").change(function () {
+            if ($('#Extra2').is(":checked")) {
+                $("#insideFridgePayment").removeClass("d-none");
+                $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) + 0.5);
+            } else {
+                $("#insideFridgePayment").addClass("d-none");
+                $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) - 0.5);
+            }
+        });
+        $("#Extra3").change(function () {
+            if ($('#Extra3').is(":checked")) {
+                $("#insideOvenPayment").removeClass("d-none");
+                $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) + 0.5);
+            } else {
+                $("#insideOvenPayment").addClass("d-none");
+                $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) - 0.5);
+            }
+        });
+        $("#Extra4").change(function () {
+            if ($('#Extra4').is(":checked")) {
+                $("#laundryPayment").removeClass("d-none");
+                $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) + 0.5);
+            } else {
+                $("#laundryPayment").addClass("d-none");
+                $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) - 0.5);
+            }
+        });
+        $("#Extra5").change(function () {
+            if ($('#Extra5').is(":checked")) {
+                $("#windowPayment").removeClass("d-none");
+                $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) + 0.5);
+            } else {
+                $("#windowPayment").addClass("d-none");
+                $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) - 0.5);
+            }
+        });
+        $('#totalServiceTimeField').on('DOMSubtreeModified', function () {
+            $("#ServiceHours").val(parseFloat($('#totalServiceTimeField').text()));
+            var basicTime = parseFloat($('#totalServiceTimeField').text());
+            if ($('#Extra1').is(":checked")) { basicTime -= 0.5 }
+            if ($('#Extra2').is(":checked")) { basicTime -= 0.5 }
+            if ($('#Extra3').is(":checked")) { basicTime -= 0.5 }
+            if ($('#Extra4').is(":checked")) { basicTime -= 0.5 }
+            if ($('#Extra5').is(":checked")) { basicTime -= 0.5 }
+            $("#basicHourField").text(basicTime);
+        });
+        $("#ServiceHours").change(function () {
+            $('#totalServiceTimeField').text($("#ServiceHours").val());
+            if (parseFloat($("#basicHourField").text()) < 3) {
+                $("#ConfirmServiceTime").modal("show");
+                $('#totalServiceTimeField').text(3);
+                $("#basicHourField").text(3);
+                $('#Extra1').prop('checked', false);
+                $('#Extra2').prop('checked', false);
+                $('#Extra3').prop('checked', false);
+                $('#Extra4').prop('checked', false);
+                $('#Extra5').prop('checked', false);
+                $("#insideCabinetPayment").addClass("d-none");
+                $("#insideFridgePayment").addClass("d-none");
+                $("#insideOvenPayment").addClass("d-none");
+                $("#laundryPayment").addClass("d-none");
+                $("#windowPayment").addClass("d-none");
+            }
+        });
     </script>
 }
