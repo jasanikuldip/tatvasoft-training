@@ -8,7 +8,9 @@ namespace Helperland.IServices
 {
     public interface IServiceRequestService
     {
-        IEnumerable<ServiceRequest> GetAll();
+        Task<IEnumerable<ServiceRequest>> GetAll();
 
+        Task<ServiceRequest> AddAsync(ServiceRequest sr);
+        Task<ServiceRequestAddress> AddAddressAsync(ServiceRequestAddress sra);
     }
 }

@@ -5,7 +5,7 @@
     Layout = null;
 }
 
-<form method="post" asp-action="MyDetails" asp-controller="User" data-ajax-success="myDetailsFormSuccess" data-ajax="true" data-ajax-loading=".loader-page">
+<form method="post" asp-action="MyDetails" asp-controller="User" data-ajax-success="myDetailsFormSuccess" data-ajax="true" data-ajax-loading=".loadingPageHide">
     <div id="myDetailsSuccess" class="myDetailsSuccess col-12 alert alert-success">
         Changes have been successfully saved.
     </div>
@@ -27,9 +27,14 @@
     </div>
     <div class="row color-64-grey g-3 mb-4">
         <div class="col-12 col-md-4">
-            <label class="fw-bold mb-2" asp-for="Mobile"></label>
-            <input asp-for="Mobile" class="h-46 form-control" />
-            <span asp-validation-for="Mobile" class="text-danger"></span>
+            <label asp-for="Mobile" class="mb-2 color-64-grey"></label>
+            <div class="input-group mb-3">
+                <button tabindex="-1" class="btn btn-outline-secondary h-46 btn-mobile" type="button">
+                    +91
+                </button>
+                <input type="text" asp-for="Mobile" class="form-control h-46" />
+            </div>
+            <span class="text-danger" asp-validation-for="Mobile"></span>
         </div>
         <div class="col-12 col-md-4">
             <label class="fw-bold mb-2">Date of Birth</label>

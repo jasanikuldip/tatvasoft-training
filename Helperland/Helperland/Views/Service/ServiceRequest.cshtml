@@ -6,7 +6,7 @@
 <section class="navbar-margin">
     <div class="container service-container pt-4">
         <div class="s-2-p-1 d-flex flex-column align-items-center mb-3">
-            <h1 class="fw-medium t-36 text-center">Set up your cleaning service</h1>
+            <h1 class="fw-normal t-36 text-center">Set up your cleaning service</h1>
             <div class="mb-4 d-flex align-items-center">
                 <div class="separator-line me-2"></div>
                 <img src="~/images/separator.png" alt="" />
@@ -62,16 +62,16 @@
                 <div class="setting-bottom">
                     <div class="tab-content">
                         <div class="tab-pane active" id="SetupService">
-                            <form method="post" asp-action="Avaiblity" asp-controller="Service" data-ajax-success="zipcodeFormSuccess" data-ajax="true" data-ajax-loading=".loader-page">
+                            <form method="post" asp-action="Avaiblity" asp-controller="Service" data-ajax-success="zipcodeFormSuccess" data-ajax="true" data-ajax-loading=".loadingPageHide">
                                 <div class="row">
                                     <div class="col-12 mb-2">
                                         <label class="color-4f-grey fw-bold">Enter your Postal Code</label>
                                     </div>
-                                    <div class="col-12 col-lg-6 mb-3">
+                                    <div class="col-12 col-sm-6 col-lg-5 mb-3">
                                         <input asp-for="PincodeCheck" class="form-control h-46" />
                                         <span asp-validation-for="PincodeCheck" class="text-danger" id="isAvailableSpan"></span>
                                     </div>
-                                    <div class="col">
+                                    <div class="col mb-3">
                                         <button class="ForgotPasswordReset-button fw-normal" type="submit">
                                             Check Availablity
                                         </button>
@@ -81,8 +81,9 @@
                         </div>
 
                         <div class="tab-pane " id="SchedulePlan">
-                            <form>
+                            <form id="ServiceBookMainForm" asp-action="ServiceBook" asp-controller="Service" data-ajax="true" data-ajax-success="BookServiceSuccess" data-ajax-loading=".loadingPageHide" >
                                 <div class="row mb-3">
+                                    <input asp-for="AddressId" hidden />
                                     <div class="col-lg-6 col-12">
                                         <label class="d-block color-4f-grey fw-bold mb-2">
                                             When do you need the cleaner?
@@ -144,74 +145,122 @@
                                     <div id="couldNotCompleteError" class="col-12 text-danger d-none mt-2">
                                         Could not completed the service request, because service booking request is must be completed within 21:00 time
                                     </div>
-                                    <div class="hr-divider-service"></div>
+                                    <div class="col-12 ">
+                                        <div class="hr-divider-service"></div>
+                                    </div>
                                     <label class="col-12 color-4f-grey fw-bold mb-4">
                                         Extra Services
                                     </label>
                                     <div class="col-12">
                                         <div class="extraServiceBook">
                                             <input asp-for="Extra1" class="d-none" />
-                                            <label asp-for="Extra1">
-                                                <div class="extraServiceBookCircle">
-                                                    <div>
+                                            <label class="mb-3" asp-for="Extra1">
+                                                <span class="extraServiceBookCircle">
+                                                    <span>
                                                         <img src="~/images/cabinet.png" alt="" />
-                                                    </div>
-                                                </div>
+                                                    </span>
+                                                </span>
                                                 <span class="color-64-grey">Inside Cabinet</span>
                                             </label>
                                             <input asp-for="Extra2" class="d-none" />
-                                            <label asp-for="Extra2">
-                                                <div class="extraServiceBookCircle">
-                                                    <div>
+                                            <label class="mb-3" asp-for="Extra2">
+                                                <span class="extraServiceBookCircle">
+                                                    <span>
                                                         <img src="~/images/fridge.png" alt="" />
-                                                    </div>
-                                                </div>
+                                                    </span>
+                                                </span>
                                                 <span class="color-64-grey">Inside fridge</span>
                                             </label>
                                             <input asp-for="Extra3" class="d-none" />
-                                            <label asp-for="Extra3">
-                                                <div class="extraServiceBookCircle">
-                                                    <div>
+                                            <label class="mb-3" asp-for="Extra3">
+                                                <span class="extraServiceBookCircle">
+                                                    <span>
                                                         <img src="~/images/oven.png" alt="" />
-                                                    </div>
-                                                </div>
+                                                    </span>
+                                                </span>
                                                 <span class="color-64-grey">Inside oven</span>
                                             </label>
                                             <input asp-for="Extra4" class="d-none" />
-                                            <label asp-for="Extra4">
-                                                <div class="extraServiceBookCircle">
-                                                    <div>
+                                            <label class="mb-3" asp-for="Extra4">
+                                                <span class="extraServiceBookCircle">
+                                                    <span>
                                                         <img src="~/images/laundry.png" alt="" />
-                                                    </div>
-                                                </div>
+                                                    </span>
+                                                </span>
                                                 <span class="color-64-grey">Laundry wash & dry</span>
                                             </label>
                                             <input asp-for="Extra5" class="d-none" />
-                                            <label asp-for="Extra5">
-                                                <div class="extraServiceBookCircle">
-                                                    <div>
+                                            <label class="mb-3" asp-for="Extra5">
+                                                <span class="extraServiceBookCircle">
+                                                    <span>
                                                         <img src="~/images/window.png" alt="" />
-                                                    </div>
-                                                </div>
+                                                    </span>
+                                                </span>
                                                 <span class="color-64-grey">Interior windows</span>
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="hr-divider-service"></div>
+                                    <div class="col-12 ">
+                                        <div class="hr-divider-service"></div>
+                                    </div>
                                     <label class="col-12 color-4f-grey fw-bold mb-2">
                                         Comments
                                     </label>
-                                    <div class="col-12">
+                                    <div class="col-12 mb-3">
                                         <textarea asp-for="Comments" placeholder="Comments" class="form-control textarea-height-service-book"></textarea>
+                                    </div>
+                                    <div class="col-12 form-check">
+                                        <div class="serviceFormMarginInline">
+                                            <input asp-for="HasPets" class="form-check-input "
+                                                   type="checkbox"
+                                                   id="flexCheckDefault" />
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                I have pets at home
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 ">
+                                        <div class="hr-divider-service"></div>
+                                    </div>
+                                    <div class="col align-self-end">
+                                        <div class="d-flex justify-content-end">
+                                            <button id="continue-step" class="ForgotPasswordReset-button w-auto t-20 px-4 fw-bold">
+                                                Continue
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div class="tab-pane " id="YourDetails">
-                            <button id="nextTab2"> Next2 </button>
+                            <div id="YourDetailsUA"></div>
+
                         </div>
                         <div class="tab-pane " id="MakePayment">
-                            <h2>Helllo4</h2>
+                            <div class="row">
+                                <div class="col-12 mb-1">
+                                    <label class="color-4f-grey fw-bold">Pay securely with Helperland payment gateway!</label>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-5 mb-3">
+                                    <label class="color-64-grey mb-2">Promo code (optional)</label>
+                                    <input placeholder="Promo code (optional)" class="form-control h-46" />
+                                </div>
+                                <div class="col mb-3">
+                                    <button id="applyPromoCodeBtn" class=" fw-normal">
+                                        Apply
+                                    </button>
+                                </div>
+                                <div class="col-12">
+                                    <div class="hr-divider-service"></div>
+                                </div>
+                                <div class="col align-self-end">
+                                    <div class="d-flex justify-content-end">
+                                        <button id="CompleteBooking" class="ForgotPasswordReset-button w-auto t-20 px-4 fw-bold">
+                                            Complete Booking
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -224,8 +273,8 @@
                         </div>
                         <div class="p-20 t-18">
                             <div>
-                                <span id="startDateField"></span>
-                                <span id="startTimeField"></span>
+                                <span id="startDateField" class="d-none"></span>
+                                <span id="startTimeField" class="d-none"></span>
                             </div>
                             <div>Duration</div>
                             <div class="d-flex justify-content-sm-between">
@@ -262,18 +311,18 @@
                         <div class="p-20 t-18">
                             <div class="d-flex justify-content-sm-between">
                                 <div class="color-4f-grey">Per Cleaning</div>
-                                <div>0.00&euro;</div>
+                                <div><span class="totalPayment">0.00</span><span>&euro;</span></div>
                             </div>
                         </div>
                         <hr class="dropdown-divider m-0 " />
                         <div class="p-20">
                             <div class="d-flex justify-content-sm-between color-secondary align-items-center">
                                 <div class="t-20">Total Payment</div>
-                                <div class="t-36 fw-bold">0.00&euro;</div>
+                                <div class="t-36 fw-bold "><span class="totalPayment">0.00</span><span>&euro;</span></div>
                             </div>
                         </div>
-                        <div class="d-flex gap-3">
-                            <img src="~/images/emoji-happy.png" alt="Alternate Text" />
+                        <div id="SeeWhatIncluded" class="d-flex gap-3 c">
+                            <img class="happy-emoji" src="~/images/emoji-happy.png" alt="" />
                             <span>See what is always included</span>
                         </div>
                     </div>
@@ -346,6 +395,11 @@
             </div>
         </div>
     </div>
+    <div id="PaymentSummaryBox" class="d-none">
+        <div class="PaymentSummary">
+            Payment Summary <span class="totalPayment">0.00</span><span>&euro;</span>
+        </div>
+    </div>
     <div id="ConfirmServiceTime" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
             <div class="modal-content modal-content-custom">
@@ -354,9 +408,98 @@
                      data-bs-dismiss="modal"></div>
                 <h1 class="t-24 64 color-64-grey mb-3 pb-3 fw-bold">Confirm Service Time</h1>
                 <div class="color-64-grey mb-3">Booking time is less than recommended, we may not be able to finish the job. Please confirm if you wish to proceed with your booking?</div>
-                <button class="ForgotPasswordReset-button fw-normal" data-bs-dismiss="modal" >
+                <button class="ForgotPasswordReset-button fw-normal" data-bs-dismiss="modal">
                     Yes
                 </button>
+            </div>
+        </div>
+    </div>
+    <div id="SeeWhatIncludedModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
+            <div class="modal-content modal-content-custom">
+                <div type="button"
+                     class="btn-close btn-close-modal-custom"
+                     data-bs-dismiss="modal"></div>
+                <h1 class="t-24 color-4f-grey mb-4 fw-bold">What we include in cleaning</h1>
+                <div class="d-flex justify-content-between flex-column flex-md-row ">
+                    <div class="SeeWhatIncludedModalBox">
+                        <h3 class="text-left fw-bold mb-3 t-20">Bedroom and Living Room</h3>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Included Dust all accessible surfaces</span>
+                        </div>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Included Wipe down all mirrors and glass fixtures</span>
+                        </div>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Not Included Clean all floor surfaces</span>
+                        </div>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Included Take out garbage and recycling</span>
+                        </div>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>To clean up</span>
+                        </div>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Make beds</span>
+                        </div>
+                    </div>
+                    <div class="SeeWhatIncludedModalBox">
+                        <h3 class="text-left fw-bold mb-3 t-20">Bathrooms</h3>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Included Wash and sanitize the toilet, shower, tub, sink</span>
+                        </div>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Not Included Dust all accessible surfaces</span>
+                        </div>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Included Wipe down all mirrors and glass fixtures</span>
+                        </div>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Not Included Clean all floor surfaces</span>
+                        </div>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Included Take out garbage and recycling</span>
+                        </div>
+                    </div>
+                    <div class="SeeWhatIncludedModalBox">
+                        <h3 class="text-left fw-bold mb-3 t-20">Kitchen</h3>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Cleaning the sink</span>
+                        </div>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Cleaning the oven (outside)</span>
+                        </div>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Cleaning the work surfaces</span>
+                        </div>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Included Dust all accessible surfaces</span>
+                        </div>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Included Clean all floor surfaces</span>
+                        </div>
+                        <div class="mb-3 d-flex  gap-2 align-items-center ">
+                            <img class="wh_right_price" src="~/images/right_price.png" alt="" />
+                            <span>Included Take out garbage and recycling</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -391,15 +534,16 @@
                 $('a[data-bs-toggle="pill"][href="#MakePayment"]').addClass("disabled").removeClass("used");
                 $('#basicHourField').html("3");
                 $('#totalServiceTimeField').text($("#ServiceHours").val());
-                $("#startDateField").text($("#StartDate").val());
-                $("#startTimeField").text($("#StartTime").val().substring(0, 5));
-
+                $("#startDateField").removeClass("d-none");
+                $("#startTimeField").removeClass("d-none");
+                $("#PaymentSummaryBox").removeClass("d-none");
             });
             $('a[data-bs-toggle="pill"][href="#YourDetails"]').on("show.bs.tab", function (e) {
                 $('a[data-bs-toggle="pill"][href="#SetupService"]').addClass("used");
                 $('a[data-bs-toggle="pill"][href="#SchedulePlan"]').addClass("used");
                 $(this).removeClass("disabled");
                 $('a[data-bs-toggle="pill"][href="#MakePayment"]').addClass("disabled").removeClass("used");
+
             });
             $('a[data-bs-toggle="pill"][href="#MakePayment"]').on("show.bs.tab", function (e) {
                 $('a[data-bs-toggle="pill"][href="#SetupService"]').addClass("used");
@@ -407,22 +551,13 @@
                 $('a[data-bs-toggle="pill"][href="#YourDetails"]').addClass("used");
                 $(this).removeClass("disabled");
             });
-            $("#nextTab").click(function () {
-                $('a[data-bs-toggle="pill"][href="#SchedulePlan"]').tab("show");
-            });
-            $("#nextTab1").click(function () {
-                $('a[data-bs-toggle="pill"][href="#YourDetails"]').tab("show");
-            });
-            $("#nextTab2").click(function () {
-                $('a[data-bs-toggle="pill"][href="#MakePayment"]').tab("show");
-            });
-
         });
+
         function zipcodeFormSuccess(response) {
             if (response.isAvailable) {
                 $('a[data-bs-toggle="pill"][href="#SchedulePlan"]').tab("show");
             } else {
-                $("#isAvailableSpan").text("Enter Valid Pincode.");
+                $("#isAvailableSpan").text(" We are not providing service in this area.");
             }
         }
         $(function () {
@@ -434,6 +569,7 @@
             });
             $('#StartDate').datepicker('setDate', "+1d");
         });
+        $("#startTimeField").text($("#StartTime").val().substring(0, 5));
         $("#StartTime").change(function () { couldComplete() });
         $("#ServiceHours").change(function () { couldComplete() });
         function couldComplete() {
@@ -502,6 +638,7 @@
             if ($('#Extra4').is(":checked")) { basicTime -= 0.5 }
             if ($('#Extra5').is(":checked")) { basicTime -= 0.5 }
             $("#basicHourField").text(basicTime);
+            $(".totalPayment").text(`${parseFloat($('#totalServiceTimeField').text()) * 18}.00`);
         });
         $("#ServiceHours").change(function () {
             $('#totalServiceTimeField').text($("#ServiceHours").val());
@@ -521,5 +658,49 @@
                 $("#windowPayment").addClass("d-none");
             }
         });
+
+        $("#continue-step").click(function (e) {
+            e.preventDefault();
+            $('a[data-bs-toggle="pill"][href="#YourDetails"]').tab("show");
+            getServiceRequestAddress();
+        });
+        $("#SeeWhatIncluded").click(function (e) {
+            e.preventDefault();
+            $('#SeeWhatIncludedModal').modal("show");
+        });
+        $("#StartDate").change(function () {
+            $("#startDateField").text($("#StartDate").val());
+        });
+        $("#StartTime").change(function () {
+            $("#startTimeField").text($("#StartTime").val().substring(0, 5));
+        });
+        function getServiceRequestAddress() {
+            $('.loadingPageDNone').removeClass("d-none");
+            console.log("Hello");
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("ServiceRequestAddress","Service")',
+                data: { postalCode : $("#PincodeCheck").val() },
+                success: function (res) {
+                    $("#YourDetailsUA").html(res);
+                }, complete: function () {
+                    $('.loadingPageDNone').addClass("d-none");
+                    console.log("Hello1");
+                }
+            });
+        }
+        function addAddressSuccess(res) {
+            if (res.isSuccess) {
+                getServiceRequestAddress();
+            }
+        }
+
+        $("#CompleteBooking").click(function () {
+            $("#ServiceBookMainForm").submit();
+        });
+
+        function BookServiceSuccess(res) {
+            console.log(res);
+        }
     </script>
 }

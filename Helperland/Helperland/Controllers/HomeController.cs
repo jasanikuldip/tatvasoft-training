@@ -226,9 +226,9 @@ namespace Helperland.Controllers
         }
 
         [AcceptVerbs("Get", "Post")]
-        public async Task<IActionResult> IsRegistredEmail(string email)
+        public async Task<IActionResult> IsRegistredEmail(string emailForgot)
         {
-            var user = await userService.GetUserByEmailAsync(email);
+            var user = await userService.GetUserByEmailAsync(emailForgot);
             if (user != null)
             {
                 return Json(true);

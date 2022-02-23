@@ -1,0 +1,110 @@
+﻿@model UserAddress
+@{
+    ViewData["Title"] = "Service Request Address";
+    Layout = null;
+}
+
+<div class="row">
+    <label class="fw-bold color-4f-grey col-12 mb-3">
+        Enter your contact details, so we can serve you in better way!
+    </label>
+    <div class="col-12">
+        @foreach (var UA in ViewBag.UAList)
+        {
+            <label for="@UA.AddressId" class="ServiceAddressRow">
+                <span>
+                    <input type="radio" class="my-3 me-3 ms-1 form-check-input" name="userAddress" id="@UA.AddressId" value="@UA.AddressId" />
+                </span>
+                <span style="color:blue">
+                    <span class="d-block">
+                        <span class="fw-bold color-4f-grey">Address:</span>
+                        <span class="color-64-grey">@UA.AddressLine1 @UA.AddressLine2, @UA.City @UA.PostalCode </span>
+                    </span>
+                    <span class="d-block">
+                        <span class="fw-bold color-4f-grey">Phone number:</span>
+                        <span class="color-64-grey">@UA.Mobile</span>
+                    </span>
+                </span>
+            </label>
+        }
+    </div>
+    <div class="col-12">
+        <div class="addNewAddressBox d-none">
+            <form method="post" data-ajax="true" data-ajax-loading=".loadingPageHide" data-ajax-success="addAddressSuccess" asp-action="AddUserAddress" asp-controller="User">
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label asp-for="AddressLine1" class="mb-2 color-64-grey"></label>
+                        <input asp-for="AddressLine1" class="h-46 form-control" />
+                        <span asp-validation-for="AddressLine1" class="text-danger"></span>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label asp-for="AddressLine2" class="mb-2 color-64-grey"></label>
+                        <input asp-for="AddressLine2" class="h-46 form-control" />
+                        <span asp-validation-for="AddressLine2" class="text-danger"></span>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label asp-for="PostalCode" class="mb-2 color-64-grey"></label>
+                        <input asp-for="PostalCode" class="h-46 form-control" readonly />
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label asp-for="City" class="mb-2 color-64-grey"></label>
+                        <input asp-for="City" class="h-46 form-control" readonly />
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label asp-for="Mobile" class="mb-2 color-64-grey"></label>
+                        <div class="input-group">
+                            <button tabindex="-1" class="btn btn-outline-secondary h-46 btn-mobile" type="button">
+                                +91
+                            </button>
+                            <input type="text" asp-for="Mobile" class="form-control h-46" />
+                        </div>
+                        <span class="text-danger" asp-validation-for="Mobile"></span>
+                    </div>
+                    <div class="col-12">
+                        <button id="addNewAddressBoxSave" type="submit">
+                            Save
+                        </button>
+                        <button id="addNewAddressBoxCancel">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-12">
+        <button class="addNewAddress">+ Add New Address</button>
+    </div>
+    <div class="col-12">
+        <div class="hr-divider-service"></div>
+    </div>
+</div>
+<span id="radioAddressError" class="d-none d-block text-danger alert alert-danger">
+    Please Select Address
+</span>
+<div class="d-flex justify-content-end mb-3">
+    <button id="next2" class="ForgotPasswordReset-button w-auto t-20 px-4 fw-bold">Continue</button>
+</div>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script>
+    $("#next2").click(function () {
+        if ($('input[name="userAddress"]:checked').val() == null) {
+            $("#radioAddressError").removeClass("d-none");
+            setTimeout(function () { $("#radioAddressError").addClass("d-none"); }, 3000);
+        } else {
+            $("#radioAddressError").addClass("d-none");
+            $("#AddressId").val($('input[name="userAddress"]:checked').val());
+            $('a[data-bs-toggle="pill"][href="#MakePayment"]').tab("show");
+        }
+    });
+    $(".addNewAddress").click(function () {
+        $(".addNewAddress").addClass("d-none");
+        $(".addNewAddressBox").removeClass("d-none");
+    });
+    $("#addNewAddressBoxCancel").click(function (e) {
+        e.preventDefault();
+        $(".addNewAddress").removeClass("d-none");
+        $(".addNewAddressBox").addClass("d-none");
+    });
+</script>

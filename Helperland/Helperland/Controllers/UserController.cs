@@ -16,10 +16,12 @@ namespace Helperland.Controllers
     public class UserController : Controller
     {
         private readonly IUserService userService;
+        private readonly IUserAddressService userAddressService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService,IUserAddressService userAddressService)
         {
             this.userService = userService;
+            this.userAddressService = userAddressService;
         }
 
         public IActionResult MyDashboard(int Id)
@@ -31,6 +33,7 @@ namespace Helperland.Controllers
             return View();
         }
 
+        [NoDirectAccess]
         [HttpGet]
         public async Task<IActionResult> MyDetails()
         {
@@ -51,6 +54,18 @@ namespace Helperland.Controllers
         }
 
         [HttpPost]
+        [NoDirectAccess]
+        public async Task<IActionResult> AddUserAddress(UserAddress ua)
+        {
+            ua.IsDefault = false;
+            ua.UserId = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
+            ua.IsDeleted = false;
+            UserAddress u = await userAddressService.AddUAAsync(ua);
+            return Json(new{ isSuccess = true });
+        }
+
+            [HttpPost]
+        [NoDirectAccess]
         public async Task<IActionResult> MyDetails(MyDetailsViewModel model)
         {
             if (ModelState.IsValid)
@@ -70,6 +85,7 @@ namespace Helperland.Controllers
             return Json(new { isSuccess = false });
         }
 
+        [NoDirectAccess]
         [HttpGet]
         public IActionResult ResetPassword()
         {
@@ -77,6 +93,7 @@ namespace Helperland.Controllers
         }
 
         [HttpPost]
+        [NoDirectAccess]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
         {
             if(ModelState.IsValid)

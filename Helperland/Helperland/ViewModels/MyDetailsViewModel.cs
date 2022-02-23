@@ -20,7 +20,6 @@ namespace Helperland.ViewModels
         public string LastName { get; set; }
         public string Email { get; set; }
         [Required]
-        [Remote(action: "IsMobileInUse", controller: "Home")]
         [RegularExpression("^[0-9]{10}", ErrorMessage = "Enter Valid Mobile number.")]
         [Display(Name = "Mobile number", Prompt = "Mobile number")]
         public string Mobile { get; set; }

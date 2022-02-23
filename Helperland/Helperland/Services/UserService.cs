@@ -42,23 +42,23 @@ namespace Helperland.Services
 
         public async Task<User> GetUserByEmailAsync(string Email)
         {
-            return await context.Users.FirstOrDefaultAsync(_user => _user.Email == Email);
+            return await context.Users.FirstOrDefaultAsync(u => u.Email == Email);
         }
 
         public async  Task<User> GetUserByIdAsync(int Id)
         {
-            return await context.Users.FirstOrDefaultAsync(_user => _user.UserId == Id);
+            return await context.Users.FirstOrDefaultAsync(u => u.UserId == Id);
         }
 
         public async Task<User> GetUserByMobileAsync(string Mobile)
         {
-            return await context.Users.FirstOrDefaultAsync(_user => _user.Mobile == Mobile);
+            return await context.Users.FirstOrDefaultAsync(u => u.Mobile == Mobile);
         }
 
         public async Task<User> UpdateAsync(User userchange)
         {
             var user = context.Users.Attach(userchange);
-            user.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            user.State = EntityState.Modified;
             await context.SaveChangesAsync();
             return userchange;
         }

@@ -1174,4 +1174,7 @@ C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\User\MyDashboard.cshtml.g.cs
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\User\MyDashboard\MyDetails.cshtml.g.cs
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\User\MyDashboard\ResetPassword.cshtml.g.cs
-C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Service\Index.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Service\ServiceRequest.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Service\ServiceRequestAddress.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LoaderPartial.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LoaderLoadPartial.cshtml.g.cs

@@ -22,7 +22,7 @@ namespace Helperland.ViewModels
         public bool Extra4 { get; set; }
         public bool Extra5 { get; set; }
 
-        [Required,RegularExpression("^([0]?[1-9]|[1|2][0-9]|[3][0|1])[/-]([0]?[1-9]|[1][0-2])[/-]([1-9][0-9][0-9][0-9])$",ErrorMessage ="Please Enter valid date!")]
+        [Required]
         [Display(Name="Date",Prompt ="dd/mm/yyyy")]
         public string StartDate { get; set; }
         public string StartTime { get; set; }

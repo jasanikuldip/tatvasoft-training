@@ -11,8 +11,8 @@ namespace Helperland.ViewModels
     {
         [Required]
         [StringLength(100)]
-        //[Remote(action: "IsRegistredEmail", controller: "Home")]
         [Display(Name = "Email Address", Prompt = "Email Address")]
+        [Remote(action: "IsRegistredEmail", controller:"home")]
         public string EmailForgot { get; set; }
     }
 }

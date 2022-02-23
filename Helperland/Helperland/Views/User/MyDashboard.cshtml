@@ -105,19 +105,19 @@
         </div>
     </div>
 </section>
-<div class="loader-page">
-    <div class="loader-content">
-        <div class="spinner-border custom-loader" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
-</div>
+<partial name="_LoaderPartial" />
+<partial name="_LoaderLoadPartial" />
 @section Scripts
 {
     <script>
         jQuery(document).ready(function () {
-            $("#MyDetails").html("<h1>Loading...</h1>").load('@Url.Action("MyDetails", "User")');
-            $("#ChangePassword").html("<h1>Loading...</h1>").load('@Url.Action("ResetPassword", "User")');
+            $(function () {
+                $('.loadingPageDNone').removeClass("d-none");
+                $("#MyDetails").load('@Url.Action("MyDetails", "User")', function () {
+                    $('.loadingPageDNone').addClass("d-none");
+                });
+            });
+            $("#ChangePassword").load('@Url.Action("ResetPassword", "User")');
             if ('@ViewBag.Setting' == 'true') {
                 $('a[data-bs-toggle="pill"][href="#MySettings"]').tab("show");
             }

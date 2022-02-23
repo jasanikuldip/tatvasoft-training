@@ -88,7 +88,7 @@
                     <h1 class="t-24 64 color-64-grey mb-3 pb-3 fw-bold">
                         Login to your account
                     </h1>
-                    <form class="login-form" method="post" data-ajax-success="loginSuccessFun" data-ajax="true" data-ajax-loading=".loader-page" asp-action="Login" asp-controller="Home">
+                    <form class="login-form" method="post" data-ajax-success="loginSuccessFun" data-ajax="true" data-ajax-loading=".loadingPageHide" asp-action="Login" asp-controller="Home">
                         <div id="Unsuccess" class="alert alert-danger alert-unsuccess">Username or password is invalid</div>
                         <input hidden asp-for="EmailForgot" id="EmailForgot1" value="abc123@gm.com" />
                         <div class="mb-3">
@@ -134,11 +134,11 @@
                          class="btn-close btn-close-modal-custom"
                          data-bs-dismiss="modal"></div>
                     <h1 class="t-24 64 color-64-grey mb-3 pb-3 fw-bold">Forgot Password</h1>
-                    <form method="post" data-ajax-success="ForgotPassSuccessFun" data-ajax="true" data-ajax-loading=".loader-page" asp-action="ForgotPassword" asp-controller="Home" class="forgot-psw-form">
+                    <form method="post" data-ajax-success="ForgotPassSuccessFun" data-ajax="true" data-ajax-loading=".loadingPageHide" asp-action="ForgotPassword" asp-controller="Home" class="forgot-psw-form">
                         <div id="Success-Forgot-Password" class="alert alert-success alert-success-forgot-password">An email has been sent to your account. Click on the link in received email to reset the password.</div>
-                        <input asp-for="EmailForgot" class="h-46 form-control mb-3" />
+                        <input asp-for="EmailForgot" class="h-46 form-control " />
                         <span asp-validation-for="EmailForgot" class="text-danger"></span>
-                        <button class="forgot-psw-btn mb-4">Send</button>
+                        <button class="forgot-psw-btn mt-3 mb-4">Send</button>
                     </form>
                     <div type="button"
                          id="login-link"
@@ -157,13 +157,7 @@
              data-bs-target="#login-modal">
             Hello
         </div>
-        <div class="loader-page">
-            <div class="loader-content">
-                <div class="spinner-border custom-loader" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
-        </div>
+        <partial name="_LoaderPartial" />
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -172,7 +166,7 @@
     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    <script>
+    <script asp-append-version="true">
         $(".nav-toggler").click(function () {
             $(".navigation-menu").css({ right: "0" });
             $(".close-windows").css({ display: "block" });
@@ -221,7 +215,7 @@
             if (response.isSuccess) {
                 console.log(response);
                 console.log("login-scucess");
-                window.location.href = "@Url.Action("Registred", "home")";
+                window.location.href = '@Url.Action("MyDashboard", "User",new {id=0})';
             } else {
                 console.log(response);
                 console.log("login-fail");
