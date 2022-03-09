@@ -16,11 +16,7 @@ namespace Helperland.ViewModels
         [Display(Prompt = "Postal Code",Name = "Postal Code")]
         public string PincodeCheck { get; set; }
 
-        public bool Extra1 { get; set; }
-        public bool Extra2 { get; set; }
-        public bool Extra3 { get; set; }
-        public bool Extra4 { get; set; }
-        public bool Extra5 { get; set; }
+        public List<bool> Extras { get; set; }
 
         [Required]
         [Display(Name="Date",Prompt ="dd/mm/yyyy")]

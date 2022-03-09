@@ -34,12 +34,21 @@ namespace Helperland.Controllers
         [HttpPost]
         public IActionResult Avaiblity(string pincodeCheck)
         {
-            if (ModelState.GetFieldValidationState("pincodeCheck") == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid)
+            try
             {
-                bool check = userAddressService.CheckPincodeAvaiblity(pincodeCheck);
-                return Json(new { isAvailable = check });
+                if (ModelState.GetFieldValidationState("pincodeCheck") == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid)
+                {
+                    bool check = userAddressService.CheckPincodeAvaiblity(pincodeCheck);
+                    return Json(new { isAvailable = check });
+                }
+                return Json(new { isAvailable = false });
             }
-            return Json(new { isAvailable = false });
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
         }
 
 
@@ -47,55 +56,75 @@ namespace Helperland.Controllers
         [NoDirectAccess]
         public IActionResult ServiceRequestAddress(string postalCode)
         {
-            int userId = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
-            ViewBag.UAList = userAddressService.GetByUserIdAndPincode(userId, postalCode);
-            UserAddress model = new UserAddress
+            try
             {
-                PostalCode = postalCode,
-                City = userAddressService.GetCityNameByPostalcode(postalCode)
-            };
-            return View(model);
+                int userId = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
+                ViewBag.UAList = userAddressService.GetByUserIdAndPincode(userId, postalCode);
+                UserAddress model = new UserAddress
+                {
+                    PostalCode = postalCode,
+                    City = userAddressService.GetCityNameByPostalcode(postalCode)
+                };
+                return View(model);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> ServiceBook(ServiceRequestViewModel serviceRequestViewModel)
         {
-            int userId = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
-            UserAddress ua = await userAddressService.GetById(serviceRequestViewModel.AddressId);
-            ServiceRequestAddress sra = new ServiceRequestAddress
+            try
             {
-                AddressLine1 = ua.AddressLine1,
-                AddressLine2 = ua.AddressLine2,
-                City = ua.City,
-                PostalCode = ua.PostalCode,
-                Mobile = ua.Mobile,
-                Email = ua.Email
-            };
-            ServiceRequest sr = new ServiceRequest
+                int userId = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
+                UserAddress userAddressObject = await userAddressService.GetById(serviceRequestViewModel.AddressId);
+                ServiceRequestAddress serviceRequestAddressObject = new ServiceRequestAddress
+                {
+                    AddressLine1 = userAddressObject.AddressLine1,
+                    AddressLine2 = userAddressObject.AddressLine2,
+                    City = userAddressObject.City,
+                    PostalCode = userAddressObject.PostalCode,
+                    Mobile = userAddressObject.Mobile,
+                    Email = userAddressObject.Email
+                };
+                ServiceRequest serviceRequestObject = new ServiceRequest
+                {
+                    UserId = userId,
+                    HasPets = serviceRequestViewModel.HasPets,
+                    ServiceStartDate = DateTime.Parse(serviceRequestViewModel.StartDate.Replace('/', '-') + " " + serviceRequestViewModel.StartTime),
+                    ServiceId = 1,
+                    ZipCode = userAddressObject.PostalCode,
+                    ServiceHourlyRate = 18,
+                    ServiceHours = serviceRequestViewModel.ServiceHours,
+                    SubTotal = Convert.ToDecimal(18 * serviceRequestViewModel.ServiceHours),
+                    TotalCost = Convert.ToDecimal(18 * serviceRequestViewModel.ServiceHours),
+                    Comments = serviceRequestViewModel.Comments,
+                    PaymentDue = false,
+                    Status = 1,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                    ModifiedBy = userId,
+                    Distance = 0
+                };
+                foreach (bool extra in serviceRequestViewModel.Extras)
+                {
+                    ServiceRequestExtra serviceRequestExtraObject = new ServiceRequestExtra
+                    {
+                        ServiceExtraId = extra ? 1 : 0
+                    };
+                    serviceRequestObject.ServiceRequestExtras.Add(serviceRequestExtraObject);
+                }
+                serviceRequestObject.ServiceRequestAddresses.Add(serviceRequestAddressObject);
+                serviceRequestObject = await serviceRequestService.AddAsync(serviceRequestObject);
+                return Json(new { isSuccess = true, serviceRequestId = serviceRequestObject.ServiceRequestId });
+            }
+            catch (Exception e)
             {
-                UserId = userId,
-                HasPets = serviceRequestViewModel.HasPets,
-                ServiceStartDate = DateTime.Parse(serviceRequestViewModel.StartDate.Replace('/', '-') + " " + serviceRequestViewModel.StartTime),
-                ServiceId = 1,
-                ZipCode = ua.PostalCode,
-                ServiceHourlyRate = 18,
-                ServiceHours = serviceRequestViewModel.ServiceHours,
-                SubTotal = Convert.ToDecimal(18 * serviceRequestViewModel.ServiceHours),
-                TotalCost = Convert.ToDecimal(18 * serviceRequestViewModel.ServiceHours),
-                Comments = serviceRequestViewModel.Comments,
-                PaymentDue = false,
-                Status = 1,
-                CreatedDate = DateTime.Now,
-                ModifiedDate = DateTime.Now,
-                ModifiedBy = userId,
-                Distance = 0
-            };
-            //sr.ServiceRequestAddresses.Add(sra);
-            sr = await serviceRequestService.AddAsync(sr);
-            ServiceRequestAddress(ua.PostalCode);
-            //sra.ServiceRequestId = sr.ServiceRequestId;
-            //var a = await serviceRequestService.AddAddressAsync(sra);
-            return Json(new { t = "Succeed", sr = sr });
+                throw e;
+            }
         }
 
     }

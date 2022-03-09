@@ -11,6 +11,6 @@ namespace Helperland.IServices
         Task<IEnumerable<ServiceRequest>> GetAll();
 
         Task<ServiceRequest> AddAsync(ServiceRequest sr);
-        Task<ServiceRequestAddress> AddAddressAsync(ServiceRequestAddress sra);
+        Task<ServiceRequestExtra> AddExtrasAsync(ServiceRequestExtra serviceRequestExtra);
     }
 }

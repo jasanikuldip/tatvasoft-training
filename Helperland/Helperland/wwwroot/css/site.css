@@ -1432,21 +1432,31 @@ section div h2.heading {
 #applyPromoCodeBtn {
     color: var(--clr-64-grey);
     border: 1px solid var(--clr-secondary);
-    border-radius:100px;
-    background-color:var(--clr-white);
+    border-radius: 100px;
+    background-color: var(--clr-white);
     padding: 10px 25px;
-    margin-top:32px;
+    margin-top: 32px;
     transition: all ease 0.3s;
 }
 
     #applyPromoCodeBtn:hover {
-        color:var(--clr-white);
-        background-color:var(--clr-secondary);
+        color: var(--clr-white);
+        background-color: var(--clr-secondary);
     }
 
-    /* ************** Media Query **************** */
-    @media (max-width: 1200px) {
-        .best-container {
+.serviceSuccessRight {
+    background-color:var(--clr-green);
+    aspect-ratio:1;
+    width:85px;
+    border-radius:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* ************** Media Query **************** */
+@media (max-width: 1200px) {
+    .best-container {
         max-width: 700px;
     }
 
@@ -1561,7 +1571,7 @@ section div h2.heading {
     }
 
     #applyPromoCodeBtn {
-        margin-top:0px;
+        margin-top: 0px;
     }
 }
 

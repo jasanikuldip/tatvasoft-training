@@ -16,11 +16,11 @@ namespace Helperland.Services
             this.context = context;
         }
 
-        public async Task<ServiceRequestAddress> AddAddressAsync(ServiceRequestAddress sra)
+        public async Task<ServiceRequestExtra> AddExtrasAsync(ServiceRequestExtra serviceRequestExtra)
         {
-            await context.ServiceRequestAddresses.AddAsync(sra);
+            await context.ServiceRequestExtras.AddAsync(serviceRequestExtra);
             await context.SaveChangesAsync();
-            return sra;
+            return serviceRequestExtra;
         }
 
         public async Task<ServiceRequest> AddAsync(ServiceRequest sr)

@@ -126,12 +126,11 @@ namespace Helperland.Controllers
                             Response.Cookies.Append("user_email", user.Email, ckOptions);
                             Response.Cookies.Append("user_password", loginModel.PasswordLogin, ckOptions);
                         }
-
-                        return Json(new { isSuccess = true, _email = loginModel.EmailLogin, _password = loginModel.PasswordLogin, _rememberme = loginModel.RememberMe });
+                        return Json(new { isSuccess = true });
                     }
                 }
             }
-            return Json(new { isSuccess = false, _email = loginModel.EmailLogin, _password = loginModel.PasswordLogin, _rememberme = loginModel.RememberMe });
+            return Json(new { isSuccess = false });
         }
 
         public async Task<IActionResult> Logout()

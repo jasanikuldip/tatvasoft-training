@@ -81,7 +81,7 @@
                         </div>
 
                         <div class="tab-pane " id="SchedulePlan">
-                            <form id="ServiceBookMainForm" asp-action="ServiceBook" asp-controller="Service" data-ajax="true" data-ajax-success="BookServiceSuccess" data-ajax-loading=".loadingPageHide" >
+                            <form id="ServiceBookMainForm" asp-action="ServiceBook" asp-controller="Service" data-ajax="true" data-ajax-success="BookServiceSuccess" data-ajax-loading=".loadingPageHide">
                                 <div class="row mb-3">
                                     <input asp-for="AddressId" hidden />
                                     <div class="col-lg-6 col-12">
@@ -153,8 +153,8 @@
                                     </label>
                                     <div class="col-12">
                                         <div class="extraServiceBook">
-                                            <input asp-for="Extra1" class="d-none" />
-                                            <label class="mb-3" asp-for="Extra1">
+                                            <input asp-for="Extras[0]" class="d-none" />
+                                            <label class="mb-3" asp-for="Extras[0]">
                                                 <span class="extraServiceBookCircle">
                                                     <span>
                                                         <img src="~/images/cabinet.png" alt="" />
@@ -162,8 +162,8 @@
                                                 </span>
                                                 <span class="color-64-grey">Inside Cabinet</span>
                                             </label>
-                                            <input asp-for="Extra2" class="d-none" />
-                                            <label class="mb-3" asp-for="Extra2">
+                                            <input asp-for="Extras[1]" class="d-none" />
+                                            <label class="mb-3" asp-for="Extras[1]">
                                                 <span class="extraServiceBookCircle">
                                                     <span>
                                                         <img src="~/images/fridge.png" alt="" />
@@ -171,8 +171,8 @@
                                                 </span>
                                                 <span class="color-64-grey">Inside fridge</span>
                                             </label>
-                                            <input asp-for="Extra3" class="d-none" />
-                                            <label class="mb-3" asp-for="Extra3">
+                                            <input asp-for="Extras[2]" class="d-none" />
+                                            <label class="mb-3" asp-for="Extras[2]">
                                                 <span class="extraServiceBookCircle">
                                                     <span>
                                                         <img src="~/images/oven.png" alt="" />
@@ -180,8 +180,8 @@
                                                 </span>
                                                 <span class="color-64-grey">Inside oven</span>
                                             </label>
-                                            <input asp-for="Extra4" class="d-none" />
-                                            <label class="mb-3" asp-for="Extra4">
+                                            <input asp-for="Extras[3]" class="d-none" />
+                                            <label class="mb-3" asp-for="Extras[3]">
                                                 <span class="extraServiceBookCircle">
                                                     <span>
                                                         <img src="~/images/laundry.png" alt="" />
@@ -189,8 +189,8 @@
                                                 </span>
                                                 <span class="color-64-grey">Laundry wash & dry</span>
                                             </label>
-                                            <input asp-for="Extra5" class="d-none" />
-                                            <label class="mb-3" asp-for="Extra5">
+                                            <input asp-for="Extras[4]" class="d-none" />
+                                            <label class="mb-3" asp-for="Extras[4]">
                                                 <span class="extraServiceBookCircle">
                                                     <span>
                                                         <img src="~/images/window.png" alt="" />
@@ -414,6 +414,29 @@
             </div>
         </div>
     </div>
+    <div id="ServiceConfirm" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
+            <div class="modal-content modal-content-custom">
+                <div type="button"
+                     class="btn-close btn-close-modal-custom"
+                     data-bs-dismiss="modal"></div>
+                <div class="d-flex justify-content-center align-items-center flex-column">
+                    <div class="serviceSuccessRight mt-3 mb-4">
+                        <img src="~/images/correct-white-medium.png" alt="" />
+                    </div>
+                    <div class="t-24 fw-normal color-64-grey mb-3 text-center">
+                        Booking Have Been Successfully submitted
+                    </div>
+                    <div class="color-64-grey mb-3 text-center">
+                        Service Request Id: <span id="serviceRequestId"></span>
+                    </div>
+                    <button class="ForgotPasswordReset-button w-auto fw-normal" data-bs-dismiss="modal">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="SeeWhatIncludedModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
             <div class="modal-content modal-content-custom">
@@ -584,8 +607,8 @@
             }
         }
 
-        $("#Extra1").change(function () {
-            if ($('#Extra1').is(":checked")) {
+        $("#Extras_0_").change(function () {
+            if ($('#Extras_0_').is(":checked")) {
                 $("#insideCabinetPayment").removeClass("d-none");
                 $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) + 0.5);
             } else {
@@ -593,8 +616,8 @@
                 $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) - 0.5);
             }
         });
-        $("#Extra2").change(function () {
-            if ($('#Extra2').is(":checked")) {
+        $("#Extras_1_").change(function () {
+            if ($('#Extras_1_').is(":checked")) {
                 $("#insideFridgePayment").removeClass("d-none");
                 $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) + 0.5);
             } else {
@@ -602,8 +625,8 @@
                 $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) - 0.5);
             }
         });
-        $("#Extra3").change(function () {
-            if ($('#Extra3').is(":checked")) {
+        $("#Extras_2_").change(function () {
+            if ($('#Extras_2_').is(":checked")) {
                 $("#insideOvenPayment").removeClass("d-none");
                 $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) + 0.5);
             } else {
@@ -611,8 +634,8 @@
                 $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) - 0.5);
             }
         });
-        $("#Extra4").change(function () {
-            if ($('#Extra4').is(":checked")) {
+        $("#Extras_3_").change(function () {
+            if ($('#Extras_3_').is(":checked")) {
                 $("#laundryPayment").removeClass("d-none");
                 $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) + 0.5);
             } else {
@@ -620,8 +643,8 @@
                 $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) - 0.5);
             }
         });
-        $("#Extra5").change(function () {
-            if ($('#Extra5').is(":checked")) {
+        $("#Extras_4_").change(function () {
+            if ($('#Extras_4_').is(":checked")) {
                 $("#windowPayment").removeClass("d-none");
                 $('#totalServiceTimeField').html(parseFloat($('#totalServiceTimeField').html()) + 0.5);
             } else {
@@ -632,11 +655,11 @@
         $('#totalServiceTimeField').on('DOMSubtreeModified', function () {
             $("#ServiceHours").val(parseFloat($('#totalServiceTimeField').text()));
             var basicTime = parseFloat($('#totalServiceTimeField').text());
-            if ($('#Extra1').is(":checked")) { basicTime -= 0.5 }
-            if ($('#Extra2').is(":checked")) { basicTime -= 0.5 }
-            if ($('#Extra3').is(":checked")) { basicTime -= 0.5 }
-            if ($('#Extra4').is(":checked")) { basicTime -= 0.5 }
-            if ($('#Extra5').is(":checked")) { basicTime -= 0.5 }
+            if ($('#Extras_0_').is(":checked")) { basicTime -= 0.5 }
+            if ($('#Extras_1_').is(":checked")) { basicTime -= 0.5 }
+            if ($('#Extras_2_').is(":checked")) { basicTime -= 0.5 }
+            if ($('#Extras_3_').is(":checked")) { basicTime -= 0.5 }
+            if ($('#Extras_4_').is(":checked")) { basicTime -= 0.5 }
             $("#basicHourField").text(basicTime);
             $(".totalPayment").text(`${parseFloat($('#totalServiceTimeField').text()) * 18}.00`);
         });
@@ -646,11 +669,11 @@
                 $("#ConfirmServiceTime").modal("show");
                 $('#totalServiceTimeField').text(3);
                 $("#basicHourField").text(3);
-                $('#Extra1').prop('checked', false);
-                $('#Extra2').prop('checked', false);
-                $('#Extra3').prop('checked', false);
-                $('#Extra4').prop('checked', false);
-                $('#Extra5').prop('checked', false);
+                $('#Extras_0_').prop('checked', false);
+                $('#Extras_1_').prop('checked', false);
+                $('#Extras_2_').prop('checked', false);
+                $('#Extras_3_').prop('checked', false);
+                $('#Extras_4_').prop('checked', false);
                 $("#insideCabinetPayment").addClass("d-none");
                 $("#insideFridgePayment").addClass("d-none");
                 $("#insideOvenPayment").addClass("d-none");
@@ -676,7 +699,6 @@
         });
         function getServiceRequestAddress() {
             $('.loadingPageDNone').removeClass("d-none");
-            console.log("Hello");
             $.ajax({
                 type: "GET",
                 url: '@Url.Action("ServiceRequestAddress","Service")',
@@ -685,7 +707,6 @@
                     $("#YourDetailsUA").html(res);
                 }, complete: function () {
                     $('.loadingPageDNone').addClass("d-none");
-                    console.log("Hello1");
                 }
             });
         }
@@ -700,7 +721,15 @@
         });
 
         function BookServiceSuccess(res) {
-            console.log(res);
+            if (res.isSuccess) {
+                $("#serviceRequestId").html(res.serviceRequestId);
+                $("#ServiceConfirm").modal("show");
+            }
         }
+
+        $('#ServiceConfirm').on('hide.bs.modal', function (event) {
+            window.location.href = '@Url.Action("MyDashboard","User")';
+        })
+
     </script>
 }

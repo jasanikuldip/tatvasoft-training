@@ -1178,3 +1178,6 @@ C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Service\ServiceRequestAddress.cshtml.g.cs
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LoaderPartial.cshtml.g.cs
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LoaderLoadPartial.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
