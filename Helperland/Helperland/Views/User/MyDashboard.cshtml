@@ -92,7 +92,8 @@
                                 <div class="tab-pane active" id="MyDetails">
                                 </div>
                                 <div class="tab-pane " id="MyAddresses">
-                                    <h1>Helllo2</h1>
+                                    <div id="AddressChangeAlert" class="alert alert-success d-none" ></div>
+                                    <div id="MyAddressesBox"></div>
                                 </div>
                                 <div class="tab-pane " id="ChangePassword">
                                     <h1>Helllo3</h1>
@@ -117,10 +118,72 @@
                     $('.loadingPageDNone').addClass("d-none");
                 });
             });
+            $("#MyAddressesBox").load('@Url.Action("ListAddtess", "User")');
             $("#ChangePassword").load('@Url.Action("ResetPassword", "User")');
-            if ('@ViewBag.Setting' == 'true') {
+            if ('@ViewBag.Tab' == 1) {
+                $('a[data-bs-toggle="pill"][href="#ServiceHistory"]').tab("show");
+            }
+            if ('@ViewBag.Tab' == 2) {
+                $('a[data-bs-toggle="pill"][href="#ServiceSchedule"]').tab("show");
+            }
+            if ('@ViewBag.Tab' == 3) {
+                $('a[data-bs-toggle="pill"][href="#FavouritePros"]').tab("show");
+            }
+            if ('@ViewBag.Tab' == 4) {
+                $('a[data-bs-toggle="pill"][href="#Invoices"]').tab("show");
+            }
+            if ('@ViewBag.Tab' == 5) {
+                $('a[data-bs-toggle="pill"][href="#Notifications"]').tab("show");
+            }
+            if ('@ViewBag.Tab' == 6) {
                 $('a[data-bs-toggle="pill"][href="#MySettings"]').tab("show");
             }
+
         });
+        function AddEditAddressSuccess(res) {
+            if (res.isSuccess) {
+                $(function () {
+                    $("#AddEditAddressModal").modal("hide");
+                    $('.loadingPageDNone').removeClass("d-none");
+                    $("#MyAddressesBox").load('@Url.Action("ListAddtess", "User")', function () {
+                        $('.loadingPageDNone').addClass("d-none");
+                    });
+                    if (res.isNew == true) {
+                        addressChangeAlert("Address created successfully.");
+                    } else {
+                        addressChangeAlert("Address updated successfully.");
+                    }
+                });
+            }
+        }
+        function deleteAddressModal(Id) {
+            $('#deleteModalDiv').html(Id);
+            $('#DeleteAddressModal').modal("show");
+        }
+        function deleteAddress() {
+            var Id = $('#deleteModalDiv').html();
+            (function () {
+                $('.loadingPageDNone').removeClass("d-none");
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeleteAddress", "User")',
+                    data: { id : Id },
+                    success: function (res) {
+                        if (res.isSuccess) {
+                            $('#DeleteAddressModal').modal("hide");
+                            $("#MyAddressesBox").load('@Url.Action("ListAddtess", "User")');
+                            addressChangeAlert("Address Deleted successfully.");
+                        }
+                    }, complete: function () {
+                        $('.loadingPageDNone').addClass("d-none");
+                    }
+                });
+            })();
+        }
+        function addressChangeAlert(alertValue) {
+            $("#AddressChangeAlert").html(alertValue);
+            $("#AddressChangeAlert").removeClass("d-none");
+            setTimeout(function () { $("#AddressChangeAlert").addClass("d-none"); }, 3000);
+        }
     </script>
 }

@@ -583,12 +583,14 @@
                 $("#isAvailableSpan").text(" We are not providing service in this area.");
             }
         }
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
         $(function () {
             $("#StartDate").datepicker({
                 format: "dd/mm/yyyy",
                 autoclose: true,
                 orientation: "bottom auto",
-                startDate: new Date()
+                startDate: tomorrow
             });
             $('#StartDate').datepicker('setDate', "+1d");
         });

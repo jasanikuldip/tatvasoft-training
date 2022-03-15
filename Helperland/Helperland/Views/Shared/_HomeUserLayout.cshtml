@@ -45,11 +45,35 @@
                                 <div class="t-14 fw-bold">@User.Identity.Name</div>
                             </div>
                             <hr class="dropdown-divider" />
-                            <a class="d-lg-none" asp-controller="user" asp-action="MyDashboard" asp-route-id="0">My Dashboard</a>
-                            <a class="d-lg-none" asp-controller="user" asp-action="MyDashboard" asp-route-id="1" >My Settings</a>
+                            @if (User.IsInRole("1"))
+                            {
+                                <a class="d-lg-none" asp-controller="user" asp-action="MyDashboard" asp-route-id="0">Dashboard</a>
+                                <a class="d-lg-none" asp-controller="user" asp-action="MyDashboard" asp-route-id="1">Service Histoty</a>
+                                <a class="d-lg-none" asp-controller="user" asp-action="MyDashboard" asp-route-id="2">Service Schedule</a>
+                                <a class="d-lg-none" asp-controller="user" asp-action="MyDashboard" asp-route-id="3">Favourite Pros</a>
+                                <a class="d-lg-none" asp-controller="user" asp-action="MyDashboard" asp-route-id="4">Invoices</a>
+                                <a class="d-lg-none" asp-controller="user" asp-action="MyDashboard" asp-route-id="5">Notification</a>
+                                <a class="d-lg-none" asp-controller="user" asp-action="MyDashboard" asp-route-id="6">My Settings</a>
+                            }
+                            @if (User.IsInRole("2"))
+                            {
+                                <a class="d-lg-none" asp-controller="ServiceProvider" asp-action="MyDashboard" asp-route-id="0">Dashboard</a>
+                                <a class="d-lg-none" asp-controller="ServiceProvider" asp-action="MyDashboard" asp-route-id="1">New Service Requests</a>
+                                <a class="d-lg-none" asp-controller="ServiceProvider" asp-action="MyDashboard" asp-route-id="2">Upcoming Services</a>
+                                <a class="d-lg-none" asp-controller="ServiceProvider" asp-action="MyDashboard" asp-route-id="3">Service Schedule</a>
+                                <a class="d-lg-none" asp-controller="ServiceProvider" asp-action="MyDashboard" asp-route-id="4">Service History</a>
+                                <a class="d-lg-none" asp-controller="ServiceProvider" asp-action="MyDashboard" asp-route-id="5">My Ratings</a>
+                                <a class="d-lg-none" asp-controller="ServiceProvider" asp-action="MyDashboard" asp-route-id="6">Block Customer</a>
+                                <a class="d-lg-none" asp-controller="ServiceProvider" asp-action="MyDashboard" asp-route-id="7">Invoices</a>
+                                <a class="d-lg-none" asp-controller="ServiceProvider" asp-action="MyDashboard" asp-route-id="8">Notifications</a>
+                                <a class="d-lg-none" asp-controller="ServiceProvider" asp-action="MyDashboard" asp-route-id="9">My Settings</a>
+                            }
                             <a class="d-lg-none" asp-controller="home" asp-action="logout">Logout</a>
                             <hr class="dropdown-divider" />
-                            <a class="active" asp-action="Index"  asp-controller="Service">Book now</a>
+                            @if (User.IsInRole("1"))
+                            {
+                                <a class="active" asp-action="Index" asp-controller="Service">Book now</a>
+                            }
                             <a asp-action="price" asp-controller="home">Prices & services</a>
                             <a href="#">Warranty</a>
                             <a href="#">Blog</a>
@@ -78,8 +102,16 @@
                                         <div class="t-14 fw-bold">@User.Identity.Name</div>
                                     </li>
                                     <li><hr class="dropdown-divider" /></li>
-                                    <li><a asp-action="MyDashboard" asp-controller="User" asp-route-id="0" class="dropdown-item">My Dashboard</a></li>
-                                    <li><a asp-action="MyDashboard" asp-controller="User" asp-route-id="1" class="dropdown-item">My Settings</a></li>
+                                    @if (User.IsInRole("1"))
+                                    {
+                                        <li><a asp-action="MyDashboard" asp-controller="User" asp-route-id="0" class="dropdown-item">My Dashboard</a></li>
+                                        <li><a asp-action="MyDashboard" asp-controller="User" asp-route-id="6" class="dropdown-item">My Settings</a></li>
+                                    }
+                                    @if (User.IsInRole("2"))
+                                    {
+                                        <li><a asp-action="MyDashboard" asp-controller="ServiceProvider" asp-route-id="0" class="dropdown-item">My Dashboard</a></li>
+                                        <li><a asp-action="MyDashboard" asp-controller="ServiceProvider" asp-route-id="9" class="dropdown-item">My Settings</a></li>
+                                    }
                                     <li><a asp-action="logout" asp-controller="home" class="dropdown-item">Logout</a></li>
                                 </ul>
                             </div>
@@ -125,11 +157,11 @@
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         $(".nav-toggler").click(function () {
             $(".navigation-menu").css({ right: "0" });
@@ -157,7 +189,7 @@
                 $(".navigation-bar").removeClass("navigation-bar-scroll");
                 $(".bk-top").removeClass("bk-top-scroll");
             }
-        });      
+        });
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

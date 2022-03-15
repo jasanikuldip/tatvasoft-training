@@ -1,5 +1,6 @@
 ﻿using Helperland.IServices;
 using Helperland.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,16 @@ namespace Helperland.Services
             await context.ServiceRequests.AddAsync(sr);
             await context.SaveChangesAsync();
             return sr;
+        }
+
+        public IEnumerable<ServiceRequest> GetAllByUserIdNotCompleted(int UserId)
+        {
+            return context.ServiceRequests
+                   .Include(x => x.ServiceProvider)
+                   .Include(x => x.Ratings)
+                   .Include(x => x.ServiceRequestAddresses)
+                   .Include(x => x.ServiceRequestExtras)
+                   .Where  (x => x.Status == 1);
         }
 
         public Task<IEnumerable<ServiceRequest>> GetAll()

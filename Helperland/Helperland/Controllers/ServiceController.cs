@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Helperland.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="1")]
     public class ServiceController : Controller
     {
         private readonly IUserAddressService userAddressService;
@@ -58,7 +58,7 @@ namespace Helperland.Controllers
         {
             try
             {
-                int userId = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
+                int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 ViewBag.UAList = userAddressService.GetByUserIdAndPincode(userId, postalCode);
                 UserAddress model = new UserAddress
                 {
@@ -69,7 +69,6 @@ namespace Helperland.Controllers
             }
             catch (Exception e)
             {
-
                 throw e;
             }
         }
@@ -79,7 +78,7 @@ namespace Helperland.Controllers
         {
             try
             {
-                int userId = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
+                int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 UserAddress userAddressObject = await userAddressService.GetById(serviceRequestViewModel.AddressId);
                 ServiceRequestAddress serviceRequestAddressObject = new ServiceRequestAddress
                 {

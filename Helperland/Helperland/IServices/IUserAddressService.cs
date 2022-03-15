@@ -12,11 +12,14 @@ namespace Helperland.IServices
 
         IEnumerable<UserAddress> GetByUserIdAndPincode(int UserId, string Pincode);
 
-        Task<UserAddress> AddUAAsync(UserAddress ua);
-
         string GetCityNameByPostalcode(string Postalcode);
 
         Task<UserAddress> AddAsync(UserAddress ua);
         Task<UserAddress> GetById(int Id);
+        IEnumerable<UserAddress> GetByUserId(int Id);
+        Task<UserAddress> UpdateAsync(UserAddress uaChange);
+        Task<UserAddress> removeAsync(int Id);
+
+        Task<UserAddress> GetByUserIdOne(int Id);
     }
 }

@@ -11,7 +11,7 @@ namespace Helperland.Models
 {
     [Table("User")]
     [Index(nameof(Email), Name = "UQ_User_Email", IsUnique = true)]
-    [Index(nameof(Mobile), Name = "UQ_User_Mobile", IsUnique = true)]
+
     public partial class User
     {
         public User()

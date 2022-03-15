@@ -1,0 +1,82 @@
+﻿@model IEnumerable<UserAddress>
+@{
+    ViewData["Title"] = "List Address";
+    Layout = null;
+}
+<table class="table-address">
+    <tr>
+        <th>Addresses</th>
+        <th class="text-center">Action</th>
+    </tr>
+    @foreach (var Address in Model)
+    {
+        <tr>
+            <td>
+                <div>
+                    <span class="fw-bold">Address:</span>
+                    <span>@Address.AddressLine1 @Address.AddressLine2, @Address.PostalCode @Address.City</span>
+                </div>
+                <div>
+                    <span class="fw-bold">Phone Number:</span>
+                    <span>@Address.Mobile</span>
+                </div>
+            </td>
+            <td class="d-flex flex-wrap justify-content-center">
+                <a onclick="openModal(@Address.AddressId,'Edit Address')"><img src="~/images/edit-address.png" alt="" /></a>
+                <a onclick="deleteAddressModal(@Address.AddressId)"><img src="~/images/delete-address.png" alt="" /></a>
+            </td>
+        </tr>
+    }
+</table>
+<button id="AddNewAddress" class="ForgotPasswordReset-button w-auto t-16">
+    Add New Address
+</button>
+<div id="AddEditAddressModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered custom-modal-dialog width-600">
+        <div class="modal-content modal-content-custom">
+            <div type="button"
+                 class="btn-close btn-close-modal-custom"
+                 data-bs-dismiss="modal"></div>
+            <h1 id="AddEditAddressModalTitle" class="t-24 64 color-64-grey mb-3 pb-3 fw-bold"></h1>
+            <div id="AddEditAddressModalBox"></div>
+        </div>
+    </div>
+</div>
+<div id="DeleteAddressModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered custom-modal-dialog width-600">
+        <div class="modal-content modal-content-custom">
+            <div type="button"
+                 class="btn-close btn-close-modal-custom"
+                 data-bs-dismiss="modal"></div>
+            <h1 class="t-24 64 color-64-grey mb-3 pb-3 fw-bold">Delete Address</h1>
+            <p>Are you sure you want to delete this address?</p>
+            <button class="ForgotPasswordReset-button t-16 fw-normal" onclick="deleteAddress()">
+                Delete
+            </button>
+            <div hidden id="deleteModalDiv"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#AddNewAddress').click(function () {
+        openModal(0, "Add New Address");
+    });
+    function openModal(Id, Title) {
+        $("#checkcheck").html(Id);
+        $('#AddEditAddressModalTitle').html(Title);
+        (function () {
+            $('.loadingPageDNone').removeClass("d-none");
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("AddEditAddress", "User")',
+                data: { id : Id },
+                success : function (res) {
+                    $("#AddEditAddressModalBox").html(res);
+                }, complete: function () {
+                    $('.loadingPageDNone').addClass("d-none");
+                }
+            });
+        })();
+        $("#AddEditAddressModal").modal('show');
+    }
+</script>

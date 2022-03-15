@@ -200,12 +200,13 @@
 
         function loginSuccessFun (response) {
             if (response.isSuccess) {
-                console.log(response);
-                console.log("login-scucess");
-                window.location.href = '@Url.Action("MyDashboard", "User",new {id=0})';
+                if (response.userType == "1") {
+                    window.location.href = '@Url.Action("MyDashboard", "User")';
+                }
+                if (response.userType == "2") {
+                    window.location.href = '@Url.Action("MyDashboard", "ServiceProvider")';
+                }
             } else {
-                console.log(response);
-                console.log("login-fail");
                 $("#Unsuccess").removeClass("alert-unsuccess");
                 setTimeout(function () { $("#Unsuccess").addClass("alert-unsuccess"); }, 5000);
             }

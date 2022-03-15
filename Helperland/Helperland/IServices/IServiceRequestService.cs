@@ -12,5 +12,6 @@ namespace Helperland.IServices
 
         Task<ServiceRequest> AddAsync(ServiceRequest sr);
         Task<ServiceRequestExtra> AddExtrasAsync(ServiceRequestExtra serviceRequestExtra);
+        IEnumerable<ServiceRequest> GetAllByUserIdNotCompleted(int UserId);
     }
 }

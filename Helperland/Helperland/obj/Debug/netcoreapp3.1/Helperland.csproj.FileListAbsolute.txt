@@ -1140,8 +1140,6 @@ C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Helperland.RazorAssemblyInfo.cache
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Helperland.RazorAssemblyInfo.cs
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\staticwebassets\Helperland.StaticWebAssets.Manifest.cache
-C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\staticwebassets\Helperland.StaticWebAssets.xml
-C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\scopedcss\bundle\Helperland.styles.css
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Helperland.TagHelpers.input.cache
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Helperland.TagHelpers.output.cache
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Helperland.RazorCoreGenerate.cache
@@ -1181,3 +1179,9 @@ C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\User\MyDashboard\ListAddress.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\User\MyDashboard\AddEditAddress.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\ServiceProvider\MyDashboard.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\ServiceProvider\MyDashboard\MyDetails.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\User\CurrentServiceRequests.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\bin\Debug\netcoreapp3.1\Helperland.StaticWebAssets.xml

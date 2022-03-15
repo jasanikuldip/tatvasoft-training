@@ -1,0 +1,71 @@
+﻿@model UserAddress
+@{
+    ViewData["Title"] = null;
+    Layout = null;
+}
+
+<form method="post" data-ajax-success="AddEditAddressSuccess" data-ajax="true" data-ajax-loading=".loadingPageHide" asp-action="AddEditAddress" asp-controller="User" class="row">
+    <input asp-for="AddressId" hidden />
+    <div class="col-sm-6 col-12 mb-3">
+        <label asp-for="AddressLine1" class="color-64-grey fw-bold"></label>
+        <input asp-for="AddressLine1"
+               class="form-control h-46" />
+        <span class="text-danger" asp-validation-for="AddressLine1"></span>
+    </div>
+    <div class="col-sm-6 col-12 mb-3">
+        <label asp-for="AddressLine2" class="color-64-grey fw-bold"></label>
+        <input asp-for="AddressLine2"
+               class="form-control h-46" />
+        <span class="text-danger" asp-validation-for="AddressLine2"></span>
+    </div>
+    <div class="col-sm-6 col-12 mb-3">
+        <label asp-for="PostalCode" class="color-64-grey fw-bold"></label>
+        <input asp-for="PostalCode"
+               class="form-control h-46" />
+        <span class="text-danger" asp-validation-for="PostalCode"></span>
+    </div>
+    <div class="col-sm-6 col-12 mb-3">
+        <label asp-for="City" class="color-64-grey fw-bold"></label>
+        <input asp-for="City"
+               class="form-control h-46" readonly />
+        <span class="text-danger" asp-validation-for="City"></span>
+    </div>
+    <div class="col-sm-6 col-12 mb-3">
+        <label asp-for="Mobile" class="color-64-grey fw-bold"></label>
+        <div class="input-group">
+            <button tabindex="-1" class="btn btn-outline-secondary h-46 btn-mobile"
+                    type="button">
+                +91
+            </button>
+            <input type="text"
+                   asp-for="Mobile"
+                   class="form-control h-46" />
+            <span class="text-danger" asp-validation-for="Mobile"></span>
+        </div>
+    </div>
+    <div class="col-12">
+        <button class="col-12 ForgotPasswordReset-button t-16 fw-normal"
+                type="submit">
+            Edit
+        </button>
+    </div>
+</form>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script>
+    $("#PostalCode").on("input", function () {
+        var postalCodeVal = $(this).val();
+        if (postalCodeVal.length == 6) {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetCityNameAddress", "User")',
+                data: { PostalCode: postalCodeVal },
+                success: function (res) {
+                    $("#City").val(res.cityName);
+                }
+            });
+        } else {
+            $("#City").val("");
+        }
+    });
+</script>

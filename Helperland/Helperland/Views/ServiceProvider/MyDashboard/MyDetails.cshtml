@@ -1,0 +1,214 @@
+﻿@using Helperland.Models.Enum
+@model SPMyDetailsViewModel
+@{
+    ViewData["Title"] = "My Details";
+    Layout = null;
+}
+
+<form method="post" asp-action="MyDetails" asp-controller="ServiceProvider" data-ajax-success="myDetailsFormSuccess" data-ajax="true" data-ajax-loading=".loadingPageHide">
+    <div class="row color-64-grey g-3 mb-4">
+        <div class="col-12">
+            <div class="d-flex">
+                <div class="d-flex flex-column justify-content-end w-100">
+                    <div class="color-64-grey fw-bold t-18">Basic Details</div>
+                    <hr class="dropdown-divider mb-3" />
+                </div>
+                <img id="avatarImage" src="~/images/avatar-car.png" alt="" />
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <label class="mb-2" asp-for="FirstName"></label>
+            <input asp-for="FirstName" class="h-46 form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="col-12 col-md-4">
+            <label class="mb-2" asp-for="LastName"></label>
+            <input asp-for="LastName" class="h-46 form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="col-12 col-md-4">
+            <label class=" mb-2" asp-for="Email"></label>
+            <input asp-for="Email" class="h-46 form-control" disabled />
+        </div>
+
+        <div class="col-12 col-md-4">
+            <label asp-for="Mobile" class="mb-2"></label>
+            <div class="input-group">
+                <button tabindex="-1" class="btn btn-outline-secondary h-46 btn-mobile" type="button">
+                    +91
+                </button>
+                <input type="text" asp-for="Mobile" class="form-control h-46" />
+            </div>
+            <span class="text-danger" asp-validation-for="Mobile"></span>
+        </div>
+        <div class="col-12 col-md-4">
+            <label class="mb-2">Date of Birth</label>
+            <div class="row g-2">
+                <div class="col-3">
+                    <select class="h-46 form-select" asp-for="Day">
+                        @for (int i = 1; i <= 31; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-5">
+                    <select class="h-46 form-select" asp-for="Months" asp-items="@Html.GetEnumSelectList<Months>()"></select>
+                </div>
+                <div class="col-4">
+                    <select class="h-46 form-select" asp-for="Year">
+                        @for (int i = 1921; i <= 2021; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <label asp-for="Mobile" class="mb-2"></label>
+            <select class="h-46 form-select">
+                <option value="India">India</option>
+                <option value="Germany">Germany</option>
+            </select>
+        </div>
+        <label class="mb-2">
+            Gender
+        </label>
+        <div class="col-12 d-flex gap-3 flex-wrap mb-3">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" value=1 name="Gender" id="Male" asp-for="Gender">
+                <label class="form-check-label" for="Male">
+                    Male
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" value=2 name="Gender" id="Female" asp-for="Gender">
+                <label class="form-check-label" for="Female">
+                    Female
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" value=3 name="Gender" id="RatherNot" asp-for="Gender">
+                <label class="form-check-label" for="RatherNot">
+                    Rather Not to say
+                </label>
+            </div>
+        </div>
+        <label class="mb-2">
+            Select Avatar
+        </label>
+        <div class="col-12 d-flex flex-wrap avatarRadioGroup gap-3">
+            <div class="form-check p-0 mb-3">
+                <input class="form-check-input d-none" type="radio" value=1 id="avatarCar" asp-for="UserProfilePicture">
+                <label class="form-check-label" for="avatarCar">
+                    <img src="~/images/avatar-car.png" alt="" />
+                </label>
+            </div>
+            <div class="form-check p-0 mb-3">
+                <input class="form-check-input d-none" type="radio" value=2 id="avatarFemale" asp-for="UserProfilePicture">
+                <label class="form-check-label" for="avatarFemale">
+                    <img src="~/images/avatar-female.png" alt="" />
+                </label>
+            </div>
+            <div class="form-check p-0 mb-3">
+                <input class="form-check-input d-none" type="radio" value=3 id="avatarHat" asp-for="UserProfilePicture">
+                <label class="form-check-label" for="avatarHat">
+                    <img src="~/images/avatar-hat.png" alt="" />
+                </label>
+            </div>
+            <div class="form-check p-0 mb-3">
+                <input class="form-check-input d-none" type="radio" value=4 id="avatarIron" asp-for="UserProfilePicture">
+                <label class="form-check-label" for="avatarIron">
+                    <img src="~/images/avatar-iron.png" alt="" />
+                </label>
+            </div>
+            <div class="form-check p-0 mb-3">
+                <input class="form-check-input d-none" type="radio" value=5 id="avatarMale" asp-for="UserProfilePicture">
+                <label class="form-check-label" for="avatarMale">
+                    <img src="~/images/avatar-male.png" alt="" />
+                </label>
+            </div>
+            <div class="form-check p-0 mb-3">
+                <input class="form-check-input d-none" type="radio" value=6 id="avatarShip" asp-for="UserProfilePicture">
+                <label class="form-check-label" for="avatarShip">
+                    <img src="~/images/avatar-ship.png" alt="" />
+                </label>
+            </div>
+            <input asp-for="AddressId" hidden />
+        </div>
+        <div class="col-12">
+            <hr class="dropdown-divider mb-3" />
+        </div>
+
+        <div class="col-12 col-md-4">
+            <label class="mb-2" asp-for="AddressLine1"></label>
+            <input asp-for="AddressLine1" class="h-46 form-control" />
+            <span asp-validation-for="AddressLine1" class="text-danger"></span>
+        </div>
+        <div class="col-12 col-md-4">
+            <label class="mb-2" asp-for="AddressLine2"></label>
+            <input asp-for="AddressLine2" class="h-46 form-control" />
+            <span asp-validation-for="AddressLine2" class="text-danger"></span>
+        </div>
+        <div class="col-12 col-md-4">
+            <label class="mb-2" asp-for="PostalCode"></label>
+            <input asp-for="PostalCode" class="h-46 form-control" />
+            <span asp-validation-for="PostalCode" class="text-danger"></span>
+        </div>
+        <div class="col-12 col-md-4">
+            <label class="mb-2" asp-for="City"></label>
+            <input asp-for="City" class="h-46 form-control" readonly />
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+        <div class="col-12 mt-3">
+            <button class="ForgotPasswordReset-button fw-bold" type="submit">
+                Save
+            </button>
+        </div>
+    </div>
+    <div id="myDetailsSuccess" class="myDetailsSuccess col-12 alert alert-success">
+        Changes have been successfully saved.
+    </div>
+</form>
+
+
+@* ----- added validation file ------ *@
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script>
+    $('input[name="UserProfilePicture"]:checked').next().addClass("active");
+    $("#avatarImage").attr("src", $('input[name="UserProfilePicture"]:checked').next().children().attr("src"));
+    if ($('input[name="UserProfilePicture"]:checked').val() == null) {
+        $('input[name="UserProfilePicture"][value=1]').prop('checked', true);
+        $('input[name="UserProfilePicture"]:checked').next().addClass("active");
+    }
+    $('input[name="UserProfilePicture"]').change(function () {
+        $('input[name="UserProfilePicture"]:checked').next().addClass("active");
+        $('input[name="UserProfilePicture"]:not(:checked)').next().removeClass("active");
+        $("#avatarImage").attr("src", $('input[name="UserProfilePicture"]:checked').next().children().attr("src"));
+    });
+    $("#PostalCode").on("input", function () {
+        var postalCodeVal = $(this).val();
+        if (postalCodeVal.length == 6) {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetCityNameAddress", "User")',
+                data: { PostalCode: postalCodeVal },
+                success: function (res) {
+                    console.log(res);
+                    $("#City").val(res.cityName);
+                }
+            });
+        } else {
+            console.log("fail");
+            $("#City").val("");
+        }
+    });
+    function myDetailsFormSuccess(response) {
+        if (response.isSuccess) {
+            $("#myDetailsSuccess").removeClass("myDetailsSuccess");
+            setTimeout(function () { $("#myDetailsSuccess").addClass("myDetailsSuccess"); }, 5000);
+        }
+    }
+</script>

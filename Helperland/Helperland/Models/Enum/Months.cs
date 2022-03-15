@@ -13,7 +13,7 @@ namespace Helperland.Models.Enum
         April,
         May,
         June,
-        uly,
+        July,
         August,
         September,
         October,

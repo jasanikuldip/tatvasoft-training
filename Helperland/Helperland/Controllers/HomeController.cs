@@ -42,7 +42,7 @@ namespace Helperland.Controllers
 
         public IActionResult Index(int Id)
         {
-            if(Id == 1)
+            if (Id == 1)
             {
                 ViewBag.login = 1;
             }
@@ -116,7 +116,7 @@ namespace Helperland.Controllers
                             new AuthenticationProperties()
                             {
                                 IsPersistent = true,
-                                ExpiresUtc = DateTime.UtcNow.AddHours(1)
+                                ExpiresUtc = DateTime.UtcNow.AddHours(0.5)
                             });
 
                         if (loginModel.RememberMe)
@@ -126,7 +126,14 @@ namespace Helperland.Controllers
                             Response.Cookies.Append("user_email", user.Email, ckOptions);
                             Response.Cookies.Append("user_password", loginModel.PasswordLogin, ckOptions);
                         }
-                        return Json(new { isSuccess = true });
+                        if (user.UserTypeId == 1)
+                        {
+                            return Json(new { isSuccess = true, userType = "1" });
+                        }
+                        else if (user.UserTypeId == 2)
+                        {
+                            return Json(new { isSuccess = true, userType = "2" });
+                        }
                     }
                 }
             }
@@ -135,6 +142,7 @@ namespace Helperland.Controllers
 
         public async Task<IActionResult> Logout()
         {
+            //HttpContext.Response.Cookies.Delete("Role");
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return LocalRedirect("/");
         }
@@ -235,7 +243,7 @@ namespace Helperland.Controllers
             return Json("Email Address is not registered.");
         }
 
-        [AcceptVerbs("Get","Post")]
+        [AcceptVerbs("Get", "Post")]
         public async Task<IActionResult> IsMobileInUse(string mobile)
         {
             var user = await userService.GetUserByMobileAsync(mobile);
@@ -290,17 +298,17 @@ namespace Helperland.Controllers
                 string decPass = AesTokenHelper.DecryptString(forgotPassword.token);
                 string[] userIdPass = decPass.Split(',');
 
-                    if (userIdPass[0] != null)
+                if (userIdPass[0] != null)
+                {
+                    User user = await userService.GetUserByIdAsync(int.Parse(userIdPass[0]));
+                    if (user.Email == userIdPass[1])
                     {
-                        User user = await userService.GetUserByIdAsync(int.Parse(userIdPass[0]));
-                        if (user.Email == userIdPass[1])
-                        {
-                            user.Password = PasswordHashHelper.HashPassword(forgotPassword.Password);
-                            User UpdatedUser = await userService.UpdateAsync(user);
-                            return Json(new { isSuccessRP = true, isExpired = false });
-                        }
+                        user.Password = PasswordHashHelper.HashPassword(forgotPassword.Password);
+                        User UpdatedUser = await userService.UpdateAsync(user);
+                        return Json(new { isSuccessRP = true, isExpired = false });
                     }
-                
+                }
+
             }
             return Json(new { isSuccessRP = false, isExpired = true });
         }

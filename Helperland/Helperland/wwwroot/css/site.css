@@ -1161,9 +1161,13 @@ section div h2.heading {
         border-color: var(--clr-secondary);
     }
 
+        .setting-top > ul .nav-link.active .bi,
+        .setting-top > ul .nav-link:hover .bi {
+            color: var(--clr-secondary);
+        }
+
 
 /* ---------- book service page ---------- */
-
 .service-left-container .service-left-container-top .nav-pills {
     flex-wrap: nowrap;
 }
@@ -1445,13 +1449,78 @@ section div h2.heading {
     }
 
 .serviceSuccessRight {
-    background-color:var(--clr-green);
-    aspect-ratio:1;
-    width:85px;
-    border-radius:100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    background-color: var(--clr-green);
+    aspect-ratio: 1;
+    width: 85px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.table-address {
+    width: 100%;
+    margin: 16px auto;
+    color: var(--clr-64-grey);
+    border: 1px solid #e5e5e5;
+}
+
+    .table-address tr {
+        border: 1px solid #e5e5e5;
+    }
+
+        .table-address tr th {
+            padding-block: 10px;
+        }
+
+        .table-address tr td {
+            padding-block: 16px;
+        }
+
+            .table-address tr th:first-child,
+            .table-address tr td:first-child {
+                padding-left: 32px;
+            }
+
+            .table-address tr th:last-child,
+            .table-address tr td:last-child {
+                padding-right: 20px;
+            }
+
+        .table-address tr:first-child {
+            background-color: var(--clr-f1-grey);
+        }
+
+    .table-address a {
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        border-radius: 100%;
+        aspect-ratio: 1;
+        transition: all ease 0.3s;
+    }
+
+        .table-address a:hover {
+            background-color: var(--clr-white-table);
+        }
+
+#AddEditAddressModal .modal-dialog {
+    max-width: 600px;
+}
+
+.avatarRadioGroup label img {
+    width: 85px;
+    height: 85px;
+    transition: all ease 0.3s;
+    border-radius: 50%;
+}
+
+.avatarRadioGroup label.active img {
+    border: 3px solid var(--clr-secondary);
+    width: 85px;
+    height: 85px;
 }
 
 /* ************** Media Query **************** */
@@ -1529,6 +1598,11 @@ section div h2.heading {
 
     #PaymentSummaryBox {
         display: block;
+    }
+
+    #AddEditAddressModal .modal-dialog {
+        max-width: 100%;
+        margin-inline: 16px;
     }
 }
 

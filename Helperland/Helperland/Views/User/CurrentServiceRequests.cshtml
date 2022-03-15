@@ -1,0 +1,15 @@
+﻿@model IEnumerable<ServiceRequest>
+@{
+    ViewData["Title"] = "Current Service Requests";
+}
+
+<div class="m-5"></div>
+
+@foreach (ServiceRequest sr in Model)
+{
+    @foreach (var v in sr.ServiceRequestAddresses)
+    {
+        <h1>@v.AddressLine1</h1>
+    }
+    @sr.ServiceRequestAddresses.ElementAt(0).AddressLine1
+}
