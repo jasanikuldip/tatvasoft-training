@@ -1,15 +1,145 @@
 ﻿@model IEnumerable<ServiceRequest>
 @{
     ViewData["Title"] = "Current Service Requests";
+    Layout = null;
 }
 
-<div class="m-5"></div>
+<div class="d-flex justify-content-between flex-wrap text-center mb-3">
+    <div class="color-64-grey fw-bold t-22 mt-3">Current Service Requests</div>
+    <a class="reschedule-button mt-3 text-light py-2" asp-action="index" asp-controller="service">Add New Service Request</a>
+</div>
 
-@foreach (ServiceRequest sr in Model)
-{
-    @foreach (var v in sr.ServiceRequestAddresses)
-    {
-        <h1>@v.AddressLine1</h1>
+<div class="dropdown d-md-none">
+    <div type="button" data-bs-toggle="dropdown" id="dropdownsorting" class=" mb-3 color-64-grey" aria-expanded="false"><img src="~/images/filter.png" alt="Alternate Text" /></div>
+    <ul class="dropdown-menu shadow" aria-labelledby="dropdownsorting">
+        <li class="mx-3 my-2">
+            <div class="form-check">
+                <input class="form-check-input" onclick="sortingDropdown(1,'asc')" type="radio" name="flexRadioDefault" id="serviceDateNew">
+                <label class="form-check-label" onclick="sortingDropdown(1,'asc')" for="serviceDateNew">
+                    Service date: Latest
+                </label>
+            </div>
+        </li>
+        <li class="mx-3 my-2">
+            <div class="form-check">
+                <input class="form-check-input" onclick="sortingDropdown(1,'desc')" type="radio" name="flexRadioDefault" id="serviceDateOld">
+                <label class="form-check-label" onclick="sortingDropdown(1,'desc')" for="serviceDateOld">
+                    Service date: Oldest
+                </label>
+            </div>
+        </li>
+        <li class="mx-3 my-2">
+            <div class="form-check">
+                <input class="form-check-input" onclick="sortingDropdown(2,'asc')" type="radio" name="flexRadioDefault" id="serviceProviderA">
+                <label class="form-check-label" onclick="sortingDropdown(2,'asc')" for="serviceProviderA">
+                    Service Provider: A to Z
+                </label>
+            </div>
+        </li>
+        <li class="mx-3 my-2">
+            <div class="form-check">
+                <input class="form-check-input" onclick="sortingDropdown(2,'desc')" type="radio" name="flexRadioDefault" id="serviceProviderZ">
+                <label class="form-check-label" onclick="sortingDropdown(2,'desc')" for="serviceProviderZ">
+                    Service Provider: Z to A
+                </label>
+            </div>
+        </li>
+        <li class="mx-3 my-2">
+            <div class="form-check">
+                <input class="form-check-input" onclick="sortingDropdown(3,'asc')" type="radio" name="flexRadioDefault" id="PaymentHigh">
+                <label class="form-check-label" onclick="sortingDropdown(3,'asc')" for="PaymentHigh">
+                    Payment: High to Low
+                </label>
+            </div>
+        </li>
+        <li class="mx-3 my-2">
+            <div class="form-check">
+                <input class="form-check-input" onclick="sortingDropdown(3,'desc')" type="radio" name="flexRadioDefault" id="PaymentLow">
+                <label class="form-check-label" onclick="sortingDropdown(3,'desc')" for="PaymentLow">
+                    Payment: Low to High
+                </label>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<table id="currentServiceRequestTable" class="table w-100">
+    <thead>
+        <tr class="d-md-table-row d-none table-header">
+            <th>Service Id<span class="sort-icon"></span></th>
+            <th>Service Date<span class="sort-icon"></span></th>
+            <th>Service Provider<span class="sort-icon"></span></th>
+            <th>Payment<span class="sort-icon"></span></th>
+            <th class="text-center">Action<span class="sort-icon"></span></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ServiceRequest sr in Model)
+        {
+            <tr>
+                <td>@sr.ServiceRequestId</td>
+                <td>
+                    <div><img src="~/images/calendar2.png" alt="" /><span> @sr.ServiceStartDate.Date.ToString().Substring(0, 10).Replace('-', '/')</span></div>
+                    <div><img src="~/images/layer-14.png" alt="" /><span> @sr.ServiceStartDate.ToShortTimeString().Substring(0, 5) - @sr.ServiceStartDate.AddHours(sr.ServiceHours).ToShortTimeString().Substring(0, 5)</span></div>
+                </td>
+                <td></td>
+                <td class="color-secondary t-24 fw-bold">@sr.TotalCost &euro;</td>
+                <td>
+                    <div class="text-center d-flex justify-content-center flex-wrap gap-2">
+                        <div class="reschedule-button t-14">Reschedule</div>
+                        <div class="cancel-button t-14">Cancel</div>
+                    </div>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>1664</td>
+            <td>
+                <div><img src="~/images/calendar2.png" alt="" /> <span>09/03/2022</span></div>
+                <div><img src="~/images/layer-14.png" alt="" /><span>17:30 - 20:30</span></div>
+            </td>
+            <td></td>
+            <td class="color-secondary t-24 fw-bold">64.00 &euro;</td>
+            <td>
+                <div class="text-center d-flex justify-content-center flex-wrap gap-2">
+                    <div class="reschedule-button t-14">Reschedule</div>
+                    <div class="cancel-button t-14">Cancel</div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+    $("#currentServiceRequestTable").DataTable({
+        searching: false,
+        dom: "t<'d-flex justify-content-between align-items-center flex-wrap'<'mt-3'li><'mt-3'p>>",
+        pagingType: "full_numbers",
+        language: {
+            info: " Total Records : _TOTAL_",
+            infoPostFix: " ",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>',
+                first: '<i class="bi bi-skip-start-fill"></i>',
+                last: '<i class="bi bi-skip-end-fill"></i>',
+            },
+        },
+        'columnDefs': [{
+            "targets": [-1],
+            "orderable": false
+        }],
+        "order": [],
+        "columns": [
+            { "width": "10%" },
+            { "width": "15%" },
+            null,
+            { "width": "10%" },
+            { "width": "25%" },
+        ],
+    });
+    var table = $('#currentServiceRequestTable').DataTable();
+    function sortingDropdown(column, orderby) {
+        table.order([[column, orderby]]).draw();
     }
-    @sr.ServiceRequestAddresses.ElementAt(0).AddressLine1
-}
+</script>

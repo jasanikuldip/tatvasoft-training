@@ -1184,4 +1184,3 @@ C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\ServiceProvider\MyDashboard.cshtml.g.cs
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\ServiceProvider\MyDashboard\MyDetails.cshtml.g.cs
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\User\CurrentServiceRequests.cshtml.g.cs
-C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\bin\Debug\netcoreapp3.1\Helperland.StaticWebAssets.xml

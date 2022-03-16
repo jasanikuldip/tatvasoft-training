@@ -2,7 +2,6 @@
     ViewData["Title"] = "My Dashboard";
 }
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 <section class="navbar-margin">
     <div class="container-fluid welcome-user-back">
         <div class="d-flex justify-content-center align-items-center">
@@ -118,6 +117,7 @@
                     $('.loadingPageDNone').addClass("d-none");
                 });
             });
+            $("#Dashboard").load('@Url.Action("CurrentServiceRequests", "User")');
             $("#MyAddressesBox").load('@Url.Action("ListAddtess", "User")');
             $("#ChangePassword").load('@Url.Action("ResetPassword", "User")');
             if ('@ViewBag.Tab' == 1) {
