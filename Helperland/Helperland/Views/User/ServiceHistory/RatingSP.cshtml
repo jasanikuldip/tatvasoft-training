@@ -1,0 +1,100 @@
+﻿@model RatingViewModel
+@{
+    ViewData["Title"] = "Rating SP";
+    Layout = null;
+    int i = 0;
+}
+<form method="post" asp-action="RatingSP" asp-controller="User" data-ajax="true" data-ajax-success="RatingFormSuccess" data-ajax-loading=".loadingPageHide">
+    <div id="RatingModalBoxAlert" class="alert alert-success d-none mt-3">Rating submited successfully!</div>
+    <input asp-for="ServiceRequestId" hidden />
+    <input asp-for="RatingId" hidden />
+    <input asp-for="SPId" hidden />
+    <div class="d-flex flex-wrap gap-3 align-items-center mb-3">
+        <div class="avatarRing bigAvatar">
+            @switch (Model.SPProfile)
+            {
+                case "1":
+                    <img src="~/images/avatar-car.png" alt="" />
+                    break;
+                case "2":
+                    <img src="~/images/avatar-female.png" alt="" />
+                    break;
+                case "3":
+                    <img src="~/images/avatar-hat.png" alt="" />
+                    break;
+                case "4":
+                    <img src="~/images/avatar-iron.png" alt="" />
+                    break;
+                case "5":
+                    <img src="~/images/avatar-male.png" alt="" />
+                    break;
+                case "6":
+                    <img src="~/images/avatar-ship.png" alt="" />
+                    break;
+            }
+        </div>
+        <div class="d-flex flex-column flex-wrap justify-content-center">
+            <div class="t-18 color-64-grey">@Model.SPName</div>
+            <div>
+                <span>
+                    @for (i = 0; i < Math.Round(Model.SPRating); i++)
+                    {
+                        <i class="star-color-fill bi bi-star-fill"></i>
+                    }
+                    @while (i != 5)
+                    {
+                        <i class="star-color bi bi-star-fill"></i>
+                        i++;
+                    }
+                </span><span class="t-18 color-64-grey"> @Model.SPRating</span>
+            </div>
+        </div>
+    </div>
+    <h1 class="t-20 color-64-grey">Rate Your Service Provider</h1>
+    <div class="dropdown-divider"></div>
+    <table class="color-64-grey widthFitContent mb-4">
+        <tr>
+            <td class="d-block d-sm-table-cell">On Time Arrival</td>
+            <td class="d-block d-sm-table-cell">
+                <div class="ProvideRating">
+                    <input type="radio" value="5" id="OnTimeRatingStar5" asp-for="OnTimeArrival" /><label for="OnTimeRatingStar5"></label>
+                    <input type="radio" value="4" id="OnTimeRatingStar4" asp-for="OnTimeArrival" /><label for="OnTimeRatingStar4"></label>
+                    <input type="radio" value="3" id="OnTimeRatingStar3" asp-for="OnTimeArrival" /><label for="OnTimeRatingStar3"></label>
+                    <input type="radio" value="2" id="OnTimeRatingStar2" asp-for="OnTimeArrival" /><label for="OnTimeRatingStar2"></label>
+                    <input type="radio" value="1" id="OnTimeRatingStar1" asp-for="OnTimeArrival" /><label for="OnTimeRatingStar1"></label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="d-block d-sm-table-cell">Friendly</td>
+            <td class="d-block d-sm-table-cell">
+                <div class="ProvideRating">
+                    <input type="radio" value="5" id="FriendlyRatingStar5" asp-for="Friendly" /><label for="FriendlyRatingStar5"></label>
+                    <input type="radio" value="4" id="FriendlyRatingStar4" asp-for="Friendly" /><label for="FriendlyRatingStar4"></label>
+                    <input type="radio" value="3" id="FriendlyRatingStar3" asp-for="Friendly" /><label for="FriendlyRatingStar3"></label>
+                    <input type="radio" value="2" id="FriendlyRatingStar2" asp-for="Friendly" /><label for="FriendlyRatingStar2"></label>
+                    <input type="radio" value="1" id="FriendlyRatingStar1" asp-for="Friendly" /><label for="FriendlyRatingStar1"></label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="d-block d-sm-table-cell">Quality of service</td>
+            <td class="d-block d-sm-table-cell">
+                <div class="ProvideRating">
+                    <input type="radio" value="5" id="QualityRatingStar5" asp-for="QualityOfService" /><label for="QualityRatingStar5"></label>
+                    <input type="radio" value="4" id="QualityRatingStar4" asp-for="QualityOfService" /><label for="QualityRatingStar4"></label>
+                    <input type="radio" value="3" id="QualityRatingStar3" asp-for="QualityOfService" /><label for="QualityRatingStar3"></label>
+                    <input type="radio" value="2" id="QualityRatingStar2" asp-for="QualityOfService" /><label for="QualityRatingStar2"></label>
+                    <input type="radio" value="1" id="QualityRatingStar1" asp-for="QualityOfService" /><label for="QualityRatingStar1"></label>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <label asp-for="RatingComments" class="color-64-grey form-label">Feedback on service provider</label>
+    <textarea class="form-control textarea-resize color-64-grey mb-3" asp-for="RatingComments" rows="2"></textarea>
+
+    <button class="ForgotPasswordReset-button py-2 t-20 fw-bold widthFitContent " type="submit">
+        Submit
+    </button>
+</form>

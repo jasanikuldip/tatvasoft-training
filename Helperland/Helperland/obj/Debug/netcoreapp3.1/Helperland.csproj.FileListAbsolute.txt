@@ -1183,4 +1183,9 @@ C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\User\MyDashboard\AddEditAddress.cshtml.g.cs
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\ServiceProvider\MyDashboard.cshtml.g.cs
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\ServiceProvider\MyDashboard\MyDetails.cshtml.g.cs
-C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\User\CurrentServiceRequests.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\User\CurrentServiceRequests\CurrentServiceRequests.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\User\CurrentServiceRequests\ServiceDetails.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\User\ServiceHistory\ServiceHistory.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\User\ServiceHistory\RatingSP.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\ServiceProvider\NewServiceRequests\NewServiceRequests.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\ServiceProvider\NewServiceRequests\ServiceDetails.cshtml.g.cs

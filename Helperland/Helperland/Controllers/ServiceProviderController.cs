@@ -2,6 +2,7 @@
 using Helperland.Models;
 using Helperland.Security;
 using Helperland.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,20 @@ using System.Threading.Tasks;
 
 namespace Helperland.Controllers
 {
+    [Authorize(Roles = "2")]
     public class ServiceProviderController : Controller
     {
         private readonly IUserService userService;
         private readonly IUserAddressService userAddressService;
+        private readonly IServiceRequestService serviceRequestService;
 
-        public ServiceProviderController(IUserService userService, IUserAddressService userAddressService)
+        public ServiceProviderController(IUserService userService, 
+                                         IUserAddressService userAddressService,
+                                         IServiceRequestService serviceRequestService)
         {
             this.userService = userService;
             this.userAddressService = userAddressService;
+            this.serviceRequestService = serviceRequestService;
         }
 
         public IActionResult MyDashboard(int Id)
@@ -76,7 +82,7 @@ namespace Helperland.Controllers
                 user.DateOfBirth = DateTime.Parse($"{day}-{month}-{model.Year} 00:00:00");
                 user.Gender = model.Gender;
                 user.UserProfilePicture = Convert.ToString(model.UserProfilePicture);
-                if(model.AddressId != null)
+                if (model.AddressId != null)
                 {
                     UserAddress userAddress = await userAddressService.GetByUserIdOne((int)model.AddressId);
                     userAddress.AddressLine1 = model.AddressLine1;
@@ -84,7 +90,7 @@ namespace Helperland.Controllers
                     userAddress.PostalCode = model.PostalCode;
                     userAddress.City = model.City;
                     UserAddress ua = await userAddressService.UpdateAsync(userAddress);
-                } 
+                }
                 else
                 {
                     UserAddress userAddress = new UserAddress
@@ -105,6 +111,25 @@ namespace Helperland.Controllers
                 return Json(new { isSuccess = true });
             }
             return Json(new { isSuccess = false });
+        }
+
+        [HttpGet]
+        //[NoDirectAccess]
+        public IActionResult NewServiceRequests()
+        {
+            //int UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            IEnumerable<ServiceRequest> model = serviceRequestService.GetAllNotAssignedSP();
+            return View("~/Views/ServiceProvider/NewServiceRequests/NewServiceRequests.cshtml", model);
+        }
+
+
+        [HttpGet]
+        [NoDirectAccess]
+        public IActionResult ServiceDetails(int Id, int requestOrigin)
+        {
+            ServiceRequest model = serviceRequestService.GetById(Id);
+            ViewBag.RequestOrigin = requestOrigin;
+            return View("~/Views/ServiceProvider/NewServiceRequests/ServiceDetails.cshtml", model);
         }
     }
 }

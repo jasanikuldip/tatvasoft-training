@@ -55,6 +55,11 @@ namespace Helperland.Services
             return await context.Users.FirstOrDefaultAsync(u => u.Mobile == Mobile);
         }
 
+        public IEnumerable<User> GetSPByPostalCode (string PostalCode)
+        {
+            return context.Users.Include(x=>x.UserAddresses.Where(y=>y.PostalCode == PostalCode)).Where(x=>x.UserTypeId==2);
+        }
+
         public async Task<User> UpdateAsync(User userchange)
         {
             var user = context.Users.Attach(userchange);

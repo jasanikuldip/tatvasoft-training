@@ -33,7 +33,7 @@ footer {
     left: 0;
     right: 0;
     transition: all ease 0.3s;
-    z-index: 10;
+    z-index: 11;
 }
 
 .navigation-bar-scroll {
@@ -474,6 +474,10 @@ footer {
     color: var(--clr-4f-grey);
 }
 
+.cursorPointer {
+    cursor: pointer;
+}
+
 a {
     text-decoration: none;
 }
@@ -492,6 +496,7 @@ ul {
 
 .form-select {
     color: var(--clr-64-grey);
+    height: 40px;
 }
 
 .form-check-input:checked {
@@ -516,8 +521,12 @@ input:read-only:focus {
     border-color: #ced4da;
 }
 
-.dropdown-menu {
-    z-index:5!important;
+.dropdown .dropdown-menu {
+    z-index: 5 !important;
+}
+
+.dropdown .dropdown-menu-end {
+    width: 230px;
 }
 
 /* stops crolling form body class */
@@ -772,6 +781,14 @@ h1, h2, h3, h4 {
     max-width: 900px;
 }
 
+#ServiceDetailsModal .custom-modal-dialog {
+    max-width: 750px;
+}
+
+#RatingModal .custom-modal-dialog {
+    max-width: 580px;
+}
+
 .modal-content-custom {
     box-shadow: 0 5px 15px rgb(0 0 0 / 50%);
     padding: 25px;
@@ -978,8 +995,11 @@ h1, h2, h3, h4 {
 
 .textarea-height {
     height: 146px;
-    resize: none;
     margin-bottom: 16px;
+}
+
+.textarea-resize {
+    resize: none;
 }
 
 .custom-file-input {
@@ -1246,13 +1266,13 @@ section div h2.heading {
     cursor: pointer;
 }
 
-.datepicker-dropdown {
-    z-index: 7 !important;
-}
+/*.datepicker-dropdown {
+    z-index: 9999!important;
+}*/
 
-    .datepicker-dropdown .active.day {
-        background-color: var(--clr-secondary) !important;
-    }
+.datepicker-dropdown .active.day {
+    background-color: var(--clr-secondary) !important;
+}
 
 .hr-divider-service {
     background-color: rgb(100 100 100 / 0.20);
@@ -1583,29 +1603,24 @@ table.dataTable {
 
     table.dataTable thead span.sort-icon {
         display: inline-block;
-        padding-left: 5px;
-        width: 16px;
-        height: 16px;
+        width: 20px;
+        height: 18px;
     }
 
-    table.dataTable thead .sorting span {
-        background: url("http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/images/sort_both.png") no-repeat center right -2px;
+    table.dataTable thead .sorting span.sort-icon {
+        background: none;
     }
 
-    table.dataTable thead .sorting_asc span {
-        background: url("http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/images/sort_asc.png") no-repeat center right -2px;
+    table.dataTable thead .sorting_asc span.sort-icon {
+        background: url(/images/sort.png) no-repeat right bottom;
     }
 
-    table.dataTable thead .sorting_desc span {
-        background: url("http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/images/sort_desc.png") no-repeat center right -2px;
+    table.dataTable thead .sorting_desc span.sort-icon {
+        background: url(/images/sort.png) no-repeat right bottom;
     }
 
-    table.dataTable thead .sorting_asc_disabled span {
-        background: url("http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/images/sort_asc_disabled.png") no-repeat center right -2px;
-    }
-
-    table.dataTable thead .sorting_desc_disabled span {
-        background: url("http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/images/sort_desc_disabled.png") no-repeat center right -2px;
+    table.dataTable > thead > tr > th:not(.sorting_disabled), table.dataTable > thead > tr > td:not(.sorting_disabled) {
+        padding-right: 8px;
     }
 
     table.dataTable thead .sorting:before,
@@ -1636,39 +1651,54 @@ table.dataTable {
             padding-left: 16px;
         }
 
-@media (max-width: 767px) {
-    table.dataTable tr {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 32px;
-        border-radius: 8px;
-        box-shadow: 0px 2px 10px #cacaca;
+
+.avatarRing {
+    height: 44px;
+    width: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #aaa;
+    border-radius: 100%;
+}
+
+    .avatarRing img {
+        height: 40px;
+        width: 40px;
     }
 
-    table.dataTable > :not(caption) > * > * {
-        border: 0px !important;
-    }
 
-    table.dataTable td,
-    table.dataTable th {
-        padding-inline: 16px;
-    }
+.ind-completed {
+    color: var(--clr-white);
+    padding: 1.5px 10px;
+    background-color: #67b644;
+    width: fit-content;
+}
 
-    table.dataTable {
-        border: none;
-    }
+.ind-cancelled {
+    color: var(--clr-white);
+    padding: 1.5px 10px;
+    background-color: var(--clr-tomato);
+    width: fit-content;
 }
 
 .reschedule-button {
-    cursor: pointer;
-    background-color: var(--clr-secondary);
-    color: var(--clr-white);
-    padding: 5px 10px;
-    border-radius: 50px;
+    cursor: pointer !important;
+    background-color: var(--clr-secondary) !important;
+    color: var(--clr-white) !important;
+    padding: 5px 10px !important;
+    border-radius: 50px !important;
+    width: fit-content !important;
+    border: 0px !important;
 }
 
     .reschedule-button:hover {
-        background-color: var(--clr-secondary-dark);
+        background-color: var(--clr-secondary-dark) !important;
+    }
+
+    .reschedule-button.disabled:hover {
+        background-color: var(--clr-secondary) !important;
+        cursor: not-allowed !important;
     }
 
 .cancel-button {
@@ -1677,11 +1707,87 @@ table.dataTable {
     color: var(--clr-white);
     padding: 5px 10px;
     border-radius: 50px;
+    width: fit-content;
 }
 
     .cancel-button:hover {
         background-color: var(--clr-tomato-dark);
     }
+
+.bigAvatar {
+    width: 70px !important;
+    height: 70px !important;
+}
+
+    .bigAvatar img {
+        height: 66px !important;
+        width: 66px !important;
+    }
+
+.star-color {
+    color: #d4d4d4;
+}
+
+.star-color-fill {
+    color: #ecb91c;
+}
+
+
+/* ------- Rating ------- */
+
+.widthFitContent {
+    width: fit-content;
+}
+
+.ProvideRating {
+    margin: 14px 8px;
+    display: flex;
+    transform: rotateY(180deg);
+    gap: 2px;
+    justify-content: center;
+    width: 92px;
+}
+
+    .ProvideRating input {
+        display: none;
+    }
+
+    .ProvideRating label {
+        display: block;
+        cursor: pointer;
+        width: 16px;
+        height: 16px;
+        position: relative;
+    }
+
+        .ProvideRating label::before {
+            line-height: 16px;
+            content: "\F586";
+            font-family: bootstrap-icons;
+            display: block;
+            font-size: 16px;
+            color: #d4d4d4;
+        }
+
+        .ProvideRating label::after {
+            line-height: 16px;
+            content: "\F586";
+            font-family: bootstrap-icons;
+            position: absolute;
+            top: 0;
+            display: block;
+            font-size: 16px;
+            color: #ecb91c;
+            opacity: 0;
+            transition: all ease-in-out 0.3s;
+        }
+
+        .ProvideRating label:hover::after,
+        .ProvideRating label:hover ~ label::after,
+        .ProvideRating input:checked ~ label::after {
+            opacity: 1;
+        }
+
 
 /* ************** Media Query **************** */
 @media (max-width: 1200px) {
@@ -1762,6 +1868,39 @@ table.dataTable {
 
     #AddEditAddressModal .modal-dialog {
         max-width: 100%;
+        margin-inline: 16px;
+    }
+
+    #ServiceDetailsModal .custom-modal-dialog {
+        margin-inline: 12px;
+    }
+}
+
+@media (max-width: 767px) {
+    table.dataTable tr {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 32px;
+        border-radius: 8px;
+        box-shadow: 0px 2px 10px #cacaca;
+    }
+
+    table.dataTable > :not(caption) > * > * {
+        border: 0px !important;
+    }
+
+    table.dataTable td,
+    table.dataTable th {
+        padding-inline: 16px;
+    }
+
+    table.dataTable {
+        border: none;
+    }
+}
+
+@media (max-width: 612px) {
+    #RatingModal .custom-modal-dialog {
         margin-inline: 16px;
     }
 }

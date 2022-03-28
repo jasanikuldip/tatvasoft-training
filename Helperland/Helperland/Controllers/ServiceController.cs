@@ -14,16 +14,23 @@ using System.Threading.Tasks;
 
 namespace Helperland.Controllers
 {
-    [Authorize(Roles ="1")]
+    [Authorize(Roles = "1")]
     public class ServiceController : Controller
     {
         private readonly IUserAddressService userAddressService;
         private readonly IServiceRequestService serviceRequestService;
+        private readonly IUserService userService;
+        private readonly IEmailService emailService;
 
-        public ServiceController(IUserAddressService userAddressService, IServiceRequestService serviceRequestService)
+        public ServiceController(IUserAddressService userAddressService,
+                                 IServiceRequestService serviceRequestService,
+                                 IUserService userService,
+                                 IEmailService emailService)
         {
             this.userAddressService = userAddressService;
             this.serviceRequestService = serviceRequestService;
+            this.userService = userService;
+            this.emailService = emailService;
         }
 
         public IActionResult Index()
@@ -118,6 +125,25 @@ namespace Helperland.Controllers
                 }
                 serviceRequestObject.ServiceRequestAddresses.Add(serviceRequestAddressObject);
                 serviceRequestObject = await serviceRequestService.AddAsync(serviceRequestObject);
+
+                IEnumerable<User> serviceProvideres = userService.GetSPByPostalCode("382016");
+                string _url = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
+                foreach (User user in serviceProvideres)
+                {
+                    UserEmailOptions userEmailOptions = new UserEmailOptions
+                    {
+                        ToEmails = new List<string> { user.Email.ToString() },
+                        Subject = $"Service Request : { serviceRequestObject.ServiceRequestId } | Helperland",
+                        Body = "serviceRequest",
+                        Replaces = new List<KeyValuePair<string, string>>
+                        {
+                            new KeyValuePair<string, string>("[username]",user.FirstName),
+                            new KeyValuePair<string, string>("[serviceRequestId]",$"{serviceRequestObject.ServiceRequestId}"),
+                            new KeyValuePair<string, string>("[url]",_url)
+                        }
+                    };
+                    await emailService.SendEmail(userEmailOptions);
+                }
                 return Json(new { isSuccess = true, serviceRequestId = serviceRequestObject.ServiceRequestId });
             }
             catch (Exception e)

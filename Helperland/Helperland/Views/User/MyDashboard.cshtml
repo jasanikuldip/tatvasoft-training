@@ -45,10 +45,10 @@
         <div class="dashboard-right">
             <div class="tab-content">
                 <div class="tab-pane active" id="Dashboard">
-                    <h1>Helllo1</h1>
+
                 </div>
                 <div class="tab-pane " id="ServiceHistory">
-                    <h1>Helllo2</h1>
+
                 </div>
                 <div class="tab-pane " id="ServiceSchedule">
                     <h1>Helllo3</h1>
@@ -91,7 +91,7 @@
                                 <div class="tab-pane active" id="MyDetails">
                                 </div>
                                 <div class="tab-pane " id="MyAddresses">
-                                    <div id="AddressChangeAlert" class="alert alert-success d-none" ></div>
+                                    <div id="AddressChangeAlert" class="alert alert-success d-none"></div>
                                     <div id="MyAddressesBox"></div>
                                 </div>
                                 <div class="tab-pane " id="ChangePassword">
@@ -100,6 +100,19 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="ServiceDetailsModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
+            <div class="modal-content modal-content-custom">
+                <div type="button"
+                     class="btn-close btn-close-modal-custom"
+                     data-bs-dismiss="modal"></div>
+                <h1 class="t-24 color-4f-grey mb-4 fw-bold">Service Details</h1>
+                <div id="ServiceDetailsModalBox">
+
                 </div>
             </div>
         </div>
@@ -113,13 +126,39 @@
         jQuery(document).ready(function () {
             $(function () {
                 $('.loadingPageDNone').removeClass("d-none");
-                $("#MyDetails").load('@Url.Action("MyDetails", "User")', function () {
+                $("#Dashboard").load('@Url.Action("CurrentServiceRequests", "User")', function () {
                     $('.loadingPageDNone').addClass("d-none");
                 });
             });
-            $("#Dashboard").load('@Url.Action("CurrentServiceRequests", "User")');
-            $("#MyAddressesBox").load('@Url.Action("ListAddtess", "User")');
-            $("#ChangePassword").load('@Url.Action("ResetPassword", "User")');
+            $('a[data-bs-toggle="pill"][href="#Dashboard"]').on("show.bs.tab", function (e) {
+                $(function () {
+                    $('.loadingPageDNone').removeClass("d-none");
+                    $("#Dashboard").load('@Url.Action("CurrentServiceRequests", "User")', function () {
+                        $('.loadingPageDNone').addClass("d-none");
+                    });
+                });
+            });
+            $('a[data-bs-toggle="pill"][href="#MySettings"]').on("show.bs.tab", function (e) {
+                $(function () {
+                    $('.loadingPageDNone').removeClass("d-none");
+                    $("#MyDetails").load('@Url.Action("MyDetails", "User")', function () {
+                        $('.loadingPageDNone').addClass("d-none");
+                    });
+                });
+                $("#MyAddressesBox").load('@Url.Action("ListAddtess", "User")');
+                $("#ChangePassword").load('@Url.Action("ResetPassword", "User")');
+            });
+            $('a[data-bs-toggle="pill"][href="#ServiceHistory"]').on("show.bs.tab", function (e) {
+                $(function () {
+                    $('.loadingPageDNone').removeClass("d-none");
+                    $("#ServiceHistory").load('@Url.Action("ServiceHistory", "User")', function () {
+                        $('.loadingPageDNone').addClass("d-none");
+                    });
+                });
+            });
+            if ('@ViewBag.Tab' == 0) {
+                $('a[data-bs-toggle="pill"][href="#Dashboard"]').tab("show");
+            }
             if ('@ViewBag.Tab' == 1) {
                 $('a[data-bs-toggle="pill"][href="#ServiceHistory"]').tab("show");
             }
@@ -185,5 +224,23 @@
             $("#AddressChangeAlert").removeClass("d-none");
             setTimeout(function () { $("#AddressChangeAlert").addClass("d-none"); }, 3000);
         }
+
+        function openServiceDetailsModal(Id,RequestOrigin) {
+            (function () {
+                $('.loadingPageDNone').removeClass("d-none");
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("ServiceDetails", "User")',
+                    data: { id: Id, requestOrigin:RequestOrigin },
+                    success: function (res) {
+                        $("#ServiceDetailsModalBox").html(res);
+                    }, complete: function () {
+                        $('.loadingPageDNone').addClass("d-none");
+                    }
+                });
+            })();
+            $("#ServiceDetailsModal").modal('show');
+        }
+
     </script>
 }

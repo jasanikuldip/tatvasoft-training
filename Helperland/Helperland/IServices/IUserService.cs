@@ -15,6 +15,6 @@ namespace Helperland.IServices
         Task<User> GetUserByMobileAsync(string Mobile);
         Task<User> UpdateAsync(User userChange);
         Task<User> DeleteAsync(int Id);
-
+        IEnumerable<User> GetSPByPostalCode(string PostalCode);
     }
 }

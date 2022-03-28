@@ -1,0 +1,372 @@
+﻿@model IEnumerable<ServiceRequest>
+@{
+    ViewData["Title"] = "Current Service Requests";
+    Layout = null;
+    int i = 0;
+}
+
+<div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between mb-1">
+    <div class="d-flex justify-content-between mb-2">
+        <div class="color-64-grey fw-bold t-22">Current Service Requests</div>
+        <div class="dropdown d-md-none">
+            <div type="button" data-bs-toggle="dropdown" id="dropdownsorting" class="color-64-grey" aria-expanded="false"><img src="~/images/filter.png" alt="Alternate Text" /></div>
+            <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownsorting">
+                <li class="mx-3 my-2">
+                    <div class="form-check">
+                        <input class="form-check-input" value="1" onclick="sortingDropdown(1,'asc')" type="radio" name="dashoardSortingRadio" id="serviceDateNew">
+                        <label class="form-check-label" for="serviceDateNew">
+                            Service date: Latest
+                        </label>
+                    </div>
+                </li>
+                <li class="mx-3 my-2">
+                    <div class="form-check">
+                        <input class="form-check-input" value="2" onclick="sortingDropdown(1,'desc')" type="radio" name="dashoardSortingRadio" id="serviceDateOld">
+                        <label class="form-check-label" for="serviceDateOld">
+                            Service date: Oldest
+                        </label>
+                    </div>
+                </li>
+                <li class="mx-3 my-2">
+                    <div class="form-check">
+                        <input class="form-check-input" value="3" onclick="sortingDropdown(2,'asc')" type="radio" name="dashoardSortingRadio" id="serviceProviderA">
+                        <label class="form-check-label" for="serviceProviderA">
+                            Service Provider: A to Z
+                        </label>
+                    </div>
+                </li>
+                <li class="mx-3 my-2">
+                    <div class="form-check">
+                        <input class="form-check-input" value="4" onclick="sortingDropdown(2,'desc')" type="radio" name="dashoardSortingRadio" id="serviceProviderZ">
+                        <label class="form-check-label" for="serviceProviderZ">
+                            Service Provider: Z to A
+                        </label>
+                    </div>
+                </li>
+                <li class="mx-3 my-2">
+                    <div class="form-check">
+                        <input class="form-check-input" value="5" onclick="sortingDropdown(3,'asc')" type="radio" name="dashoardSortingRadio" id="PaymentHigh">
+                        <label class="form-check-label" for="PaymentHigh">
+                            Payment: High to Low
+                        </label>
+                    </div>
+                </li>
+                <li class="mx-3 my-2">
+                    <div class="form-check">
+                        <input class="form-check-input" value="6" onclick="sortingDropdown(3,'desc')" type="radio" name="dashoardSortingRadio" id="PaymentLow">
+                        <label class="form-check-label" for="PaymentLow">
+                            Payment: Low to High
+                        </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center align-items-center"><a class="reschedule-button text-light py-2" asp-action="index" asp-controller="service">Add New Service Request</a></div>
+</div>
+
+<table id="currentServiceRequestTable" class="table w-100">
+    <thead>
+        <tr class="d-md-table-row d-none table-header">
+            <th><span>Service Id</span><span class="sort-icon"></span></th>
+            <th><span>Service Date</span><span class="sort-icon"></span></th>
+            <th><span>Service Provider</span><span class="sort-icon"></span></th>
+            <th><span>Payment</span><span class="sort-icon"></span></th>
+            <th class="text-center"><span>Action</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ServiceRequest serviceRequest in Model)
+        {
+            <tr>
+                <td class="cursorPointer" onclick="openServiceDetailsModal(@serviceRequest.ServiceRequestId,1)">@serviceRequest.ServiceRequestId</td>
+                <td>
+                    <span hidden>@serviceRequest.ServiceStartDate.ToString("yyyy-MM-dd").Replace('-', '/')</span>
+                    <div class="cursorPointer" onclick="openServiceDetailsModal(@serviceRequest.ServiceRequestId,1)"><img src="~/images/calendar2.png" alt="" /><span> @serviceRequest.ServiceStartDate.Date.ToString("dd-MM-yyyy").Replace('-', '/')</span></div>
+                    <div class="cursorPointer" onclick="openServiceDetailsModal(@serviceRequest.ServiceRequestId,1)"><img src="~/images/layer-14.png" alt="" /><span> @serviceRequest.ServiceStartDate.ToString("HH:mm") - @serviceRequest.ServiceStartDate.AddHours(serviceRequest.ServiceHours).ToString("HH:mm")</span></div>
+                </td>
+                <td>
+                    @if (serviceRequest.ServiceProviderId != null)
+                    {
+                        var rateList = serviceRequest.ServiceProvider.RatingRatingToNavigations.Where(x => x.RatingTo == serviceRequest.ServiceProviderId);
+                        decimal spRrate = 0M;
+                        if (rateList.Count() > 0)
+                        {
+                            spRrate = rateList.Average(t => t.Ratings);
+                        }
+                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                            <div class="avatarRing">
+                                @switch (serviceRequest.ServiceProvider.UserProfilePicture)
+                                {
+                                    case "1":
+                                        <img src="~/images/avatar-car.png" alt="" />
+                                        break;
+                                    case "2":
+                                        <img src="~/images/avatar-female.png" alt="" />
+                                        break;
+                                    case "3":
+                                        <img src="~/images/avatar-hat.png" alt="" />
+                                        break;
+                                    case "4":
+                                        <img src="~/images/avatar-iron.png" alt="" />
+                                        break;
+                                    case "5":
+                                        <img src="~/images/avatar-male.png" alt="" />
+                                        break;
+                                    case "6":
+                                        <img src="~/images/avatar-ship.png" alt="" />
+                                        break;
+                                }
+                            </div>
+                            <div class="d-flex flex-column flex-wrap justify-content-center">
+                                <div>@serviceRequest.ServiceProvider.FirstName @serviceRequest.ServiceProvider.LastName</div>
+                                <div>
+                                    <span>
+                                        @for (i = 0; i < Math.Round(spRrate); i++)
+                                        {
+                                            <i class="star-color-fill bi bi-star-fill"></i>
+                                        }
+                                        @while (i != 5)
+                                        {
+                                            <i class="star-color bi bi-star-fill"></i>
+                                            i++;
+                                        }
+                                    </span><span class="t-16 color-64-grey">@spRrate</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </td>
+                <td class="color-secondary t-24 fw-bold">@serviceRequest.TotalCost&nbsp;&euro;</td>
+                <td>
+                    <div class="text-center d-flex justify-content-center flex-wrap gap-2">
+                        <div class="reschedule-button t-14" onclick="openRescheduleModal(@serviceRequest.ServiceRequestId)">Reschedule</div>
+                        <div class="cancel-button t-14" onclick="cancelRescheduleModal(@serviceRequest.ServiceRequestId)">Cancel</div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="RescheduleServiceModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
+        <div class="modal-content modal-content-custom">
+            <div type="button"
+                 class="btn-close btn-close-modal-custom"
+                 data-bs-dismiss="modal"></div>
+            <h1 class="t-20 color-4f-grey mb-4 fw-bold">Reschedule Service Request</h1>
+            <form id="rescheduleForm" method="post">
+                <div class="row">
+                    <div class="col-12">
+                        <div id="RescheduleServiceModalAlert" class="alert alert-danger d-none">
+
+                        </div>
+                    </div>
+                    <div class="col-12 color-64-grey mb-2">Select new Date and Time</div>
+                    <div class="col-12 col-sm-6 mb-3">
+                        <input type="text" name="StartDate" id="StartDate" class="rescheduleZIndex d-inline w-100 date form-control me-3"
+                               autocomplete="off" readonly />
+                    </div>
+                    <div class="col-12 col-sm-6 mb-3">
+                        <select name="StartTime" id="StartTime" class="w-100 d-inline form-select h-46">
+                            <option value="08:00:00">08:00</option>
+                            <option value="08:30:00">08:30</option>
+                            <option value="09:00:00">09:00</option>
+                            <option value="09:30:00">09:30</option>
+                            <option value="10:00:00">10:00</option>
+                            <option value="10:30:00">10:30</option>
+                            <option value="11:00:00">11:00</option>
+                            <option value="11:30:00">11:30</option>
+                            <option value="12:00:00">12:00</option>
+                            <option value="12:30:00">12:30</option>
+                            <option value="13:00:00">13:00</option>
+                            <option value="13:30:00">13:30</option>
+                            <option value="14:00:00">14:00</option>
+                            <option value="14:30:00">14:30</option>
+                            <option value="15:00:00">15:00</option>
+                            <option value="15:30:00">15:30</option>
+                            <option value="16:00:00">16:00</option>
+                            <option value="16:30:00">16:30</option>
+                            <option value="17:00:00">17:00</option>
+                            <option value="17:30:00">17:30</option>
+                            <option value="18:00:00">18:00</option>
+                            <option value="18:30:00">18:30</option>
+                        </select>
+                    </div>
+                    <input type="text" id="serviceId" name="serviceId" hidden />
+                    <div class="col-12">
+                        <button class="ForgotPasswordReset-button py-2 t-16 fw-normal w-100"
+                                type="submit">
+                            Update
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="CancelServiceModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
+        <div class="modal-content modal-content-custom">
+            <div type="button"
+                 class="btn-close btn-close-modal-custom"
+                 data-bs-dismiss="modal"></div>
+            <h1 class="t-20 color-4f-grey mb-4 fw-bold">Cancel Service Request</h1>
+            <form id="cancelForm" method="post">
+                <div class="row">
+                    <div class="col-12">
+                        <div id="CancelServiceModalAlert" class="alert alert-success d-none">
+                            Service Request cancelled successfully.
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="cancelReason" class="color-64-grey form-label">Why you want to cancel the service request?</label>
+                        <textarea class="form-control textarea-resize" id="cancelReason" name="cancelReason" rows="3"></textarea>
+                    </div>
+                    <input type="text" id="cancelServiceId" name="cancelServiceId" hidden />
+                    <div class="col-12">
+                        <button class="ForgotPasswordReset-button py-2 t-16 fw-normal w-100"
+                                type="submit">
+                            Cancel Now
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#currentServiceRequestTable").DataTable({
+        searching: false,
+        dom: `<'d-block't>
+              <'d-flex justify-content-between align-items-center flex-wrap'
+                <'mt-3'li>
+                <'mt-3'p>
+              >`,
+        pagingType: "full_numbers",
+        language: {
+            info: " Total Records : _TOTAL_",
+            infoPostFix: " ",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>',
+                first: '<i class="bi bi-skip-start-fill"></i>',
+                last: '<i class="bi bi-skip-end-fill"></i>',
+            },
+        },
+        "pageLength": 10,
+        "lengthMenu": [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
+        'columnDefs': [{
+            "targets": [-1],
+            "orderable": false
+        }],
+        "order": [],
+        "columns": [
+            { "width": "8%" },
+            { "width": "18%" },
+            null,
+            { "width": "12%" },
+            { "width": "20%" },
+        ]
+    });
+
+    var table = $('#currentServiceRequestTable').DataTable();
+    function sortingDropdown(column, orderby) {
+        table.order([[column, orderby]]).draw();
+    }
+
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    $(function () {
+        $("#StartDate").datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            orientation: "bottom auto",
+            startDate: tomorrow
+        });
+        $('#StartDate').datepicker('setDate', "+1d");
+    });
+
+    function openRescheduleModal(Id) {
+        $("#ServiceDetailsModal").modal('hide');
+        $("#serviceId").val(Id);
+        $("#RescheduleServiceModal").modal('show');
+    }
+
+    function cancelRescheduleModal(Id) {
+        $("#ServiceDetailsModal").modal('hide');
+        $("#cancelServiceId").val(Id);
+        $("#CancelServiceModal").modal('show');
+    }
+
+    $("#rescheduleForm").submit(function (e) {
+        e.preventDefault();
+        var formData = new FormData($('#rescheduleForm')[0]);
+        (function () {
+            $('.loadingPageDNone').removeClass("d-none");
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("RescheduleService", "User")',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    console.log(res);
+                    if (res.isAvailable) {
+                        $('#RescheduleServiceModalAlert').text(`Your Service reschedule is successfully done`).removeClass('d-none alert-danger').addClass('alert-success');
+                        setTimeout(function () {
+                            $("#RescheduleServiceModal").modal('hide');
+                            $(function () {
+                                $('.loadingPageDNone').removeClass("d-none");
+                                $("#Dashboard").load('@Url.Action("CurrentServiceRequests", "User")', function () {
+                                    $('.loadingPageDNone').addClass("d-none");
+                                });
+                            });
+                        }, 2000);
+
+                    } else {
+                        $('#RescheduleServiceModalAlert').text(`Another service request has been assigned to the service provider on ${res.date} from ${res.startTime} to ${res.endTime}`).removeClass('d-none');
+                        setTimeout(function () { $("#AddEditAddressModalAlert").addClass("d-none"); }, 5000);
+                    }
+                }, complete: function () {
+                    $('.loadingPageDNone').addClass("d-none");
+                }
+            });
+        })();
+    });
+
+    $("#cancelForm").submit(function (e) {
+        e.preventDefault();
+        var formData = new FormData($('#cancelForm')[0]);
+        (function () {
+            $('.loadingPageDNone').removeClass("d-none");
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("CancelService", "User")',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    if (res.isSuccess) {
+                        $('#CancelServiceModalAlert').removeClass('d-none');
+                        setTimeout(function () {
+                            $("#CancelServiceModal").modal('hide');
+                            $(function () {
+                                $('.loadingPageDNone').removeClass("d-none");
+                                $("#Dashboard").load('@Url.Action("CurrentServiceRequests", "User")', function () {
+                                    $('.loadingPageDNone').addClass("d-none");
+                                });
+                            });
+                        }, 2000);
+                    }
+                }, complete: function () {
+                    $('.loadingPageDNone').addClass("d-none");
+                }
+            });
+        })();
+    });
+</script>
+

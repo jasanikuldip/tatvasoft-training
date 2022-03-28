@@ -40,6 +40,7 @@ namespace Helperland
             services.AddScoped<IUserAddressService,UserAddressService>();
             services.AddScoped<IServiceRequestService,ServiceRequestService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddDataProtection();
             services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }

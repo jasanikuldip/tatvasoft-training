@@ -1,0 +1,76 @@
+﻿@model ServiceRequest
+@{
+    ViewData["Title"] = "Service Details";
+    Layout = null;
+}
+<div class="d-flex color-4f-grey w-100">
+    <div class="serviceDetailsLeft w-100">
+        <div class="t-22 fw-bold">
+            @Model.ServiceStartDate.ToString("dd-MM-yyyy").Replace("-", "/") @Model.ServiceStartDate.ToString("HH:mm")-@Model.ServiceStartDate.AddHours(Model.ServiceHours).ToString("HH:mm")
+        </div>
+        <div><span class="fw-bold">Duration: </span><span>@Model.ServiceHours Hrs</span></div>
+        <div class="dropdown-divider"></div>
+        <div><span class="fw-bold">Service Id: </span><span>@Model.ServiceRequestId</span>.</div>
+        <div>
+            <span class="fw-bold">Extras: </span>
+            @foreach (var item in Model.ServiceRequestExtras.Select((value, i) => (value, i)))
+            {
+                if (item.value.ServiceExtraId == 1)
+                {
+                    if (item.i == 0)
+                    {
+                        <span>Inside cabinets, </span>
+                    }
+                    if (item.i == 1)
+                    {
+                        <span>Inside fridge, </span>
+                    }
+                    if (item.i == 2)
+                    {
+                        <span>Inside oven, </span>
+                    }
+                    if (item.i == 3)
+                    {
+                        <span>Laundry wash & dry, </span>
+                    }
+                    if (item.i == 4)
+                    {
+                        <span>Interior windows, </span>
+                    }
+                }
+            }
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <span class="fw-bold">Net Amount: </span><span class="color-secondary fw-bold t-24 text-center">@Model.TotalCost &euro;</span>
+        </div>
+        <div class="dropdown-divider"></div>
+        @foreach (var serviceRequestAddress in Model.ServiceRequestAddresses)
+        {
+            <div><span class="fw-bold">Service Address: </span><span>@serviceRequestAddress.AddressLine1, @serviceRequestAddress.AddressLine2</span></div>
+            <div><span class="fw-bold">Phone: </span><span>+91 @serviceRequestAddress.Mobile</span></div>
+            <div><span class="fw-bold">Email: </span><span>@serviceRequestAddress.Email</span></div>
+        }
+        <div class="dropdown-divider"></div>
+        <div class="fw-bold">Comments</div>
+        <div class="t-14 color-64-grey mx-3 mb-3">@Model.Comments</div>
+        @if (Model.HasPets)
+        {
+            <div class="d-flex align-items-center gap-2"><img src="~/images/right_price.png" alt="" /> <span>I have pets at home</span></div>
+        }
+        else
+        {
+            <div class="d-flex align-items-center gap-2"><img src="~/images/redcross.png" alt="" /> <span>I don't have pets at home</span></div>
+        }
+        <div class="dropdown-divider"></div>
+        @if (ViewBag.requestOrigin == 1)
+        {
+            <div class="d-flex justify-content-center justify-content-md-start flex-wrap gap-3">
+                <div onclick="openRescheduleModal(@Model.ServiceRequestId)" class="reschedule-button py-2 px-2 px-md-3 d-flex align-items-center gap-1"><img src="~/images/reschedule.png" alt="" /><span class="d-none d-md-inline">Reschedule</span></div>
+                <div onclick="openRescheduleModal(@Model.ServiceRequestId)" class="cancel-button py-2 px-2 px-md-3 d-flex align-items-center gap-1"><img src="~/images/cancel.png" alt="" /><span class="d-none d-md-inline">Cancel</span></div>
+            </div>
+        }
+    </div>
+    <div class="serviceDetailsRight">
+
+    </div>
+</div>

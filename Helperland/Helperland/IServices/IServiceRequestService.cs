@@ -12,6 +12,14 @@ namespace Helperland.IServices
 
         Task<ServiceRequest> AddAsync(ServiceRequest sr);
         Task<ServiceRequestExtra> AddExtrasAsync(ServiceRequestExtra serviceRequestExtra);
-        IEnumerable<ServiceRequest> GetAllByUserIdNotCompleted(int UserId);
+        IEnumerable<ServiceRequest> GetAllByUserIdNotCompletedCancelled(int UserId);
+        IEnumerable<ServiceRequest> GetAllByUserIdCompletedCancelled(int UserId);
+        ServiceRequest GetById(int id);
+        IEnumerable<ServiceRequest> GetBySPId(int SPId);
+        Task<ServiceRequest> UpdateAsync(ServiceRequest serviceRequestChange);
+        Task<Rating> AddRatingAsync(Rating rating);
+        Task<Rating> UpdateRatingAsync(Rating ratingChange);
+        IEnumerable<Rating> GetAllRating();
+        IEnumerable<ServiceRequest> GetAllNotAssignedSP();
     }
 }

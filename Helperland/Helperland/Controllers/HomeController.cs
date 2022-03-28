@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Helperland.Security;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace Helperland.Controllers
 {
@@ -25,19 +26,21 @@ namespace Helperland.Controllers
         private readonly IUserService userService;
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly IEmailService emailService;
+        private readonly IDataProtector dataProtectionProvider;
 
         public HomeController(ILogger<HomeController> logger,
                               IContactUsService contactUs,
                               IUserService userService,
                               IEmailService emailService,
-                              IWebHostEnvironment webHostEnvironment)
+                              IWebHostEnvironment webHostEnvironment,
+                              IDataProtectionProvider dataProtectionProvider)
         {
             _logger = logger;
             this.contactUs = contactUs;
             this.userService = userService;
             this.webHostEnvironment = webHostEnvironment;
             this.emailService = emailService;
-
+            this.dataProtectionProvider = dataProtectionProvider.CreateProtector(GetType().FullName);
         }
 
         public IActionResult Index(int Id)
@@ -260,7 +263,7 @@ namespace Helperland.Controllers
             if (ModelState.IsValid)
             {
                 User _user = await userService.GetUserByEmailAsync(forgotPasswordViewModel.EmailForgot);
-                string token = AesTokenHelper.EncryptString($"{_user.UserId},{_user.Email}");
+                string token = dataProtectionProvider.Protect($"{_user.UserId},{_user.Email},{DateTime.UtcNow}");
                 string _url = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Home/ForgotPasswordReset?token={token}";
 
                 UserEmailOptions userEmailOptions = new UserEmailOptions
@@ -295,20 +298,23 @@ namespace Helperland.Controllers
         {
             if (ModelState.IsValid)
             {
-                string decPass = AesTokenHelper.DecryptString(forgotPassword.token);
+                string decPass = dataProtectionProvider.Unprotect(forgotPassword.token);
                 string[] userIdPass = decPass.Split(',');
+                DateTime receivedTime = DateTime.Parse(userIdPass[2]);
 
-                if (userIdPass[0] != null)
+                if (receivedTime.AddMinutes(1) > DateTime.UtcNow)
                 {
-                    User user = await userService.GetUserByIdAsync(int.Parse(userIdPass[0]));
-                    if (user.Email == userIdPass[1])
+                    if (userIdPass[0] != null)
                     {
-                        user.Password = PasswordHashHelper.HashPassword(forgotPassword.Password);
-                        User UpdatedUser = await userService.UpdateAsync(user);
-                        return Json(new { isSuccessRP = true, isExpired = false });
+                        User user = await userService.GetUserByIdAsync(int.Parse(userIdPass[0]));
+                        if (user.Email == userIdPass[1])
+                        {
+                            user.Password = PasswordHashHelper.HashPassword(forgotPassword.Password);
+                            User UpdatedUser = await userService.UpdateAsync(user);
+                            return Json(new { isSuccessRP = true, isExpired = false });
+                        }
                     }
                 }
-
             }
             return Json(new { isSuccessRP = false, isExpired = true });
         }
