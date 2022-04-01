@@ -18,14 +18,17 @@ namespace Helperland.Controllers
         private readonly IUserService userService;
         private readonly IUserAddressService userAddressService;
         private readonly IServiceRequestService serviceRequestService;
+        private readonly IBlockedUser blockedUser;
 
-        public ServiceProviderController(IUserService userService, 
+        public ServiceProviderController(IUserService userService,
                                          IUserAddressService userAddressService,
-                                         IServiceRequestService serviceRequestService)
+                                         IServiceRequestService serviceRequestService,
+                                         IBlockedUser blockedUser)
         {
             this.userService = userService;
             this.userAddressService = userAddressService;
             this.serviceRequestService = serviceRequestService;
+            this.blockedUser = blockedUser;
         }
 
         public IActionResult MyDashboard(int Id)
@@ -62,7 +65,7 @@ namespace Helperland.Controllers
                 model.PostalCode = userAddress.PostalCode;
                 model.City = userAddress.City;
             }
-            return View("~/Views/ServiceProvider/MyDashboard/MyDetails.cshtml", model);
+            return View("~/Views/ServiceProvider/MyDetails.cshtml", model);
         }
 
         [HttpPost]
@@ -115,13 +118,48 @@ namespace Helperland.Controllers
 
         [HttpGet]
         //[NoDirectAccess]
-        public IActionResult NewServiceRequests()
+        public async Task<IActionResult> NewServiceRequests(bool includePet)
         {
-            //int UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            IEnumerable<ServiceRequest> model = serviceRequestService.GetAllNotAssignedSP();
-            return View("~/Views/ServiceProvider/NewServiceRequests/NewServiceRequests.cshtml", model);
+            int SPId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            IEnumerable<ServiceRequest> model = null;
+            if (includePet)
+            {
+                model = serviceRequestService.GetAllNotAssignedService(SPId).Where(x => x.ServiceStartDate > DateTime.Now && x.HasPets == true);
+            }
+            else
+            {
+                model = serviceRequestService.GetAllNotAssignedService(SPId).Where(x => x.ServiceStartDate > DateTime.Now && x.HasPets == false);
+            }
+            return View("~/Views/ServiceProvider/NewServiceRequests.cshtml", model);
         }
 
+
+        [HttpGet]
+        //[NoDirectAccess]
+        public IActionResult UpcomingServiceRequests()
+        {
+            int SPId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            IEnumerable<ServiceRequest> model = serviceRequestService.UpcomingServicesForSP(SPId);
+            return View("~/Views/ServiceProvider/UpcomingServiceRequests.cshtml", model);
+        }
+
+        [HttpGet]
+        //[NoDirectAccess]
+        public IActionResult ServiceHistory()
+        {
+            int SPId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            IEnumerable<ServiceRequest> model = serviceRequestService.ServiceHistorySP(SPId);
+            return View("~/Views/ServiceProvider/ServiceHistory.cshtml", model);
+        }
+
+        [HttpGet]
+        //[NoDirectAccess]
+        public IActionResult MyRatingSP()
+        {
+            int SPId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            IEnumerable<Rating> model = serviceRequestService.MyRatingsList(SPId);
+            return View("~/Views/ServiceProvider/MyRatings.cshtml", model);
+        }
 
         [HttpGet]
         [NoDirectAccess]
@@ -129,7 +167,105 @@ namespace Helperland.Controllers
         {
             ServiceRequest model = serviceRequestService.GetById(Id);
             ViewBag.RequestOrigin = requestOrigin;
-            return View("~/Views/ServiceProvider/NewServiceRequests/ServiceDetails.cshtml", model);
+            return View("~/Views/ServiceProvider/ServiceDetails.cshtml", model);
+        }
+
+        [HttpPost, HttpGet]
+        //[NoDirectAccess]
+        public async Task<IActionResult> AcceptService(int id)
+        {
+            ServiceRequest serviceRequest = serviceRequestService.GetById(id);
+            int UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            DateTime ServiceStartDate = serviceRequest.ServiceStartDate;
+            DateTime ServiceEndDate = ServiceStartDate.AddHours(serviceRequest.ServiceHours + 1);
+            ServiceStartDate = ServiceStartDate.AddHours(-1);
+            int? serviceIdFailId = null;
+
+            IEnumerable<ServiceRequest> spServices = serviceRequestService.GetBySPId(UserId);
+            bool isAvailable = true;
+            DateTime ProblemDateStart = DateTime.MinValue;
+            DateTime ProblemDateEnd = DateTime.MinValue;
+            foreach (ServiceRequest spService in spServices)
+            {
+                DateTime spStartDate = spService.ServiceStartDate;
+                DateTime spEndDate = spService.ServiceStartDate.AddHours(spService.ServiceHours);
+                if ((spStartDate < ServiceStartDate && ServiceStartDate < spEndDate) || (spStartDate < ServiceEndDate && ServiceEndDate < spEndDate) || (ServiceStartDate <= spStartDate && spEndDate <= ServiceEndDate))
+                {
+                    ProblemDateStart = spStartDate;
+                    ProblemDateEnd = spEndDate;
+                    serviceIdFailId = spService.ServiceRequestId;
+                    isAvailable = false; break;
+
+                }
+            }
+
+            if (isAvailable)
+            {
+                if (serviceRequest.Status == 1)
+                {
+                    serviceRequest.Status = 2;
+                    serviceRequest.ServiceProviderId = UserId;
+                    _ = await serviceRequestService.UpdateAsync(serviceRequest);
+                    FavoriteAndBlocked favoriteAndBlocked = new FavoriteAndBlocked
+                    {
+                        IsBlocked = false,
+                        IsFavorite = false,
+                        UserId = UserId,
+                        TargetUserId = serviceRequest.UserId
+                    };
+                    await blockedUser.CreateAsync(favoriteAndBlocked);
+                    return Json(new { isAvailable, serviceIdFailId });
+                }
+                else
+                {
+                    return Json(new { isAvailable, serviceIdFailId = 0 });
+                }
+            }
+            else
+            {
+                return Json(new { isAvailable, serviceIdFailId });
+            }
+        }
+
+        [HttpPost]
+        [NoDirectAccess]
+        public async Task<IActionResult> CompleteCancelServiceSP(int serviceId, int completeCancel)
+        {
+            ServiceRequest serviceRequest = serviceRequestService.GetById(serviceId);
+            if (completeCancel == 1)
+            {
+                serviceRequest.Status = 3;
+            }
+            else
+            {
+                serviceRequest.Status = 5;
+            }
+            await serviceRequestService.UpdateAsync(serviceRequest);
+            return Json(new { isSuccess = true, isCompleteCancel = completeCancel });
+        }
+
+        [HttpGet]
+        public IActionResult BlockedUserSp()
+        {
+            int SPId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            IEnumerable<FavoriteAndBlocked> model = blockedUser.GetAll(SPId);
+            return View("~/Views/ServiceProvider/BlockedUserSp.cshtml", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BlockedUserSp(int id)
+        {
+            try
+            {
+                FavoriteAndBlocked favoriteAndBlocked = blockedUser.GetOneById(id);
+                favoriteAndBlocked.IsBlocked = !favoriteAndBlocked.IsBlocked;
+                await blockedUser.UpdateAsync(favoriteAndBlocked);
+                return Json(new { isSuccess = true });
+            } catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

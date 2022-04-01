@@ -39,6 +39,7 @@ namespace Helperland
             services.AddScoped<IEmailService,EmailService>();
             services.AddScoped<IUserAddressService,UserAddressService>();
             services.AddScoped<IServiceRequestService,ServiceRequestService>();
+            services.AddScoped<IBlockedUser, BlockedUser>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDataProtection();
             services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));

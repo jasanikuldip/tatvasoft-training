@@ -1,0 +1,189 @@
+﻿@model IEnumerable<Rating>
+@{
+    ViewData["Title"] = "My Ratings";
+    Layout = null;
+    int i = 0;
+}
+
+<div class="d-flex justify-content-between mb-2">
+    <div class="color-64-grey fw-bold t-22">Current Service Requests</div>
+    <div class="dropdown">
+        <div type="button" data-bs-toggle="dropdown" id="dropdownsorting" class="color-64-grey" aria-expanded="false">Sorting <img src="~/images/filter.png" alt=" " /></div>
+        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownsorting">
+            <li class="mx-3 my-2">
+                <div class="form-check">
+                    <input class="form-check-input" value="1" onclick="sortingDropdown(0,'asc',1)" type="radio" name="serviceHistoryRadio" id="serviceRatingIdAsc">
+                    <label class="form-check-label" for="serviceRatingIdAsc">
+                        Customer name: Ascending
+                    </label>
+                </div>
+            </li>
+            <li class="mx-3 my-2">
+                <div class="form-check">
+                    <input class="form-check-input" value="2" onclick="sortingDropdown(0,'desc',2)" type="radio" name="serviceHistoryRadio" id="serviceRatingIdDesc">
+                    <label class="form-check-label" for="serviceRatingIdDesc">
+                        Customer name: Decending
+                    </label>
+                </div>
+            </li>
+            <li class="mx-3 my-2">
+                <div class="form-check">
+                    <input class="form-check-input" value="1" onclick="sortingDropdown(1,'asc',1)" type="radio" name="serviceHistoryRadio" id="serviceRatingDateNew">
+                    <label class="form-check-label" for="serviceRatingDateNew">
+                        Service date: Latest
+                    </label>
+                </div>
+            </li>
+            <li class="mx-3 my-2">
+                <div class="form-check">
+                    <input class="form-check-input" value="2" onclick="sortingDropdown(1,'desc',2)" type="radio" name="serviceHistoryRadio" id="serviceRatingDateOld">
+                    <label class="form-check-label" for="serviceRatingDateOld">
+                        Service date: Oldest
+                    </label>
+                </div>
+            </li>
+            <li class="mx-3 my-2">
+                <div class="form-check">
+                    <input class="form-check-input" value="3" onclick="sortingDropdown(2,'asc',3)" type="radio" name="serviceHistoryRadio" id="customerARating">
+                    <label class="form-check-label" for="customerARating">
+                        Rating: High to Low
+                    </label>
+                </div>
+            </li>
+            <li class="mx-3 my-2">
+                <div class="form-check">
+                    <input class="form-check-input" value="4" onclick="sortingDropdown(2,'desc',4)" type="radio" name="serviceHistoryRadio" id="customerZRating">
+                    <label class="form-check-label" for="customerZRating">
+                        Rating: Low to High
+                    </label>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<table id="MyRatingSPTable" class="table w-100">
+    <thead>
+        <tr class="d-none table-header">
+            <th><span>Customer Name</span></th>
+            <th><span>Service Date</span></th>
+            <th><span>Ratings</span></th>
+            <th><span>Comments</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Rating rating in Model)
+        {
+            <tr class="color-64-grey my-3 d-block">
+                <td class="d-none">@rating.ServiceRequest.User.FirstName @rating.ServiceRequest.User.FirstName</td>
+                <td class="d-none">@rating.ServiceRequest.ServiceStartDate.ToString("yyyy-MM-dd").Replace('-', '/')</td>
+                <td class="d-none">@rating.Ratings</td>
+                <td class="d-flex flex-column p-3">
+                    <div class="d-flex flex-md-row flex-column gap-3 gap-md-0 justify-content-between me-3">
+                        <div class="d-flex gap-3 gap-md-5 flex-column flex-md-row">
+                            <div class="d-flex flex-column">
+                                <div onclick="openServiceDetailsModal(@rating.ServiceRequest.ServiceRequestId,3)">@rating.ServiceRequest.ServiceRequestId</div>
+                                <div onclick="openServiceDetailsModal(@rating.ServiceRequest.ServiceRequestId,3)">@rating.ServiceRequest.User.FirstName @rating.ServiceRequest.User.LastName</div>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <div class="cursorPointer" onclick="openServiceDetailsModal(@rating.ServiceRequest.ServiceRequestId,3)"><img src="~/images/calendar2.png" alt="" /><span> @rating.ServiceRequest.ServiceStartDate.Date.ToString("dd-MM-yyyy").Replace('-', '/')</span></div>
+                                <div class="cursorPointer" onclick="openServiceDetailsModal(@rating.ServiceRequest.ServiceRequestId,3)"><img src="~/images/layer-14.png" alt="" /><span> @rating.ServiceRequest.ServiceStartDate.ToString("HH:mm") - @rating.ServiceRequest.ServiceStartDate.AddHours(rating.ServiceRequest.ServiceHours).ToString("HH:mm")</span></div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <div class="fw-bold">Ratings</div>
+                            <div>
+                                <span>
+                                    @for (i = 0; i < Math.Round(rating.Ratings); i++)
+                                    {
+                                        <i class="star-color-fill bi bi-star-fill"></i>
+                                    }
+                                    @while (i != 5)
+                                    {
+                                        <i class="star-color bi bi-star-fill"></i>
+                                        i++;
+                                    }
+                                </span><span class="t-16 color-64-grey">@rating.Ratings</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="me-3">
+                        <div class="fw-bold">Customer Comment</div>
+                        <div>@rating.ServiceRequest.Comments</div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $("#MyRatingSPTable").DataTable({
+        searching: false,
+        dom: `<'d-block't>
+              <'d-flex justify-content-between align-items-center flex-wrap'
+                <'mt-3'li>
+                <'mt-3'p>
+              >`,
+        pagingType: "full_numbers",
+        language: {
+            info: " Total Records : _TOTAL_",
+            infoPostFix: " ",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>',
+                first: '<i class="bi bi-skip-start-fill"></i>',
+                last: '<i class="bi bi-skip-end-fill"></i>',
+            },
+        },
+        "pageLength": 10,
+        "lengthMenu": [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
+        //'columnDefs': [{
+        //    "targets": [-1,-2],
+        //    "orderable": false
+        //}],
+        "order": [],
+    });
+
+    var table = $('#MyRatingSPTable').DataTable();
+    function sortingDropdown(column, orderby) {
+        table.order([[column, orderby]]).draw();
+    }
+
+    function acceptServiceRequest(Id) {
+
+    }
+
+    @*$("#cancelForm").submit(function (e) {
+        e.preventDefault();
+        var formData = new FormData($('#cancelForm')[0]);
+        (function () {
+            $('.loadingPageDNone').removeClass("d-none");
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("CancelService", "User")',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    if (res.isSuccess) {
+                        $('#CancelServiceModalAlert').removeClass('d-none');
+                        setTimeout(function () {
+                            $("#CancelServiceModal").modal('hide');
+                            $(function () {
+                                $('.loadingPageDNone').removeClass("d-none");
+                                $("#Dashboard").load('@Url.Action("CurrentServiceRequests", "User")', function () {
+                                    $('.loadingPageDNone').addClass("d-none");
+                                });
+                            });
+                        }, 2000);
+                    }
+                }, complete: function () {
+                    $('.loadingPageDNone').addClass("d-none");
+                }
+            });
+        })();
+    });*@
+</script>
+

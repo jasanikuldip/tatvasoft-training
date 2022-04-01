@@ -240,8 +240,9 @@ namespace Helperland.Controllers
         [Authorize(Roles = "1")]
         public async Task<IActionResult> RescheduleService(string StartDate, string StartTime, string ServiceId)
         {
+            int SPId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
             ServiceRequest serviceRequest = serviceRequestService.GetById(Convert.ToInt32(ServiceId));
-            User serviceProvider = await userService.GetUserByIdAsync((int)serviceRequest.ServiceProviderId);
+            User serviceProvider = await userService.GetUserByIdAsync(SPId);
             DateTime ServiceStartDate = DateTime.Parse(StartDate.Replace('/', '-') + " " + StartTime);
 
             //get start time and end time
@@ -258,7 +259,7 @@ namespace Helperland.Controllers
                 {
                     DateTime spStartDate = spService.ServiceStartDate;
                     DateTime spEndDate = spService.ServiceStartDate.AddHours(spService.ServiceHours);
-                    if ((spStartDate <= ServiceStartDate && ServiceStartDate <= spEndDate) || (spStartDate <= ServiceEndDate && ServiceEndDate <= spEndDate) || (ServiceStartDate < spStartDate && spEndDate < ServiceEndDate))
+                    if ((spStartDate < ServiceStartDate && ServiceStartDate < spEndDate) || (spStartDate < ServiceEndDate && ServiceEndDate < spEndDate) || (ServiceStartDate <= spStartDate && spEndDate <= ServiceEndDate))
                     {
                         ProblemDateStart = spStartDate;
                         ProblemDateEnd = spEndDate;
@@ -283,8 +284,14 @@ namespace Helperland.Controllers
                             new KeyValuePair<string, string>("[url]",_url)
                         }
                     };
-                    await emailService.SendEmail(userEmailOptions);
+                    try
+                    {
+                        await emailService.SendEmail(userEmailOptions);
+                    }
+                    catch (Exception ex)
+                    {
 
+                    }
                     await serviceRequestService.UpdateAsync(serviceRequest);
                     return Json(new { isAvailable });
                 }

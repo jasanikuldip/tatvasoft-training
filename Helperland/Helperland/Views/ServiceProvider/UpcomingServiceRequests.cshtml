@@ -5,54 +5,54 @@
 }
 
 <div class="d-flex justify-content-between mb-2">
-    <div class="color-64-grey fw-bold t-22">Current Service Requests</div>
+    <div class="color-64-grey fw-bold t-22">Upcoming Service Requests</div>
     <div class="dropdown d-md-none">
         <div type="button" data-bs-toggle="dropdown" id="dropdownsorting" class="color-64-grey" aria-expanded="false"><img src="~/images/filter.png" alt="Alternate Text" /></div>
         <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownsorting">
             <li class="mx-3 my-2">
                 <div class="form-check">
-                    <input class="form-check-input" value="1" onclick="sortingDropdown(0,'asc',1)" type="radio" name="dashoardSortingRadio" id="serviceIdAsc">
-                    <label class="form-check-label" for="serviceIdAsc">
+                    <input class="form-check-input" value="1" onclick="sortingDropdown(0,'asc',1)" type="radio" name="upcomingServiceRadio" id="serviceUpcomingIdAsc">
+                    <label class="form-check-label" for="serviceUpcomingIdAsc">
                         Service Id : Ascending
                     </label>
                 </div>
             </li>
             <li class="mx-3 my-2">
                 <div class="form-check">
-                    <input class="form-check-input" value="2" onclick="sortingDropdown(0,'desc',2)" type="radio" name="dashoardSortingRadio" id="serviceIdDesc">
-                    <label class="form-check-label" for="serviceIdDesc">
+                    <input class="form-check-input" value="2" onclick="sortingDropdown(0,'desc',2)" type="radio" name="upcomingServiceRadio" id="serviceUpcomingIdDesc">
+                    <label class="form-check-label" for="serviceUpcomingIdDesc">
                         Service Id : Decending
                     </label>
                 </div>
             </li>
             <li class="mx-3 my-2">
                 <div class="form-check">
-                    <input class="form-check-input" value="1" onclick="sortingDropdown(1,'asc',1)" type="radio" name="dashoardSortingRadio" id="serviceDateNew">
-                    <label class="form-check-label" for="serviceDateNew">
+                    <input class="form-check-input" value="1" onclick="sortingDropdown(1,'asc',1)" type="radio" name="upcomingServiceRadio" id="serviceUpcomingDateNew">
+                    <label class="form-check-label" for="serviceUpcomingDateNew">
                         Service date: Latest
                     </label>
                 </div>
             </li>
             <li class="mx-3 my-2">
                 <div class="form-check">
-                    <input class="form-check-input" value="2" onclick="sortingDropdown(1,'desc',2)" type="radio" name="dashoardSortingRadio" id="serviceDateOld">
-                    <label class="form-check-label" for="serviceDateOld">
+                    <input class="form-check-input" value="2" onclick="sortingDropdown(1,'desc',2)" type="radio" name="upcomingServiceRadio" id="serviceUpcomingDateOld">
+                    <label class="form-check-label" for="serviceUpcomingDateOld">
                         Service date: Oldest
                     </label>
                 </div>
             </li>
             <li class="mx-3 my-2">
                 <div class="form-check">
-                    <input class="form-check-input" value="3" onclick="sortingDropdown(2,'asc',3)" type="radio" name="dashoardSortingRadio" id="customerA">
-                    <label class="form-check-label" for="customerA">
+                    <input class="form-check-input" value="3" onclick="sortingDropdown(2,'asc',3)" type="radio" name="upcomingServiceRadio" id="customerAUpcoming">
+                    <label class="form-check-label" for="customerAUpcoming">
                         Customer details: A to Z
                     </label>
                 </div>
             </li>
             <li class="mx-3 my-2">
                 <div class="form-check">
-                    <input class="form-check-input" value="4" onclick="sortingDropdown(2,'desc',4)" type="radio" name="dashoardSortingRadio" id="customerZ">
-                    <label class="form-check-label" for="customerZ">
+                    <input class="form-check-input" value="4" onclick="sortingDropdown(2,'desc',4)" type="radio" name="upcomingServiceRadio" id="customerZUpcoming">
+                    <label class="form-check-label" for="customerZUpcoming">
                         Customer details: Z to A
                     </label>
                 </div>
@@ -60,15 +60,8 @@
         </ul>
     </div>
 </div>
-
-<div class="form-check mb-3">
-    <input class="form-check-input" type="checkbox" value="" id="petHome">
-    <label class="form-check-label" for="petHome">
-        Include pet at Home
-    </label>
-</div>
-
-<table id="newServiceRequestTable" class="table w-100">
+<div id="completeCancelAlertBox" class="alert alert-success d-none" ></div>
+<table id="upcomingServiceRequestTable" class="table w-100">
     <thead>
         <tr class="d-md-table-row d-none table-header">
             <th><span>Service Id</span><span class="sort-icon"></span></th>
@@ -82,11 +75,11 @@
         @foreach (ServiceRequest sr in Model)
         {
             <tr>
-                <td class="cursorPointer" onclick="openServiceDetailsModal(@sr.ServiceRequestId,1)">@sr.ServiceRequestId</td>
+                <td class="cursorPointer" onclick="openServiceDetailsModal(@sr.ServiceRequestId,2)">@sr.ServiceRequestId</td>
                 <td>
                     <span hidden>@sr.ServiceStartDate.ToString("yyyy-MM-dd").Replace('-', '/')</span>
-                    <div class="cursorPointer" onclick="openServiceDetailsModal(@sr.ServiceRequestId,1)"><img src="~/images/calendar2.png" alt="" /><span> @sr.ServiceStartDate.Date.ToString("dd-MM-yyyy").Replace('-', '/')</span></div>
-                    <div class="cursorPointer" onclick="openServiceDetailsModal(@sr.ServiceRequestId,1)"><img src="~/images/layer-14.png" alt="" /><span> @sr.ServiceStartDate.ToString("HH:mm") - @sr.ServiceStartDate.AddHours(sr.ServiceHours).ToString("HH:mm")</span></div>
+                    <div class="cursorPointer" onclick="openServiceDetailsModal(@sr.ServiceRequestId,2)"><img src="~/images/calendar2.png" alt="" /><span> @sr.ServiceStartDate.Date.ToString("dd-MM-yyyy").Replace('-', '/')</span></div>
+                    <div class="cursorPointer" onclick="openServiceDetailsModal(@sr.ServiceRequestId,2)"><img src="~/images/layer-14.png" alt="" /><span> @sr.ServiceStartDate.ToString("HH:mm") - @sr.ServiceStartDate.AddHours(sr.ServiceHours).ToString("HH:mm")</span></div>
                 </td>
                 <td>
                     <div class="d-flex justify-content-start gap-2">
@@ -102,8 +95,12 @@
                 </td>
                 <td class="color-64-grey">@sr.TotalCost&nbsp;&euro;</td>
                 <td>
-                    <div class="text-center d-flex justify-content-center">
-                        <div class="reschedule-button t-14" onclick="acceptServiceRequest(@sr.ServiceRequestId)">Accept</div>
+                    <div class="text-center d-flex justify-content-center gap-2">
+                        @if (sr.ServiceStartDate.AddHours(sr.ServiceHours) < DateTime.Now)
+                        {
+                            <div class="reschedule-button t-14" onclick="completeCancelServiceRequest(@sr.ServiceRequestId,1)">Complete</div>
+                        }
+                        <div class="cancel-button t-14" onclick="completeCancelServiceRequest(@sr.ServiceRequestId,2)">Cancel</div>
                     </div>
                 </td>
             </tr>
@@ -112,7 +109,7 @@
 </table>
 
 <script>
-    $("#newServiceRequestTable").DataTable({
+    $("#upcomingServiceRequestTable").DataTable({
         searching: false,
         dom: `<'d-block't>
               <'d-flex justify-content-between align-items-center flex-wrap'
@@ -142,44 +139,13 @@
             { "width": "18%" },
             null,
             { "width": "10%" },
-            { "width": "10%" },
+            { "width": "20%" },
         ]
     });
 
-    var table = $('#newServiceRequestTable').DataTable();
+    var table = $('#upcomingServiceRequestTable').DataTable();
     function sortingDropdown(column, orderby) {
         table.order([[column, orderby]]).draw();
     }
-
-    @*$("#cancelForm").submit(function (e) {
-        e.preventDefault();
-        var formData = new FormData($('#cancelForm')[0]);
-        (function () {
-            $('.loadingPageDNone').removeClass("d-none");
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("CancelService", "User")',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (res) {
-                    if (res.isSuccess) {
-                        $('#CancelServiceModalAlert').removeClass('d-none');
-                        setTimeout(function () {
-                            $("#CancelServiceModal").modal('hide');
-                            $(function () {
-                                $('.loadingPageDNone').removeClass("d-none");
-                                $("#Dashboard").load('@Url.Action("CurrentServiceRequests", "User")', function () {
-                                    $('.loadingPageDNone').addClass("d-none");
-                                });
-                            });
-                        }, 2000);
-                    }
-                }, complete: function () {
-                    $('.loadingPageDNone').addClass("d-none");
-                }
-            });
-        })();
-    });*@
 </script>
 

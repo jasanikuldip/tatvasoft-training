@@ -124,12 +124,37 @@ namespace Helperland.Services
             return context.Ratings;
         }
 
-        public IEnumerable<ServiceRequest> GetAllNotAssignedSP()
+        public IEnumerable<ServiceRequest> GetAllNotAssignedService(int SPId)
+        {
+            var blockedUser = context.FavoriteAndBlockeds.Where(x => x.UserId == SPId && x.IsBlocked == true).Select(x => x.TargetUserId).ToArray();
+            string Postalcode = context.Users.Include(x => x.UserAddresses).FirstOrDefault().UserAddresses.FirstOrDefault().PostalCode;
+            return context.ServiceRequests
+                   .Include(x => x.User)
+                   .Include(x => x.ServiceRequestAddresses).AsSingleQuery()
+                   .Where(x => x.Status == 1 && x.ZipCode == Postalcode && !blockedUser.Contains(x.UserId));
+        }
+
+        public IEnumerable<ServiceRequest> UpcomingServicesForSP(int SPId)
         {
             return context.ServiceRequests
                    .Include(x => x.ServiceRequestAddresses)
                    .Include(x => x.User)
-                   .Where(x => x.Status == 1);
+                   .Where(x => x.Status == 2 && x.ServiceProviderId == SPId);
+        }
+
+        public IEnumerable<ServiceRequest> ServiceHistorySP(int SPId)
+        {
+            return context.ServiceRequests
+                   .Include(x => x.ServiceRequestAddresses)
+                   .Include(x => x.User)
+                   .Where(x => x.Status == 3 && x.ServiceProviderId == SPId);
+        }
+
+        public IEnumerable<Rating> MyRatingsList(int SPId)
+        {
+            return context.Ratings.Include(x => x.RatingFromNavigation)
+                                  .Include(x => x.ServiceRequest).AsSplitQuery()
+                                  .Where(y => y.RatingTo == SPId);
         }
     }
 }

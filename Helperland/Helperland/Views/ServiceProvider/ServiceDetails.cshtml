@@ -63,7 +63,14 @@
         @if (ViewBag.requestOrigin == 1)
         {
             <div class="d-flex justify-content-center justify-content-md-start flex-wrap gap-3">
-                <div onclick="openRescheduleModal(@Model.ServiceRequestId)" class="reschedule-button py-2 px-2 px-md-3 d-flex align-items-center gap-1"><img src="~/images/right_price.png" alt="" /><span class="d-none d-md-inline">Accept</span></div>
+                <div onclick="openRescheduleModal(@Model.ServiceRequestId)" class="accept-button-green py-2 ps-0 ps-2 px-md-3 d-flex align-items-center gap-1"><img src="~/images/right_price.png" alt="" /><span>Accept</span></div>
+            </div>
+        }
+        @if (ViewBag.requestOrigin == 2)
+        {
+            <div class="d-flex justify-content-center justify-content-md-start flex-wrap gap-2">
+                <div onclick="openRescheduleModal(@Model.ServiceRequestId)" class="reschedule-button py-2 px-3">Complete</div>
+                <div onclick="openRescheduleModal(@Model.ServiceRequestId)" class="cancel-button py-2 px-3">Cancel</div>
             </div>
         }
     </div>

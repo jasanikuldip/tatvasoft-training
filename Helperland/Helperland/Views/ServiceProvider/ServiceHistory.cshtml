@@ -1,0 +1,128 @@
+﻿@model IEnumerable<ServiceRequest>
+@{
+    ViewData["Title"] = "Service History";
+    Layout = null;
+}
+
+<div class="d-flex justify-content-between mb-2">
+    <div class="color-64-grey fw-bold t-22">Current Service Requests</div>
+    <div class="dropdown d-md-none">
+        <div type="button" data-bs-toggle="dropdown" id="dropdownsorting" class="color-64-grey" aria-expanded="false"><img src="~/images/filter.png" alt="Alternate Text" /></div>
+        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownsorting">
+            <li class="mx-3 my-2">
+                <div class="form-check">
+                    <input class="form-check-input" value="1" onclick="sortingDropdown(0,'asc',1)" type="radio" name="serviceHistoryRadio" id="serviceHistoryIdAsc">
+                    <label class="form-check-label" for="serviceHistoryIdAsc">
+                        Service Id : Ascending
+                    </label>
+                </div>
+            </li>
+            <li class="mx-3 my-2">
+                <div class="form-check">
+                    <input class="form-check-input" value="2" onclick="sortingDropdown(0,'desc',2)" type="radio" name="serviceHistoryRadio" id="serviceHistoryIdDesc">
+                    <label class="form-check-label" for="serviceHistoryIdDesc">
+                        Service Id : Decending
+                    </label>
+                </div>
+            </li>
+            <li class="mx-3 my-2">
+                <div class="form-check">
+                    <input class="form-check-input" value="1" onclick="sortingDropdown(1,'asc',1)" type="radio" name="serviceHistoryRadio" id="serviceHistoryDateNew">
+                    <label class="form-check-label" for="serviceHistoryDateNew">
+                        Service date: Latest
+                    </label>
+                </div>
+            </li>
+            <li class="mx-3 my-2">
+                <div class="form-check">
+                    <input class="form-check-input" value="2" onclick="sortingDropdown(1,'desc',2)" type="radio" name="serviceHistoryRadio" id="serviceHistoryDateOld">
+                    <label class="form-check-label" for="serviceHistoryDateOld">
+                        Service date: Oldest
+                    </label>
+                </div>
+            </li>
+            <li class="mx-3 my-2">
+                <div class="form-check">
+                    <input class="form-check-input" value="3" onclick="sortingDropdown(2,'asc',3)" type="radio" name="serviceHistoryRadio" id="customerAHistory">
+                    <label class="form-check-label" for="customerAHistory">
+                        Customer details: A to Z
+                    </label>
+                </div>
+            </li>
+            <li class="mx-3 my-2">
+                <div class="form-check">
+                    <input class="form-check-input" value="4" onclick="sortingDropdown(2,'desc',4)" type="radio" name="serviceHistoryRadio" id="customerZHistory">
+                    <label class="form-check-label" for="customerZHistory">
+                        Customer details: Z to A
+                    </label>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<table id="serviceHistoryTable" class="table w-100">
+    <thead>
+        <tr class="d-md-table-row d-none table-header">
+            <th><span>Service Id</span><span class="sort-icon"></span></th>
+            <th><span>Service Date</span><span class="sort-icon"></span></th>
+            <th><span>Customer Details</span><span class="sort-icon"></span></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ServiceRequest sr in Model)
+        {
+            <tr>
+                <td class="cursorPointer" onclick="openServiceDetailsModal(@sr.ServiceRequestId,3)">@sr.ServiceRequestId</td>
+                <td>
+                    <span hidden>@sr.ServiceStartDate.ToString("yyyy-MM-dd").Replace('-', '/')</span>
+                    <div class="cursorPointer" onclick="openServiceDetailsModal(@sr.ServiceRequestId,3)"><img src="~/images/calendar2.png" alt="" /><span> @sr.ServiceStartDate.Date.ToString("dd-MM-yyyy").Replace('-', '/')</span></div>
+                    <div class="cursorPointer" onclick="openServiceDetailsModal(@sr.ServiceRequestId,3)"><img src="~/images/layer-14.png" alt="" /><span> @sr.ServiceStartDate.ToString("HH:mm") - @sr.ServiceStartDate.AddHours(sr.ServiceHours).ToString("HH:mm")</span></div>
+                </td>
+                <td>
+                    <div class="d-flex justify-content-start gap-2">
+                        <div class="d-flex align-items-center">
+                            <img src="~/images/layer-719.png" alt="Alternate Text" />
+                        </div>
+                        <div>
+                            <p class="mb-0">@sr.User.FirstName @sr.User.LastName</p>
+                            <p class="mb-0">@sr.ServiceRequestAddresses.ElementAt(0).AddressLine1 @sr.ServiceRequestAddresses.ElementAt(0).AddressLine2</p>
+                            <p class="mb-0">@sr.ServiceRequestAddresses.ElementAt(0).PostalCode @sr.ServiceRequestAddresses.ElementAt(0).City</p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $("#serviceHistoryTable").DataTable({
+        searching: false,
+        dom: `<'d-block't>
+              <'d-flex justify-content-between align-items-center flex-wrap'
+                <'mt-3'li>
+                <'mt-3'p>
+              >`,
+        pagingType: "full_numbers",
+        language: {
+            info: " Total Records : _TOTAL_",
+            infoPostFix: " ",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>',
+                first: '<i class="bi bi-skip-start-fill"></i>',
+                last: '<i class="bi bi-skip-end-fill"></i>',
+            },
+        },
+        "pageLength": 10,
+        "lengthMenu": [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
+        "order": [],
+    });
+
+    var table = $('#serviceHistoryTable').DataTable();
+    function sortingDropdown(column, orderby) {
+        table.order([[column, orderby]]).draw();
+    }
+</script>
+

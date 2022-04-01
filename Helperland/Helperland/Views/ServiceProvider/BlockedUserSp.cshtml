@@ -1,0 +1,59 @@
+﻿@model IEnumerable<FavoriteAndBlocked>
+@{
+    ViewData["Title"] = "Blocked User";
+    Layout = null;
+}
+
+<table id="blockedUserSPTable" class="table w-100">
+    <thead class="d-none">
+        <tr>
+            <th>User</th>
+        </tr>
+    </thead>
+    <tbody class="blockedUserList" >
+        @foreach (FavoriteAndBlocked favoriteAndBlocked in Model)
+        {
+            <tr>
+                <td class="d-flex flex-column align-items-center">
+                    <div class="avatarRing bigAvatar my-3">
+                        <img src="~/images/avatar-hat.png" alt="" />
+                    </div>
+                    <div class="color-64-grey mb-3">@favoriteAndBlocked.TargetUser.FirstName @favoriteAndBlocked.TargetUser.LastName</div>
+                    @if (favoriteAndBlocked.IsBlocked)
+                    {
+                        <div class="reschedule-button px-3 mb-3" onclick="blockUserBySp(@favoriteAndBlocked.Id)">Unblock</div>
+                    }
+                    else
+                    {
+                        <div class="cancel-button px-3 mb-3" onclick="blockUserBySp(@favoriteAndBlocked.Id)">Block</div>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $("#blockedUserSPTable").DataTable({
+        searching: false,
+        dom: `<'d-block't>
+              <'d-flex justify-content-between align-items-center flex-wrap'
+                <'mt-3'li>
+                <'mt-3'p>
+              >`,
+        pagingType: "full_numbers",
+        language: {
+            info: " Total Records : _TOTAL_",
+            infoPostFix: " ",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>',
+                first: '<i class="bi bi-skip-start-fill"></i>',
+                last: '<i class="bi bi-skip-end-fill"></i>',
+            },
+        },
+        "pageLength": 10,
+        "lengthMenu": [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
+        "order": [],
+    });
+</script>

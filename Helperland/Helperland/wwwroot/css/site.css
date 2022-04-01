@@ -1589,8 +1589,13 @@ section div h2.heading {
 
 table.dataTable {
     color: var(--clr-64-grey);
-    border: 1px solid #dee2e6;
+    border: 1px solid #dee2e6 !important;
+    border-bottom: 0px !important;
 }
+
+    table.dataTable tr {
+        border-bottom: 1px solid #dee2e6 !important;
+    }
 
     table.dataTable .table-header {
         background-color: #f9f9f9;
@@ -1651,16 +1656,50 @@ table.dataTable {
             padding-left: 16px;
         }
 
-
-.avatarRing {
-    height: 44px;
-    width: 44px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid #aaa;
-    border-radius: 100%;
+table#MyRatingSPTable td {
+    border: 1px solid #dee2e6;
 }
+
+table#MyRatingSPTable {
+    border: 0px !important;
+}
+
+table#blockedUserSPTable {
+    border: 0px !important;
+}
+
+    table#blockedUserSPTable td {
+        border: 1px solid #dee2e6;
+        padding: 12px 8px;
+    }
+
+    table#blockedUserSPTable td {
+        border-bottom: 0px;
+    }
+
+.table#blockedUserSPTable > :not(:first-child) {
+    border: 0px;
+}
+.blockedUserList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+    .blockedUserList tr {
+        display:block;
+        flex: 0 1 30%;
+    }
+
+    .avatarRing {
+        height: 44px;
+        width: 44px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid #aaa;
+        border-radius: 100%;
+    }
 
     .avatarRing img {
         height: 40px;
@@ -1683,6 +1722,16 @@ table.dataTable {
 }
 
 .reschedule-button {
+    cursor: pointer;
+    background-color: var(--clr-secondary);
+    color: var(--clr-white);
+    padding: 5px 10px;
+    border-radius: 50px;
+    width: fit-content;
+    border: 0px;
+}
+
+.export-button {
     cursor: pointer !important;
     background-color: var(--clr-secondary) !important;
     color: var(--clr-white) !important;
@@ -1692,14 +1741,14 @@ table.dataTable {
     border: 0px !important;
 }
 
-    .reschedule-button:hover {
-        background-color: var(--clr-secondary-dark) !important;
-    }
+.reschedule-button:hover {
+    background-color: var(--clr-secondary-dark);
+}
 
-    .reschedule-button.disabled:hover {
-        background-color: var(--clr-secondary) !important;
-        cursor: not-allowed !important;
-    }
+.reschedule-button.disabled:hover {
+    background-color: var(--clr-secondary);
+    cursor: not-allowed;
+}
 
 .cancel-button {
     cursor: pointer;
@@ -1708,6 +1757,7 @@ table.dataTable {
     padding: 5px 10px;
     border-radius: 50px;
     width: fit-content;
+    border: 0px !important;
 }
 
     .cancel-button:hover {
@@ -1788,6 +1838,12 @@ table.dataTable {
             opacity: 1;
         }
 
+
+.accept-button-green {
+    color: var(--clr-white);
+    background-color: var(--clr-green);
+    border-radius: 50px;
+}
 
 /* ************** Media Query **************** */
 @media (max-width: 1200px) {
@@ -1873,6 +1929,10 @@ table.dataTable {
 
     #ServiceDetailsModal .custom-modal-dialog {
         margin-inline: 12px;
+    }
+
+    .blockedUserList tr {
+        flex: 0 1 100%;
     }
 }
 

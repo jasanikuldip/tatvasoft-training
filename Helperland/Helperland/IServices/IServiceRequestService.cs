@@ -20,6 +20,9 @@ namespace Helperland.IServices
         Task<Rating> AddRatingAsync(Rating rating);
         Task<Rating> UpdateRatingAsync(Rating ratingChange);
         IEnumerable<Rating> GetAllRating();
-        IEnumerable<ServiceRequest> GetAllNotAssignedSP();
+        IEnumerable<ServiceRequest> GetAllNotAssignedService(int SPId);
+        IEnumerable<ServiceRequest> UpcomingServicesForSP(int SPId);
+        IEnumerable<ServiceRequest> ServiceHistorySP(int SPId);
+        IEnumerable<Rating> MyRatingsList(int SPId);
     }
 }
