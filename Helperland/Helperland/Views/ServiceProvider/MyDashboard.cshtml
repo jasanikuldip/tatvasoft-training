@@ -132,6 +132,9 @@
                 <div class="tab-pane" id="Invoices"></div>
                 <div class="tab-pane" id="Notifications"></div>
                 <div class="tab-pane" id="MySettings">
+                    <div id="AddressAlert" class="alert alert-info d-none">
+                        Please fill address for access dashboard!
+                    </div>
                     <div class="setting-container">
                         <div class="setting-top mb-4">
                             <ul class="nav nav-pills nav-fill">
@@ -182,12 +185,14 @@
 {
     <script>
         jQuery(document).ready(function () {
-             $(function () {
-                $('.loadingPageDNone').removeClass("d-none");
-                 $("#DashboardBox").load('@Url.Action("NewServiceRequests", "ServiceProvider", new { includePet = false })', function () {
-                    $('.loadingPageDNone').addClass("d-none");
+            if ('@ViewBag.Tab' == 0) {
+                $(function () {
+                    $('.loadingPageDNone').removeClass("d-none");
+                    $("#DashboardBox").load('@Url.Action("NewServiceRequests", "ServiceProvider", new { includePet = false })', function () {
+                        $('.loadingPageDNone').addClass("d-none");
+                    });
                 });
-            });
+            }
             $('a[data-bs-toggle="pill"][href="#Dashboard"]').on("show.bs.tab", function (e) {
                 $(function () {
                     $('.loadingPageDNone').removeClass("d-none");
@@ -319,16 +324,14 @@
                         } else {
                             $('#dashboardAlertBox').removeClass('d-none alert-danger').addClass('alert-success').html(`Service ${Id} accpted successfully. \nPlease Wait!`);
                         }
-                        setTimeout(function () {
-                            $(function () {
-                                $('.loadingPageDNone').removeClass("d-none");
-                                 $("#DashboardBox").load('@Url.Action("NewServiceRequests", "ServiceProvider", new { includePet = false })', function () {
-                                    $('.loadingPageDNone').addClass("d-none");
-                                 });
-                                $("#petHome").prop("checked", false);
-                            });
-                            $('#dashboardAlertBox').addClass('d-none');
-                        }, 5000);
+                         $(function () {
+                            $('.loadingPageDNone').removeClass("d-none");
+                                $("#DashboardBox").load('@Url.Action("NewServiceRequests", "ServiceProvider", new { includePet = false })', function () {
+                                $('.loadingPageDNone').addClass("d-none");
+                                });
+                            $("#petHome").prop("checked", false);
+                        });
+                        setTimeout(function () { $('#dashboardAlertBox').addClass('d-none') }, 5000);
                     } else {
                         $('#dashboardAlertBox').removeClass('d-none alert-success').addClass('alert-danger').html(`Another service request ${res.serviceIdFailId} has already been assigned which has time overlap with this service request. You can’t pick this one!`);
                         setTimeout(function () { $('#dashboardAlertBox').addClass('d-none') }, 5000);
@@ -387,6 +390,12 @@
                     $('.loadingPageDNone').addClass("d-none");
                 }
             });
+        }
+        if ("@(ViewBag.AddressAlert)" == "True") {
+            $("#AddressAlert").removeClass("d-none");
+            setTimeout(function () {
+                $("#AddressAlert").addClass("d-none");
+            }, 5000);
         }
     </script>
 }

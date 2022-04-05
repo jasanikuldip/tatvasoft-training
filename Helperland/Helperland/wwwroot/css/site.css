@@ -466,6 +466,10 @@ footer {
     color: var(--clr-secondary);
 }
 
+.color-primary-admin {
+    color: var(--clr-primary-admin);
+}
+
 .color-64-grey {
     color: var(--clr-64-grey);
 }
@@ -527,6 +531,28 @@ input:read-only:focus {
 
 .dropdown .dropdown-menu-end {
     width: 230px;
+}
+
+/*Hello*/
+
+.main-left-margin .form-control:focus,
+.main-left-margin .form-select:focus {
+    border-color: var(--clr-primary-admin);
+    box-shadow: none;
+}
+
+.main-left-margin .form-check-input:checked {
+    background-color: var(--clr-primary-admin);
+    border-color: var(--clr-primary-admin);
+}
+
+.main-left-margin .form-check-input:focus {
+    box-shadow: none;
+    border-color: var(--clr-primary-admin);
+}
+
+.main-left-margin input:read-only:focus {
+    border-color: #ced4da;
 }
 
 /* stops crolling form body class */
@@ -827,10 +853,6 @@ h1, h2, h3, h4 {
     justify-content: center;
     max-width: 946px;
     width: 100%;
-}
-
-.helperland-admin h1 {
-    color: var(--clr-white);
 }
 
 .custom-bottom .nav-link:not(.active) {
@@ -1266,9 +1288,15 @@ section div h2.heading {
     cursor: pointer;
 }
 
-/*.datepicker-dropdown {
-    z-index: 9999!important;
-}*/
+.admin-date {
+    background: url(/images/admin-date.png) no-repeat;
+    background-position: left 8px center;
+    height: 46px;
+    padding-left: 40px;
+    width: 146px;
+    color: var(--clr-64-grey);
+    cursor: pointer;
+}
 
 .datepicker-dropdown .active.day {
     background-color: var(--clr-secondary) !important;
@@ -1530,7 +1558,8 @@ section div h2.heading {
             background-color: var(--clr-white-table);
         }
 
-#AddEditAddressModal .modal-dialog {
+#AddEditAddressModal .modal-dialog,
+#serviceEditModadl .modal-dialog {
     max-width: 600px;
 }
 
@@ -1575,6 +1604,38 @@ section div h2.heading {
 
     .pagination li:not(:first-child) {
         margin-left: 8px !important;
+    }
+
+/*hello*/
+
+.helperland-admin .pagination {
+    flex-wrap: wrap;
+    gap: 0px !important;
+}
+
+    .helperland-admin .pagination .page-item .page-link {
+        border-radius: 0% !important;
+        width: 38px;
+        height: 38px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #646464;
+        box-shadow: none;
+    }
+
+        .helperland-admin .pagination .page-item .page-link:hover {
+            color: #1d7a8c;
+        }
+
+    .helperland-admin .pagination .page-item.active .page-link {
+        background-color: var(--clr-primary-admin) !important;
+        color: white;
+        border-color: #1d7a8c;
+    }
+
+    .helperland-admin .pagination li:not(:first-child) {
+        margin-left: 0px !important;
     }
 
 .dataTables_length {
@@ -1673,33 +1734,39 @@ table#blockedUserSPTable {
         padding: 12px 8px;
     }
 
-    table#blockedUserSPTable td {
-        border-bottom: 0px;
+    table#blockedUserSPTable tr {
+        border-bottom: 0px !important;
     }
 
 .table#blockedUserSPTable > :not(:first-child) {
     border: 0px;
 }
+
+.helperland-admin .table.dataTable thead tr {
+    background-color: rgba(0, 0, 0, 0.025);
+}
+
 .blockedUserList {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: start;
+    gap: 32px;
 }
 
     .blockedUserList tr {
-        display:block;
+        display: block;
         flex: 0 1 30%;
     }
 
-    .avatarRing {
-        height: 44px;
-        width: 44px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 2px solid #aaa;
-        border-radius: 100%;
-    }
+.avatarRing {
+    height: 44px;
+    width: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #aaa;
+    border-radius: 100%;
+}
 
     .avatarRing img {
         height: 40px;
@@ -1718,6 +1785,20 @@ table#blockedUserSPTable {
     color: var(--clr-white);
     padding: 1.5px 10px;
     background-color: var(--clr-tomato);
+    width: fit-content;
+}
+
+.ind-new {
+    color: var(--clr-white);
+    padding: 1.5px 10px;
+    background-color: #f2bb37;
+    width: fit-content;
+}
+
+.ind-pending {
+    color: var(--clr-white);
+    padding: 1.5px 10px;
+    background-color: var(--clr-primary-admin);
     width: fit-content;
 }
 
@@ -1845,6 +1926,44 @@ table#blockedUserSPTable {
     border-radius: 50px;
 }
 
+.main-left-margin {
+    background-color: #f2f4f5;
+}
+
+.admin-drop {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    transition: all 0.3s ease;
+}
+
+    .admin-drop:hover {
+        cursor: pointer;
+        background-color: var(--clr-blue-white);
+    }
+
+.searchButton {
+    height: 46px;
+    background-color:var(--clr-primary-admin);
+    color:var(--clr-white);
+    border-radius: 4px;
+    border-color: var(--clr-primary-admin);
+    box-shadow:none;
+    padding-inline: 16px;
+}
+
+.clearButton {
+    height: 46px;
+    background-color: var(--clr-white);
+    color: var(--clr-64-grey);
+    border: 1px solid var(--clr-light-grey);
+    border-radius: 4px;
+    padding-inline: 16px;
+}
+
 /* ************** Media Query **************** */
 @media (max-width: 1200px) {
     .best-container {
@@ -1922,7 +2041,8 @@ table#blockedUserSPTable {
         display: block;
     }
 
-    #AddEditAddressModal .modal-dialog {
+    #AddEditAddressModal .modal-dialog,
+    #serviceEditModadl .modal-dialog {
         max-width: 100%;
         margin-inline: 16px;
     }
@@ -1945,6 +2065,19 @@ table#blockedUserSPTable {
         box-shadow: 0px 2px 10px #cacaca;
     }
 
+    table.dataTable#serviceRequestAdminTable tr {
+        display: table-row;
+        margin-bottom: auto;
+        border-radius: 0px;
+        box-shadow: none;
+        border-bottom: 1px solid #dee2e6 !important;
+    }
+
+    table.dataTable#serviceRequestAdminTable {
+        border: 1px solid #dee2e6 !important;
+    }
+
+
     table.dataTable > :not(caption) > * > * {
         border: 0px !important;
     }
@@ -1955,7 +2088,7 @@ table#blockedUserSPTable {
     }
 
     table.dataTable {
-        border: none;
+        border: 0px !important;
     }
 }
 
@@ -2032,5 +2165,189 @@ table#blockedUserSPTable {
 @media (min-width: 1400px) {
     .container {
         max-width: 1170px;
+    }
+}
+
+
+/* admin panel */
+
+
+
+.helperland-admin .main {
+    margin-left: 275px;
+    width: calc(100% - 275px);
+    padding: 16px;
+}
+
+.helperland-admin .wrapper {
+    margin-top: 60px;
+    display: flex;
+}
+
+.helperland-admin .navbar {
+    z-index: 3;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 60px;
+    padding: 2px 16px;
+    width: 100%;
+    background-color: var(--clr-primary-admin);
+    color: var(--clr-white);
+}
+
+.menu {
+    cursor: pointer;
+}
+
+.helperland-admin .sidebar {
+    z-index: 4;
+    box-shadow: 3px 3px 4px grey;
+    transition: all 0.2s ease-in-out;
+    width: 275px;
+    position: fixed;
+    top: 60px;
+    background-color: var(--clr-white);
+    height: calc(100vh - 60px);
+}
+
+.menu-show {
+    left: 0px !important;
+}
+
+.helperland-admin .closebtn {
+    margin-top: 10px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.helperland-admin .custom-tab .nav-link:not(.active) {
+    background-color: var(--clr-white);
+    color: #646464;
+    border-radius: 0;
+}
+
+.helperland-admin .custom-tab .nav-link {
+    padding: 12px 16px;
+}
+
+.helperland-admin .custom-tab .nav-link {
+    cursor: pointer;
+    border-bottom: 1px solid #64646450;
+}
+
+    .helperland-admin .custom-tab .nav-link.active,
+    .helperland-admin .custom-tab .nav-link:hover {
+        transition: 0.3s ease-in-out;
+        border-radius: 0;
+        background-color: var(--clr-white);
+        color: var(--clr-primary-admin);
+    }
+
+.helperland-admin .btn-add-user {
+    background-color: var(--clr-primary-admin);
+    color: var(--clr-white);
+}
+
+.helperland-admin .admin-select {
+    color: var(--clr-64-grey);
+    max-width: 205px;
+    height: 46px;
+}
+
+.helperland-admin .margin-navbar-top .input-group {
+    height: 46px;
+    max-width: 230px;
+}
+
+    .helperland-admin .margin-navbar-top .input-group > :nth-child(1) {
+        background-color: #dedddd;
+    }
+
+.helperland-admin .zipcode {
+    height: 46px;
+    max-width: 140px;
+}
+
+.helperland-admin .btn-admin-pane-search {
+    width: 84px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 46px;
+    background-color: var(--clr-primary-admin);
+    color: var(--clr-white);
+    border-radius: 4px;
+}
+
+.helperland-admin .btn-admin-pane-clear {
+    width: 84px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #dedddd;
+    height: 46px;
+    background-color: var(--clr-white);
+    color: #646464;
+    border-radius: 4px;
+}
+
+.main-left-margin {
+    margin-left: 275px;
+}
+
+
+@media (max-width: 1200px) {
+    .helperland-admin .sidebar {
+        width: 225px;
+    }
+
+    .helperland-admin .main {
+        margin-left: 225px;
+        width: calc(100% - 225px);
+    }
+
+    .main-left-margin {
+        margin-left: 225px;
+    }
+}
+
+
+@media (max-width: 992px) {
+    .helperland-admin .custom-tab .nav-link {
+        border-bottom: none;
+    }
+
+    .helperland-admin .sidebar {
+        position: fixed;
+        top: 0;
+        left: -275px;
+        height: 100%;
+        width: 200px;
+        overflow-x: hidden;
+    }
+
+    .helperland-admin .main {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .main-left-margin {
+        margin-left: 0px;
+    }
+}
+
+@media (max-width: 576px) {
+    .cs-nav-items {
+        flex-basis: 100%;
+    }
+
+    .helperland-admin .wrapper {
+        margin-top: 120px;
+    }
+
+    .helperland-admin .navbar {
+        height: 120px;
     }
 }

@@ -31,9 +31,14 @@ namespace Helperland.Controllers
             this.blockedUser = blockedUser;
         }
 
-        public IActionResult MyDashboard(int Id)
+        public IActionResult MyDashboard(int Id, bool AddressAlert = false)
         {
             ViewBag.Tab = Id;
+            ViewBag.AddressAlert = false;
+            if (Id == 9)
+            {
+                ViewBag.AddressAlert = AddressAlert;
+            }
             return View();
         }
 
@@ -117,25 +122,33 @@ namespace Helperland.Controllers
         }
 
         [HttpGet]
-        //[NoDirectAccess]
+        [NoDirectAccess]
         public async Task<IActionResult> NewServiceRequests(bool includePet)
         {
             int SPId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            IEnumerable<UserAddress> userAddresses = userAddressService.GetByUserId(SPId);
+            ViewBag.isAddressAvailable = false;
             IEnumerable<ServiceRequest> model = null;
-            if (includePet)
+            if (userAddresses.Count() > 0)
             {
-                model = serviceRequestService.GetAllNotAssignedService(SPId).Where(x => x.ServiceStartDate > DateTime.Now && x.HasPets == true);
-            }
-            else
-            {
-                model = serviceRequestService.GetAllNotAssignedService(SPId).Where(x => x.ServiceStartDate > DateTime.Now && x.HasPets == false);
+                string postalcode = userAddresses.FirstOrDefault().PostalCode;
+                if (includePet)
+                {
+                    model = serviceRequestService.GetAllNotAssignedService(SPId,postalcode).Where(x => x.ServiceStartDate > DateTime.Now && x.HasPets == true);
+                }
+                else
+                {
+                    model = serviceRequestService.GetAllNotAssignedService(SPId,postalcode).Where(x => x.ServiceStartDate > DateTime.Now && x.HasPets == false);
+                }
+                ViewBag.isAddressAvailable = true;
             }
             return View("~/Views/ServiceProvider/NewServiceRequests.cshtml", model);
+
         }
 
 
         [HttpGet]
-        //[NoDirectAccess]
+        [NoDirectAccess]
         public IActionResult UpcomingServiceRequests()
         {
             int SPId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -144,7 +157,7 @@ namespace Helperland.Controllers
         }
 
         [HttpGet]
-        //[NoDirectAccess]
+        [NoDirectAccess]
         public IActionResult ServiceHistory()
         {
             int SPId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -153,7 +166,7 @@ namespace Helperland.Controllers
         }
 
         [HttpGet]
-        //[NoDirectAccess]
+        [NoDirectAccess]
         public IActionResult MyRatingSP()
         {
             int SPId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -171,7 +184,7 @@ namespace Helperland.Controllers
         }
 
         [HttpPost, HttpGet]
-        //[NoDirectAccess]
+        [NoDirectAccess]
         public async Task<IActionResult> AcceptService(int id)
         {
             ServiceRequest serviceRequest = serviceRequestService.GetById(id);
@@ -214,7 +227,10 @@ namespace Helperland.Controllers
                         UserId = UserId,
                         TargetUserId = serviceRequest.UserId
                     };
-                    await blockedUser.CreateAsync(favoriteAndBlocked);
+                    if (!blockedUser.CheckRecord(favoriteAndBlocked))
+                    {
+                        await blockedUser.CreateAsync(favoriteAndBlocked);
+                    }
                     return Json(new { isAvailable, serviceIdFailId });
                 }
                 else
@@ -262,7 +278,8 @@ namespace Helperland.Controllers
                 favoriteAndBlocked.IsBlocked = !favoriteAndBlocked.IsBlocked;
                 await blockedUser.UpdateAsync(favoriteAndBlocked);
                 return Json(new { isSuccess = true });
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return null;
             }

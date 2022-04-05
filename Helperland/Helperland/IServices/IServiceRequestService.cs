@@ -8,7 +8,7 @@ namespace Helperland.IServices
 {
     public interface IServiceRequestService
     {
-        Task<IEnumerable<ServiceRequest>> GetAll();
+        IEnumerable<ServiceRequest> GetAll();
 
         Task<ServiceRequest> AddAsync(ServiceRequest sr);
         Task<ServiceRequestExtra> AddExtrasAsync(ServiceRequestExtra serviceRequestExtra);
@@ -20,7 +20,7 @@ namespace Helperland.IServices
         Task<Rating> AddRatingAsync(Rating rating);
         Task<Rating> UpdateRatingAsync(Rating ratingChange);
         IEnumerable<Rating> GetAllRating();
-        IEnumerable<ServiceRequest> GetAllNotAssignedService(int SPId);
+        IEnumerable<ServiceRequest> GetAllNotAssignedService(int SPId,string Postalcode);
         IEnumerable<ServiceRequest> UpcomingServicesForSP(int SPId);
         IEnumerable<ServiceRequest> ServiceHistorySP(int SPId);
         IEnumerable<Rating> MyRatingsList(int SPId);

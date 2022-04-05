@@ -1,0 +1,78 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Create User";
+}
+
+<section class="navbar-margin mb-5 pb-5">
+    <div class="s-2-p-1 container d-flex flex-column justify-content-center mt-5">
+        <div class="s-2-p-1 container d-flex flex-column align-items-center mt-5">
+            <h1 class="fw-medium t-36 text-center">Create an account</h1>
+            <div class="mb-4 d-flex align-items-center">
+                <div class="separator-line me-2"></div>
+                <img src="~/images/separator.png" alt="" />
+                <div class="separator-line ms-2"></div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <form asp-action="CreateAccount" asp-controller="Home" method="post" class="row justify-content-center contact-form">
+                <div class="col-sm-6 col-12 mb-3">
+                    <input asp-for="FirstName" class="form-control h-46" />
+                    <span class="text-danger" asp-validation-for="FirstName"></span>
+                </div>
+                <div class="col-sm-6 col-12 mb-3">
+                    <input asp-for="LastName" class="form-control h-46" />
+                    <span class="text-danger" asp-validation-for="LastName"></span>
+                </div>
+                <div class="col-sm-6 col-12 mb-3">
+                    <input asp-for="Email" class="form-control h-46" />
+                    <span class="text-danger" asp-validation-for="Email"></span>
+                </div>
+                <div class="col-sm-6 col-12 mb-3">
+                    <div class="input-group">
+                        <button tabindex="-1" class="btn btn-outline-secondary h-46 btn-mobile"
+                                type="button">
+                            +91
+                        </button>
+                        <input asp-for="Mobile" class="form-control h-46" />
+                    </div>
+                    <span class="text-danger" asp-validation-for="Mobile"></span>
+                </div>
+                <div class="col-sm-6 col-12 mb-3">
+                    <input asp-for="Password" class="form-control h-46" />
+                    <span class="text-danger" asp-validation-for="Password"></span>
+                </div>
+                <div class="col-sm-6 col-12 mb-3">
+                    <input asp-for="ConfirmPassword" class="form-control h-46" />
+                    <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+                </div>
+                <div class="ms-4 form-check col-12 mb-3">
+                    <input class="form-check-input custom-check"
+                           type="checkbox"
+                           id="createAccountPrivacyCheck" />
+                    <label class="form-check-label" for="createAccountPrivacyCheck">
+                        I have read <a class="color-secondary" href="">privacy policy</a>
+                    </label>
+                </div>
+                <button class="rounded-pill col-1 submit-button fw-bold t-20 mb-3"
+                        type="submit">
+                    Register
+                </button>
+                <div class="color-64-grey col-12 text-center">
+                    Already Registered?
+                    <a id="loginFromCreate" class="color-secondary" href="">Login now</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        $("#loginFromCreate").click(function (e) {
+            e.preventDefault();
+            $("#login-btn").click();
+        });
+
+    </script>
+}

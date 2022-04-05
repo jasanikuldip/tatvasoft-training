@@ -1,0 +1,227 @@
+﻿@model IEnumerable<ServiceRequest>
+@{
+    Layout = null;
+    ViewData["Title"] = "Service Requests";
+    int i = 0;
+}
+
+<div class="table-responsive px-3 px-md-0">
+    
+    <table id="serviceRequestAdminTable" class="table w-100" style="overflow-x:auto;">
+        <thead>
+            <tr>
+                <th><span>Service Id</span><span class="sort-icon"></span></th>
+                <th><span>Service Date</span><span class="sort-icon"></span></th>
+                <th><span>Customer details</span><span class="sort-icon"></span></th>
+                <th><span>Service Provider</span><span class="sort-icon"></span></th>
+                <th><span>Amount</span><span class="sort-icon"></span></th>
+                <th class="text-center"><span>Status</span><span class="sort-icon"></span></th>
+                <th class="text-center"><span>Action</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ServiceRequest serviceRequest in Model)
+            {
+                <tr>
+                    <td class="cursorPointer" onclick="openServiceDetailsModal(@serviceRequest.ServiceRequestId,1)">@serviceRequest.ServiceRequestId</td>
+                    <td>
+                        <span hidden>@serviceRequest.ServiceStartDate.ToString("yyyy-MM-dd").Replace('-', '/')</span>
+                        <div class="cursorPointer" onclick="openServiceDetailsModal(@serviceRequest.ServiceRequestId,1)"><img src="~/images/calendar2.png" alt="" /><span> @serviceRequest.ServiceStartDate.Date.ToString("dd-MM-yyyy").Replace('-', '/')</span></div>
+                        <div class="cursorPointer" onclick="openServiceDetailsModal(@serviceRequest.ServiceRequestId,1)"><img src="~/images/layer-14.png" alt="" /><span> @serviceRequest.ServiceStartDate.ToString("HH:mm") - @serviceRequest.ServiceStartDate.AddHours(serviceRequest.ServiceHours).ToString("HH:mm")</span></div>
+                    </td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <img src="~/images/layer-719.png" alt="" />
+                            </div>
+                            <div>
+                                <p class="mb-0">@serviceRequest.User.FirstName @serviceRequest.User.LastName</p>
+                                <p class="mb-0">@serviceRequest.ServiceRequestAddresses.ElementAt(0).AddressLine1 @serviceRequest.ServiceRequestAddresses.ElementAt(0).AddressLine2</p>
+                                <p class="mb-0">@serviceRequest.ServiceRequestAddresses.ElementAt(0).PostalCode @serviceRequest.ServiceRequestAddresses.ElementAt(0).City</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        @if (serviceRequest.ServiceProviderId != null)
+                        {
+                            var rateList = serviceRequest.ServiceProvider.RatingRatingToNavigations.Where(x => x.RatingTo == serviceRequest.ServiceProviderId);
+                            decimal spRrate = 0M;
+                            if (rateList.Count() > 0)
+                            {
+                                spRrate = rateList.Average(t => t.Ratings);
+                            }
+                            <div class="d-flex flex-wrap gap-2 align-items-center">
+                                <div class="avatarRing">
+                                    @switch (serviceRequest.ServiceProvider.UserProfilePicture)
+                                    {
+                                        case "1":
+                                            <img src="~/images/avatar-car.png" alt="" />
+                                            break;
+                                        case "2":
+                                            <img src="~/images/avatar-female.png" alt="" />
+                                            break;
+                                        case "3":
+                                            <img src="~/images/avatar-hat.png" alt="" />
+                                            break;
+                                        case "4":
+                                            <img src="~/images/avatar-iron.png" alt="" />
+                                            break;
+                                        case "5":
+                                            <img src="~/images/avatar-male.png" alt="" />
+                                            break;
+                                        case "6":
+                                            <img src="~/images/avatar-ship.png" alt="" />
+                                            break;
+                                    }
+                                </div>
+                                <div class="d-flex flex-column flex-wrap justify-content-center">
+                                    <div>@serviceRequest.ServiceProvider.FirstName @serviceRequest.ServiceProvider.LastName</div>
+                                    <div>
+                                        <span>
+                                            @for (i = 0; i < Math.Round(spRrate); i++)
+                                            {
+                                                <i class="star-color-fill bi bi-star-fill"></i>
+                                            }
+                                            @while (i != 5)
+                                            {
+                                                <i class="star-color bi bi-star-fill"></i>
+                                                i++;
+                                            }
+                                        </span><span class="t-16 color-64-grey">@spRrate</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </td>
+                    <td class="color-64-grey">@serviceRequest.TotalCost&nbsp;&euro;</td>
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            @if (serviceRequest.Status.ToString() == "1")
+                            {
+                                <div class="ind-new t-14">New</div>
+                            }
+                            @if (serviceRequest.Status.ToString() == "2")
+                            {
+                                <div class="ind-pending t-14">Pending</div>
+                            }
+                            @if (serviceRequest.Status.ToString() == "3")
+                            {
+                                <div class="ind-completed t-14">Complete</div>
+                            }
+                            @if (serviceRequest.Status.ToString() == "4" || serviceRequest.Status.ToString() == "5")
+                            {
+                                <div class="ind-cancelled t-14">Cancelled</div>
+                            }
+                            <div></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <div class="dropdown">
+                                <div id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="admin-drop"><img src="~/images/group-38.png" alt="" /></div>
+                                </div>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    @if (serviceRequest.Status == 1 || serviceRequest.Status == 2)
+                                    {
+                                        <li><a class="dropdown-item" onclick="openEditServiceAdminModal(@serviceRequest.ServiceRequestId)">Edit & Reschedule</a></li>
+                                        <li><a class="dropdown-item" onclick="cancelServiceForCust(@serviceRequest.ServiceRequestId)">Cancel Service For Cust</a></li>
+                                    }
+                                    <li><a class="dropdown-item">Inquiry</a></li>
+                                    <li><a class="dropdown-item">History Log</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div id="ServiceDetailsModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
+            <div class="modal-content modal-content-custom">
+                <div type="button"
+                     class="btn-close btn-close-modal-custom"
+                     data-bs-dismiss="modal"></div>
+                <h1 class="t-24 color-64-grey mb-4 fw-bold">Service Details</h1>
+                <div id="ServiceDetailsModalBox">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="serviceEditModadl" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
+            <div class="modal-content modal-content-custom">
+                <div type="button"
+                     class="btn-close btn-close-modal-custom"
+                     data-bs-dismiss="modal"></div>
+                <h1 class="t-24 color-64-grey mb-4 fw-bold">Edit Service Request</h1>
+                <div id="serviceEditModadlBox">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#serviceRequestAdminTable").DataTable({
+        searching: false,
+        dom: `<'d-block bg-white't>
+              <'d-flex justify-content-between align-items-center flex-wrap mb-3'
+                <'mt-3'li>
+                <'mt-3'p>
+              >`,
+        pagingType: "full_numbers",
+        language: {
+            info: " Total Records : _TOTAL_",
+            infoEmpty: " Total Records : _TOTAL_",
+            infoPostFix: " ",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>',
+                first: '<i class="bi bi-skip-start-fill"></i>',
+                last: '<i class="bi bi-skip-end-fill"></i>',
+            },
+        },
+        "pageLength": 10,
+        "lengthMenu": [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
+        'columnDefs': [{
+            "targets": [-1],
+            "orderable": false
+        }],
+        "order": [],
+    });
+
+    function openServiceDetailsModal(Id) {
+        (function () {
+            $('.loadingPageDNone').removeClass("d-none");
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("ServiceDetails", "Admin")',
+                data: { id: Id },
+                success: function (res) {
+                    $("#ServiceDetailsModalBox").html(res);
+                }, complete: function () {
+                    $('.loadingPageDNone').addClass("d-none");
+                }
+            });
+        })();
+        $("#ServiceDetailsModal").modal('show');
+    }
+
+    function openEditServiceAdminModal(Id) {
+        $('.loadingPageDNone').removeClass("d-none");
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("EditServiceRequest", "Admin")',
+            data: { id: Id },
+            success: function (res) {
+                $("#serviceEditModadlBox").html(res);
+            }, complete: function () {
+                $('.loadingPageDNone').addClass("d-none");
+            }
+        });
+        $("#serviceEditModadl").modal('show');
+    }
+</script>

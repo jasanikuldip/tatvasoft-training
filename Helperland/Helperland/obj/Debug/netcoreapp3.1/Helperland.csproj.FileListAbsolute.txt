@@ -1162,7 +1162,6 @@ C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Helperland.pdb
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Helperland.genruntimeconfig.cache
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\bin\Debug\netcoreapp3.1\libman.json
-C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Home\CreateAccount.cshtml.g.cs
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Home\BecomePro.cshtml.g.cs
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Home\Registred.cshtml.g.cs
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Favicons.cshtml.g.cs
@@ -1193,3 +1192,12 @@ C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\ServiceProvider\ServiceHistory.cshtml.g.cs
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\ServiceProvider\MyRatings.cshtml.g.cs
 C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\ServiceProvider\BlockedUserSp.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Home\AddAddress.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Admin\AdminPanel.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_AdminLayout.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Home\CreateAccount.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Admin\ServiceRequestsAdmin.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LoaderPartialAdmin.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Admin\ServiceDetails.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Admin\UserManagement.cshtml.g.cs
+C:\Users\jasan\Desktop\Tatva\tatvasoft-training\Helperland\Helperland\obj\Debug\netcoreapp3.1\Razor\Views\Admin\EditServiceRequest.cshtml.g.cs

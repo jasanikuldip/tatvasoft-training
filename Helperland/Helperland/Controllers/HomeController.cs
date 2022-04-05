@@ -129,14 +129,7 @@ namespace Helperland.Controllers
                             Response.Cookies.Append("user_email", user.Email, ckOptions);
                             Response.Cookies.Append("user_password", loginModel.PasswordLogin, ckOptions);
                         }
-                        if (user.UserTypeId == 1)
-                        {
-                            return Json(new { isSuccess = true, userType = "1" });
-                        }
-                        else if (user.UserTypeId == 2)
-                        {
-                            return Json(new { isSuccess = true, userType = "2" });
-                        }
+                        return Json(new { isSuccess = true, userType = Convert.ToString(user.UserTypeId) });
                     }
                 }
             }

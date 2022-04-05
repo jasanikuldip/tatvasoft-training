@@ -10,5 +10,6 @@ namespace Helperland.IServices
         Task<FavoriteAndBlocked> UpdateAsync(FavoriteAndBlocked favoriteAndBlocked);
         IEnumerable<FavoriteAndBlocked> GetAll(int SPId);
         FavoriteAndBlocked GetOneById(int Id);
+        bool CheckRecord(FavoriteAndBlocked favoriteAndBlocked);
     }
 }

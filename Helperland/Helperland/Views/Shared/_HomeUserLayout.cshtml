@@ -74,6 +74,10 @@
                             {
                                 <a class="active" asp-action="Index" asp-controller="Service">Book now</a>
                             }
+                            @if (User.IsInRole("3"))
+                            {
+                                <a class="active" asp-action="AdminPanel" asp-controller="Admin">Admin Panel</a>
+                            }
                             <a asp-action="price" asp-controller="home">Prices & services</a>
                             <a href="#">Warranty</a>
                             <a href="#">Blog</a>

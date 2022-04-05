@@ -69,9 +69,26 @@ namespace Helperland.Services
                    });
         }
 
-        public Task<IEnumerable<ServiceRequest>> GetAll()
+        public IEnumerable<ServiceRequest> GetAll()
         {
-            throw new NotImplementedException();
+            return context.ServiceRequests
+                  .Include(x => x.ServiceRequestAddresses)
+                  .Include(x => x.User)
+                  .Include(x=>x.ServiceProvider)
+                  .ThenInclude(x=>x.RatingRatingToNavigations).AsSplitQuery()
+                  .Select( s=> new ServiceRequest
+                  {
+                      ServiceRequestId = s.ServiceRequestId,
+                      TotalCost = s.TotalCost,
+                      ServiceProviderId = s.ServiceProviderId,
+                      ServiceStartDate = s.ServiceStartDate,
+                      ServiceHours = s.ServiceHours,
+                      ServiceProvider = s.ServiceProvider,
+                      Ratings = s.ServiceProvider.RatingRatingToNavigations,
+                      ServiceRequestAddresses = s.ServiceRequestAddresses,
+                      User = s.User,
+                      Status = s.Status
+                  });
         }
 
         public ServiceRequest GetById(int id)
@@ -124,10 +141,10 @@ namespace Helperland.Services
             return context.Ratings;
         }
 
-        public IEnumerable<ServiceRequest> GetAllNotAssignedService(int SPId)
+        public IEnumerable<ServiceRequest> GetAllNotAssignedService(int SPId, string Postalcode)
         {
             var blockedUser = context.FavoriteAndBlockeds.Where(x => x.UserId == SPId && x.IsBlocked == true).Select(x => x.TargetUserId).ToArray();
-            string Postalcode = context.Users.Include(x => x.UserAddresses).FirstOrDefault().UserAddresses.FirstOrDefault().PostalCode;
+            //string Postalcode = context.Users.Include(x => x.UserAddresses).FirstOrDefault().UserAddresses.FirstOrDefault().PostalCode;
             return context.ServiceRequests
                    .Include(x => x.User)
                    .Include(x => x.ServiceRequestAddresses).AsSingleQuery()

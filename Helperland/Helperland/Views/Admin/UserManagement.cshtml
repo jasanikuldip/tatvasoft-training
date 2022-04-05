@@ -1,0 +1,130 @@
+﻿@model IEnumerable<User>
+@{
+    Layout = null;
+    ViewData["Title"] = "Service Requests";
+    int i = 0;
+}
+
+<div class="table-responsive px-3 px-md-0">
+    <table id="userManagementTable" class="table w-100" style="overflow-x:auto;">
+        <thead>
+            <tr>
+                <th><span>User Name</span><span class="sort-icon"></span></th>
+                <th><span>Date of Registration</span><span class="sort-icon"></span></th>
+                <th><span>User Type</span><span class="sort-icon"></span></th>
+                <th><span>Phone</span><span class="sort-icon"></span></th>
+                <th><span>Postal Code</span><span class="sort-icon"></span></th>
+                <th class="text-center"><span>Status</span><span class="sort-icon"></span></th>
+                <th class="text-center"><span>Action</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (User user in Model)
+            {
+                <tr>
+                    <td>@user.FirstName @user.LastName</td>
+                    <td>
+                        <span hidden>@user.CreatedDate.ToString("yyyy-MM-dd").Replace('-', '/')</span>
+                        <div><img src="~/images/calendar2.png" alt="" /><span class="fw-bold"> @user.CreatedDate.Date.ToString("dd-MM-yyyy").Replace('-', '/')</span></div>
+                    </td>
+                    <td>
+                        @if (user.UserTypeId == 1)
+                        {
+                            <div>Customer</div>
+                        }
+                        @if (user.UserTypeId == 2)
+                        {
+                            <div>Service Provider</div>
+                        }
+                        @if (user.UserTypeId == 3)
+                        {
+                            <div>Admin</div>
+                        }
+                    </td>
+                    <td>
+                        @user.Mobile
+                    </td>
+                    <td>
+                        @if (user.UserAddresses.Count() > 0)
+                        {
+                            <div>@user.UserAddresses.FirstOrDefault().PostalCode</div>
+                        }
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            @if (user.Status == 2)
+                            {
+                                <div class="ind-completed t-14">Active</div>
+                            }
+                            else
+                            {
+                                <div class="ind-cancelled t-14">Inactive</div>
+                            }
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            @if (user.Status == 2)
+                            {
+                                <div class="admin-drop"><img src="~/images/group-38.png" alt="" /></div>
+                            }
+                            else
+                            {
+                                <div class="dropdown">
+                                    <div id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <div class="admin-drop"><img src="~/images/group-38.png" alt="" /></div>
+                                    </div>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li><a class="dropdown-item" onclick="activateUser(@user.UserId)" href="#">Activate</a></li>
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div id="ServiceDetailsModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
+            <div class="modal-content modal-content-custom">
+                <div type="button"
+                     class="btn-close btn-close-modal-custom"
+                     data-bs-dismiss="modal"></div>
+                <h1 class="t-24 color-64-grey mb-4 fw-bold">Service Details</h1>
+                <div id="ServiceDetailsModalBox">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#userManagementTable").DataTable({
+        searching: false,
+        dom: `<'d-block bg-white't>
+              <'d-flex justify-content-between align-items-center flex-wrap mb-3'
+                <'mt-3'li>
+                <'mt-3'p>
+              >`,
+        pagingType: "full_numbers",
+        language: {
+            info: " Total Records : _TOTAL_",
+            infoEmpty: " Total Records : _TOTAL_",
+            infoPostFix: " ",
+            paginate: {
+                previous: '<i class="bi bi-chevron-left"></i>',
+                next: '<i class="bi bi-chevron-right"></i>',
+                first: '<i class="bi bi-skip-start-fill"></i>',
+                last: '<i class="bi bi-skip-end-fill"></i>',
+            },
+        },
+        "pageLength": 10,
+        "lengthMenu": [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
+        'columnDefs': [{
+            "targets": [-1, -2],
+            "orderable": false
+        }],
+        "order": [],
+    });
+</script>

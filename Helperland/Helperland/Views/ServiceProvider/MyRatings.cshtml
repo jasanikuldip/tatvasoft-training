@@ -129,6 +129,7 @@
         pagingType: "full_numbers",
         language: {
             info: " Total Records : _TOTAL_",
+            infoEmpty: " Total Records : _TOTAL_",
             infoPostFix: " ",
             paginate: {
                 previous: '<i class="bi bi-chevron-left"></i>',
@@ -139,10 +140,6 @@
         },
         "pageLength": 10,
         "lengthMenu": [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
-        //'columnDefs': [{
-        //    "targets": [-1,-2],
-        //    "orderable": false
-        //}],
         "order": [],
     });
 
@@ -154,36 +151,5 @@
     function acceptServiceRequest(Id) {
 
     }
-
-    @*$("#cancelForm").submit(function (e) {
-        e.preventDefault();
-        var formData = new FormData($('#cancelForm')[0]);
-        (function () {
-            $('.loadingPageDNone').removeClass("d-none");
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("CancelService", "User")',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (res) {
-                    if (res.isSuccess) {
-                        $('#CancelServiceModalAlert').removeClass('d-none');
-                        setTimeout(function () {
-                            $("#CancelServiceModal").modal('hide');
-                            $(function () {
-                                $('.loadingPageDNone').removeClass("d-none");
-                                $("#Dashboard").load('@Url.Action("CurrentServiceRequests", "User")', function () {
-                                    $('.loadingPageDNone').addClass("d-none");
-                                });
-                            });
-                        }, 2000);
-                    }
-                }, complete: function () {
-                    $('.loadingPageDNone').addClass("d-none");
-                }
-            });
-        })();
-    });*@
 </script>
 

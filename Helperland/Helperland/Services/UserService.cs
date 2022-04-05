@@ -37,7 +37,7 @@ namespace Helperland.Services
 
         public IEnumerable<User> GetAll()
         {
-            return context.Users;
+            return context.Users.Include(x=>x.UserAddresses);
         }
 
         public async Task<User> GetUserByEmailAsync(string Email)

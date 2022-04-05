@@ -1,0 +1,426 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Helperland</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script type="text/javascript" language="javascript">
+        function DisableBackButton() {
+            window.history.forward()
+        }
+        DisableBackButton();
+        window.onload = DisableBackButton;
+        window.onpageshow = function (evt) { if (evt.persisted) DisableBackButton() }
+        window.onunload = function () { void (0) }
+    </script>
+    <partial name="_Favicons" />
+</head>
+<body class="helperland-admin">
+    <header>
+        <div class="navbar d-flex align-items-center">
+            <div class="d-flex gap-3 align-items-center">
+                <img src="~/images/list.svg" width="32" class="d-lg-none menu" alt="" />
+                <a asp-controller="Home" asp-action="index"><h1 class="t-36 text-light">helperland</h1></a>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <img src="~/images/admin-user.png" alt="" />
+                <div class="me-3">@User.Identity.Name</div>
+                <a asp-controller="home" asp-action="logout">
+                    <img src="~/images/logout.png" alt="" />
+                </a>
+            </div>
+        </div>
+
+        <div class="wrapper margin-navbar-top">
+            <div class="sidebar">
+                <ul class="custom-tab nav w-100 nav-pills flex-column"
+                    id="pills-tab"
+                    role="tablist">
+                    <li class="closebtn d-lg-none">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="32"
+                             height="32"
+                             fill="currentColor"
+                             class="bi bi-x"
+                             role="tab"
+                             data-bs-toggle="collapse"
+                             data-bs-target="#navbarNav"
+                             aria-controls="navbarNav"
+                             aria-expanded="false"
+                             aria-label="Toggle navigation"
+                             viewBox="0 0 16 16">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active"
+                           id="t-tab-service-requests"
+                           role="tab"
+                           data-bs-toggle="pill"
+                           data-bs-target="#tabs-service-requests"
+                           aria-controls="tabs-service-requests"
+                           aria-selected="false">
+                            Service Requests
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link"
+                           id="t-tab-useer-management"
+                           data-bs-toggle="pill"
+                           role="tab"
+                           data-bs-target="#tabs-useer-management"
+                           aria-controls="tabs-useer-management"
+                           aria-selected="false">
+                            User Management
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main role="main" class="main-left-margin">
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane show active"
+                 id="tabs-service-requests"
+                 aria-labelledby="t-tab-service-requests">
+                <div class="p-3">
+                    <div class="color-64-grey t-22 fw-bold mb-3">Service Requests</div>
+                    <form id="adminServiceFilterForm" class="d-flex flex-wrap flex-row gap-3 bg-white p-3 mb-3">
+                        <input id="serviceIdFilter" class="form-control h-46 widthFitContent" placeholder="Service ID" />
+                        <input id="postalCodeFilter" class="form-control h-46 widthFitContent" placeholder="postal Code" />
+                        <input id="emailFilter" class="form-control h-46 w-auto" placeholder="Email" />
+
+                        <input id="customerFieled" type="text" class="h-46 form-control widthFitContent" placeholder="Customer" list="Customer" name="Customer" onkeyup="FetchCustomer(this.value)" autocomplete="off" />
+                        <datalist id="Customer"></datalist>
+
+                        <input id="SPField" type="text" class="h-46 form-control widthFitContent" placeholder="Service Provicder" list="ServiceProvicder" name="ServiceProvicder" onkeyup="FetchSP(this.value)" autocomplete="off" />
+                        <datalist id="ServiceProvicder"></datalist>
+
+                        <select id="statusFilter" class="h-46 form-select widthFitContent">
+                            <option value="">Select Status</option>
+                            <option value="1">New</option>
+                            <option value="2">Pending</option>
+                            <option value="3">Completed</option>
+                            <option value="4">Cencelled</option>
+                        </select>
+                        <input id="fromDate" placeholder="From Date"
+                               class="d-inline date admin-date form-control"
+                               autocomplete="off" readonly />
+                        <input id="toDate" placeholder="To Date"
+                               class="d-inline date admin-date form-control"
+                               autocomplete="off" readonly />
+                        <button class="searchButton" type="submit">Search</button>
+                        <button class="clearButton" type="reset">Clear</button>
+                    </form>
+
+                    <div id="ServiceRequestTableBox">
+
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane"
+                 id="tabs-useer-management"
+                 aria-labelledby="t-tab-useer-management">
+                <div class="p-3">
+                    <div class="color-64-grey t-22 fw-bold mb-3">User Management</div>
+                    <form id="adminUserManagementForm" class="d-flex flex-wrap flex-row gap-3 bg-white p-3 mb-3">
+                        <input id="UserManagementUserField" type="text" class="h-46 form-control widthFitContent" placeholder="User name" list="UserManagementUser" name="UserManagementUser" onkeyup="UserMnUser(this.value)" autocomplete="off" />
+                        <datalist id="UserManagementUser"></datalist>
+
+                        <select id="userTypeFilter" class="h-46 form-select widthFitContent">
+                            <option value="">User Type</option>
+                            <option value="1">Customer</option>
+                            <option value="2">Service Provider</option>
+                            <option value="3">Admin</option>
+                        </select>
+
+                        <div class="input-group widthFitContent">
+                            <button tabindex="-1" class="btn btn-outline-secondary h-46 btn-mobile"
+                                    type="button">
+                                +91
+                            </button>
+                            <input type="text" id="phoneNumberFilter" placeholder="Phone number"
+                                   class="form-control h-46" />
+                        </div>
+
+                        <input id="postalCodeUMFilter" class="form-control h-46 widthFitContent" placeholder="postal Code" />
+                        <input id="emailUMFilter" class="form-control h-46 w-auto" placeholder="Email" />
+
+                        <input id="fromUMDate" placeholder="From Date"
+                               class="d-inline date admin-date form-control"
+                               autocomplete="off" readonly />
+                        <input id="toUMDate" placeholder="To Date"
+                               class="d-inline date admin-date form-control"
+                               autocomplete="off" readonly />
+                        <button class="searchButton" type="submit">Search</button>
+                        <button class="clearButton" type="reset">Clear</button>
+                    </form>
+                    <div id="userManagementTableBox">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <partial name="_LoaderLoadPartial" />
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script>
+        $(".menu").click(function () {
+            $(".sidebar").addClass("menu-show");
+        });
+        $(".closebtn").click(function () {
+            $(".sidebar").removeClass("menu-show");
+        });
+        $("#t-tab-service-requests").click(function () {
+            $(".sidebar").removeClass("menu-show");
+        })
+        $("#t-tab-useer-management").click(function () {
+            $(".sidebar").removeClass("menu-show");
+        })
+
+        $(function () {
+            $('.loadingPageDNone').removeClass("d-none");
+            $("#ServiceRequestTableBox").load('@Url.Action("ServiceRequestsAdmin", "Admin")', function () {
+                $('.loadingPageDNone').addClass("d-none");
+            });
+        });
+
+        $('a[data-bs-toggle="pill"][data-bs-target="#tabs-service-requests"]').on("show.bs.tab", function (e) {
+            $(function () {
+                $('.loadingPageDNone').removeClass("d-none");
+                $("#ServiceRequestTableBox").load('@Url.Action("ServiceRequestsAdmin", "Admin")', function () {
+                    $('.loadingPageDNone').addClass("d-none");
+                });
+            });
+        });
+
+        $('a[data-bs-toggle="pill"][data-bs-target="#tabs-useer-management"]').on("show.bs.tab", function (e) {
+            $(function () {
+                $('.loadingPageDNone').removeClass("d-none");
+                $("#userManagementTableBox").load('@Url.Action("UserManagement", "Admin")', function () {
+                    $('.loadingPageDNone').addClass("d-none");
+                });
+            });
+        });
+
+
+        $(function () {
+            $("#fromDate").datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                orientation: "bottom auto"
+            });
+        });
+
+        $(function () {
+            $("#toDate").datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                orientation: "bottom auto"
+            });
+        });
+
+        $(function () {
+            $("#fromUMDate").datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                orientation: "bottom auto"
+            });
+        });
+
+        $(function () {
+            $("#toUMDate").datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                orientation: "bottom auto"
+            });
+        });
+
+
+        $("#adminServiceFilterForm").submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("ServiceRequestsAdmin", "Admin")',
+                data: {
+                    serviceIdFilter: $("#serviceIdFilter").val(),
+                    postalCodeFilter: $("#postalCodeFilter").val(),
+                    customerFieled: $("#customerFieled").val(),
+                    SPFieled: $("#SPFieled").val(),
+                    emailFilter: $("#emailFilter").val(),
+                    statusFilter: $("#statusFilter").val(),
+                    fromDate: $("#fromDate").val(),
+                    toDate: $("#toDate").val(),
+                },
+                success: function (res) {
+                    $(function () {
+                        $('.loadingPageDNone').removeClass("d-none");
+                        $("#ServiceRequestTableBox").html(res);
+                        console.log(res);
+                        $('.loadingPageDNone').addClass("d-none");
+                    });
+                }
+            });
+        });
+
+        $("#adminUserManagementForm").submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("UserManagement", "Admin")',
+                data: {
+                    UserManagementUserField: $("#UserManagementUserField").val(),
+                    userTypeFilter: $("#userTypeFilter").val(),
+                    phoneNumberFilter: $("#phoneNumberFilter").val(),
+                    postalCodeUMFilter: $("#postalCodeUMFilter").val(),
+                    emailUMFilter: $("#emailUMFilter").val(),
+                    fromUMDate: $("#fromUMDate").val(),
+                    toUMDate: $("#toUMDate").val(),
+                },
+                success: function (res) {
+                    $(function () {
+                        $('.loadingPageDNone').removeClass("d-none");
+                        $("#userManagementTableBox").html(res);
+                        $('.loadingPageDNone').addClass("d-none");
+                    });
+                }
+            });
+        });
+
+        function FetchCustomer(name) {
+            console.log(name);
+            $("#Customer").html("");
+            if (name != "") {
+                $.ajax({
+                    url: `/Admin/FetchCustomerNames`,
+                    data: {name:name},
+                    success: function (res) {
+                        res.forEach(AddCustNames);
+                    }
+                });
+            }
+        }
+
+        function AddCustNames(item) {
+            console.log(item);
+            $("#Customer").append(`<option>${item}</option>`);
+        }
+
+
+        function FetchSP(name) {
+            $("#ServiceProvicder").html("");
+            if (name != "") {
+                $.ajax({
+                    url: `/Admin/FetchSPNames`,
+                    data: { name: name },
+                    success: function (res) {
+                        res.forEach(AddSPNames);
+                    }
+                });
+            }
+        }
+
+        function AddSPNames(item) {
+            console.log(item);
+            $("#ServiceProvicder").append(`<option>${item}</option>`);
+        }
+
+        function UserMnUser(name) {
+            $("#UserManagementUser").html("");
+            if (name != "") {
+                $.ajax({
+                    url: `/Admin/UserManagementUser`,
+                    data: { name: name },
+                    success: function (res) {
+                        res.forEach(AddUserNames);
+                    }
+                });
+            }
+        }
+
+        function AddUserNames(item) {
+            console.log(item);
+            $("#UserManagementUser").append(`<option>${item}</option>`);
+        }
+
+        function cancelServiceForCust(Id) {
+            $('.loadingPageDNone').removeClass("d-none");
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("CancelServiceForCust", "Admin")',
+                data: { serviceRequestId: Id },
+                success: function (res) {
+                    if (res.isSucceed) {
+                        $(function () {
+                            $('.loadingPageDNone').removeClass("d-none");
+                            $("#ServiceRequestTableBox").load('@Url.Action("ServiceRequestsAdmin", "Admin")', function () {
+                                $('.loadingPageDNone').addClass("d-none");
+                            });
+                        });
+                    }
+                }, complete: function () {
+                    $('.loadingPageDNone').addClass("d-none");
+                }
+            });
+        }
+
+        function activateUser(Id) {
+            $('.loadingPageDNone').removeClass("d-none");
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("ActivateUser", "Admin")',
+                data: { userId: Id },
+                success: function (res) {
+                    if (res.isSucceed) {
+                        $(function () {
+                            $('.loadingPageDNone').removeClass("d-none");
+                            $("#userManagementTableBox").load('@Url.Action("UserManagement", "Admin")', function () {
+                                $('.loadingPageDNone').addClass("d-none");
+                            });
+                        });
+                    }
+                }, complete: function () {
+                    $('.loadingPageDNone').addClass("d-none");
+                }
+            });
+        }
+
+        function AddEditServiceSuccess(res) {
+            if (res.isSucceed) {
+                $("#serviceEditModadl").modal('hide');
+                $(function () {
+                    $('.loadingPageDNone').removeClass("d-none");
+                    $("#ServiceRequestTableBox").load('@Url.Action("ServiceRequestsAdmin", "Admin")', function () {
+                        $('.loadingPageDNone').addClass("d-none");
+                    });
+                });
+            } else {
+                $("#EditAlert").removeClass("d-none");
+                setTimeout(function () { $("#EditAlert").addClass("d-none"); }, 3000);
+            }
+        }
+
+    </script>
+</body>
+</html>

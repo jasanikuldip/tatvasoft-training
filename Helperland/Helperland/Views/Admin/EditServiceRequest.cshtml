@@ -1,0 +1,108 @@
+﻿@model EditAdminService
+@{
+    ViewData["Title"] = null;
+    Layout = null;
+}
+
+<div id="EditAlert" class="alert alert-danger d-none">Another service is booked by SP for given time.</div>
+<form method="post" data-ajax-success="AddEditServiceSuccess" data-ajax="true" data-ajax-loading=".loadingPageHide" asp-action="EditServiceRequest" asp-controller="Admin" class="row">
+    <input asp-for="AddressId" hidden />
+    <input asp-for="ServiceRequestId" hidden />
+    <div class="col-sm-6 col-12 mb-3">
+        <label asp-for="Date" class="color-64-grey fw-bold"></label>
+        <input asp-for="Date"
+               class="d-inline date admin-date form-control w-100"
+               autocomplete="off" readonly />
+    </div>
+    <div class="col-sm-6 col-12 mb-3">
+        <label asp-for="StartTime" class="color-64-grey fw-bold"></label>
+        <select asp-for="StartTime" class="d-inline form-select h-46 w-100">
+            <option value="08:00:00">08:00</option>
+            <option value="08:30:00">08:30</option>
+            <option value="09:00:00">09:00</option>
+            <option value="09:30:00">09:30</option>
+            <option value="10:00:00">10:00</option>
+            <option value="10:30:00">10:30</option>
+            <option value="11:00:00">11:00</option>
+            <option value="11:30:00">11:30</option>
+            <option value="12:00:00">12:00</option>
+            <option value="12:30:00">12:30</option>
+            <option value="13:00:00">13:00</option>
+            <option value="13:30:00">13:30</option>
+            <option value="14:00:00">14:00</option>
+            <option value="14:30:00">14:30</option>
+            <option value="15:00:00">15:00</option>
+            <option value="15:30:00">15:30</option>
+            <option value="16:00:00">16:00</option>
+            <option value="16:30:00">16:30</option>
+            <option value="17:00:00">17:00</option>
+            <option value="17:30:00">17:30</option>
+            <option value="18:00:00">18:00</option>
+            <option value="18:30:00">18:30</option>
+        </select>
+    </div>
+    <div class="col-sm-6 col-12 mb-3">
+        <label asp-for="AddressLine1" class="color-64-grey fw-bold"></label>
+        <input asp-for="AddressLine1"
+               class="form-control h-46" />
+        <span class="text-danger" asp-validation-for="AddressLine1"></span>
+    </div>
+    <div class="col-sm-6 col-12 mb-3">
+        <label asp-for="AddressLine2" class="color-64-grey fw-bold"></label>
+        <input asp-for="AddressLine2"
+               class="form-control h-46" />
+        <span class="text-danger" asp-validation-for="AddressLine2"></span>
+    </div>
+    <div class="col-sm-6 col-12 mb-3">
+        <label asp-for="PostalCode" class="color-64-grey fw-bold"></label>
+        <input asp-for="PostalCode"
+               class="form-control h-46" />
+        <span class="text-danger" asp-validation-for="PostalCode"></span>
+    </div>
+    <div class="col-sm-6 col-12 mb-3">
+        <label asp-for="City" class="color-64-grey fw-bold"></label>
+        <input asp-for="City"
+               class="form-control h-46" readonly />
+        <span class="text-danger" asp-validation-for="City"></span>
+    </div>
+    <div class="col-12 mb-3">
+        <label asp-for="Reason" class="color-64-grey fw-bold form-label"></label>
+        <textarea class="form-control textarea-resize" asp-for="Reason" rows="3"></textarea>
+    </div>
+    <div class="col-12">
+        <button class="searchButton w-100" type="submit">
+            Update
+        </button>
+    </div>
+</form>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script>
+    $("#PostalCode").on("input", function () {
+        var postalCodeVal = $(this).val();
+        if (postalCodeVal.length == 6) {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetCityNameAddress", "User")',
+                data: { PostalCode: postalCodeVal },
+                success: function (res) {
+                    $("#City").val(res.cityName);
+                }
+            });
+        } else {
+            $("#City").val("");
+        }
+    });
+
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    $(function () {
+        $("#Date").datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            orientation: "bottom auto",
+            startDate: tomorrow
+        });
+    });
+
+</script>

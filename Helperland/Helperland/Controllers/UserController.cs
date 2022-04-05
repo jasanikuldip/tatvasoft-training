@@ -189,7 +189,7 @@ namespace Helperland.Controllers
 
         [HttpGet]
         [NoDirectAccess]
-        [Authorize(Roles = "1,2")]
+        [AllowAnonymous]
         public IActionResult GetCityNameAddress(string PostalCode)
         {
             string CityName = userAddressService.GetCityNameByPostalcode(PostalCode);

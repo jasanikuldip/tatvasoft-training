@@ -206,6 +206,9 @@
                 if (response.userType == "2") {
                     window.location.href = '@Url.Action("MyDashboard", "ServiceProvider")';
                 }
+                if (response.userType == "3") {
+                    window.location.href = '@Url.Action("AdminPanel", "Admin")';
+                }
             } else {
                 $("#Unsuccess").removeClass("alert-unsuccess");
                 setTimeout(function () { $("#Unsuccess").addClass("alert-unsuccess"); }, 5000);
