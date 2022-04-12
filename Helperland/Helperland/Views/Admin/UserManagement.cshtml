@@ -52,7 +52,7 @@
                     </td>
                     <td>
                         <div class="d-flex justify-content-center">
-                            @if (user.Status == 2)
+                            @if (user.IsApproved)
                             {
                                 <div class="ind-completed t-14">Active</div>
                             }
@@ -64,21 +64,23 @@
                     </td>
                     <td>
                         <div class="d-flex justify-content-center">
-                            @if (user.Status == 2)
-                            {
-                                <div class="admin-drop"><img src="~/images/group-38.png" alt="" /></div>
-                            }
-                            else
-                            {
-                                <div class="dropdown">
-                                    <div id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <div class="admin-drop"><img src="~/images/group-38.png" alt="" /></div>
-                                    </div>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item" onclick="activateUser(@user.UserId)" href="#">Activate</a></li>
-                                    </ul>
+
+                            <div class="dropdown">
+                                <div id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="admin-drop"><img src="~/images/group-38.png" alt="" /></div>
                                 </div>
-                            }
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    @if (!user.IsApproved)
+                                    {
+                                        <li><a class="dropdown-item" onclick="activateUser(@user.UserId)" href="#">Activate</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a class="dropdown-item" onclick="activateUser(@user.UserId)" href="#">Inactivate</a></li>
+                                    }
+                                </ul>
+                            </div>
+
                         </div>
                     </td>
                 </tr>

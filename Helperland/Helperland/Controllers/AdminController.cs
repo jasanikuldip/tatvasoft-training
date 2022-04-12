@@ -49,7 +49,7 @@ namespace Helperland.Controllers
             try
             {
                 User user = await userService.GetUserByIdAsync(UserId);
-                user.Status = 2;
+                user.IsApproved = !user.IsApproved;
                 await userService.UpdateAsync(user);
                 return Json(new { isSucceed = true});
             }

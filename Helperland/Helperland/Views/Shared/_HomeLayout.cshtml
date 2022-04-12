@@ -89,6 +89,7 @@
                         Login to your account
                     </h1>
                     <form class="login-form" method="post" data-ajax-success="loginSuccessFun" data-ajax="true" data-ajax-loading=".loadingPageHide" asp-action="Login" asp-controller="Home">
+                        <div id="isApproved" class="alert alert-danger d-none">User is not approved by Admin.</div>
                         <div id="Unsuccess" class="alert alert-danger alert-unsuccess">Username or password is invalid</div>
                         <input hidden asp-for="EmailForgot" id="EmailForgot1" value="abc123@gm.com" />
                         <div class="mb-3">
@@ -223,8 +224,13 @@
                     window.location.href = '@Url.Action("AdminPanel", "Admin")';
                 }
             } else {
-                $("#Unsuccess").removeClass("alert-unsuccess");
-                setTimeout(function () { $("#Unsuccess").addClass("alert-unsuccess"); }, 5000);
+                if (isApproved == null) {
+                    $("#Unsuccess").removeClass("alert-unsuccess");
+                    setTimeout(function () { $("#Unsuccess").addClass("alert-unsuccess"); }, 5000);
+                } else {
+                    $("#isApproved").removeClass("d-none");
+                    setTimeout(function () { $("#isApproved").addClass("d-none"); }, 5000);
+                }
             }
         }
 

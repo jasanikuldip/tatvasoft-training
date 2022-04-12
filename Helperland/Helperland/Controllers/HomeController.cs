@@ -104,33 +104,36 @@ namespace Helperland.Controllers
                 User user = await userService.GetUserByEmailAsync(loginModel.EmailLogin);
                 if (user != null)
                 {
-                    if (PasswordHashHelper.VerifyPassword(user.Password, loginModel.PasswordLogin))
-                    {
-                        var claims = new List<Claim>()
+                    if (user.IsApproved) {
+                        if (PasswordHashHelper.VerifyPassword(user.Password, loginModel.PasswordLogin))
+                        {
+                            var claims = new List<Claim>()
                         {
                             new Claim(ClaimTypes.NameIdentifier,Convert.ToString(user.UserId)),
                             new Claim(ClaimTypes.Name,user.FirstName+" "+user.LastName),
                             new Claim(ClaimTypes.Role,Convert.ToString(user.UserTypeId))
                         };
 
-                        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                        var principal = new ClaimsPrincipal(identity);
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal,
-                            new AuthenticationProperties()
-                            {
-                                IsPersistent = true,
-                                ExpiresUtc = DateTime.UtcNow.AddHours(0.5)
-                            });
+                            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                            var principal = new ClaimsPrincipal(identity);
+                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal,
+                                new AuthenticationProperties()
+                                {
+                                    IsPersistent = true,
+                                    ExpiresUtc = DateTime.UtcNow.AddHours(0.5)
+                                });
 
-                        if (loginModel.RememberMe)
-                        {
-                            CookieOptions ckOptions = new CookieOptions();
-                            ckOptions.Expires = DateTime.UtcNow.AddDays(1);
-                            Response.Cookies.Append("user_email", user.Email, ckOptions);
-                            Response.Cookies.Append("user_password", loginModel.PasswordLogin, ckOptions);
+                            if (loginModel.RememberMe)
+                            {
+                                CookieOptions ckOptions = new CookieOptions();
+                                ckOptions.Expires = DateTime.UtcNow.AddDays(1);
+                                Response.Cookies.Append("user_email", user.Email, ckOptions);
+                                Response.Cookies.Append("user_password", loginModel.PasswordLogin, ckOptions);
+                            }
+                            return Json(new { isSuccess = true, userType = Convert.ToString(user.UserTypeId) });
                         }
-                        return Json(new { isSuccess = true, userType = Convert.ToString(user.UserTypeId) });
                     }
+                    return Json(new { isSuccess = false, isApproved = user.IsApproved });
                 }
             }
             return Json(new { isSuccess = false });
@@ -202,7 +205,7 @@ namespace Helperland.Controllers
                 user.CreatedDate = DateTime.Now;
                 user.ModifiedDate = DateTime.Now;
                 user.ModifiedBy = 1;
-                user.IsApproved = true;
+                user.IsApproved = false;
                 user.IsActive = true;
                 user.IsDeleted = false;
                 user.DateOfBirth = new DateTime(2000, 8, 25);
